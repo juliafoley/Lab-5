@@ -1,0 +1,153 @@
+---
+title: "P-Hackers"
+author: "Julia Foley, Declan Franklin, Thomas Neal, Nisia Pinto, Andres Acevedo"
+date: "9/24/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+milk <- read.csv('state_milk_production.csv')
+head(milk)
+```
+
+```{r, echo=FALSE}
+milk <- milk %>%
+  mutate(milk_million = milk_produced/1000000)
+```
+
+
+```{r, echo=FALSE}
+milk2000 <- milk %>%
+  filter(year == 2000)
+```
+# Individual
+
+## Julia Foley
+
+**Distribution of the Yearly Milk Production from 2000**
+
+```{r, echo=FALSE}
+ggplot(data = milk2000, aes(x = milk_million)) +
+  geom_histogram(bins = 20) + 
+  labs(x = "Yearly Milk Production in Millions of Pounds",y = "Number of States", title = "Distribution of Yearly Milk Production from 2000")
+```
+
+**Summary of Data from 2000**
+
+```{r, echo=FALSE}
+group_by(milk2000, state) %>%
+  summarise(milk_million)
+```
+
+
+```{r, echo=FALSE}
+summarise(milk2000, mean(milk_million)) 
+```
+
+```{r, echo=FALSE}
+summarise(milk2000, median(milk_million))
+```
+
+**Findings**
+
+The data shows that most states produced less than 10 billion pounds of milk in 2000. However, there are a few states that produced more than 10 billion pounds of milk in 2000. 3347.84 million pounds of milk was the average(mean) millions of pounds of milk produced in 2000. The median of millions of pounds of milk produced in 2000 was 1453.5 million pounds of milk. Additionally, California produced the most milk in 2000 with 32.245 billion pounds of milk produced. Alaska, on the other hand, produced the least amount of milk in 2000 with 13 million pounds of milk produced. 
+
+**Average Milk Produced by Each State per Year since 1970**
+
+```{r, echo=FALSE}
+group_by(milk, state) %>%
+  summarise(mean(milk_million))
+```
+
+The data above shows the average amount of milk (in millions of pounds) each state produced per year. The average is taken from the data between the years 1970 and 2017. 
+
+**Median Milk Produced by Each state per Year since 1970**
+
+```{r, echo=FALSE}
+group_by(milk, state) %>%
+  summarise(median(milk_million))
+```
+
+The data above shows the median amount of milk (in millions of pounds) each state produced per year. The median is taken from the data between the years 1970 and 2017.
+
+**Total Number of Milk Produced by Each State since 1970**
+
+```{r, echo=FALSE}
+group_by(milk, state) %>%
+  summarise(sum(milk_million)) 
+```
+
+**State that Produced the Most Amount of milk**
+
+California produced the most milk with 1219691 million pounds of milk produced since 1970. 
+
+**State that Produced the Least Amount of Milk**
+
+Alaska produced the least milk with 675 million pounds of milk produced since 1970.
+
+# Team 
+
+**Milk Produced in Colorado, Connecticut, Maryland, Vermont, and Washington**
+
+```{r, echo=FALSE}
+milksub <- milk %>%
+  filter(state %in% c('Colorado','Connecticut','Maryland','Vermont','Washington')) %>%
+  select(state, year, milk_million)
+```
+
+```{r, echo=FALSE}
+average <- milksub %>% 
+  summarise(mean(milk_million)) 
+```
+
+```{r, echo=FALSE}
+ggplot(data = milksub) +
+  geom_jitter(aes(x = year, y = milk_million, color = state)) +
+  ggtitle('Pounds of Milk Produced Over Time by State') +
+  xlab('Year') +
+  ylab('Milk Produced (Million lb)')
+```
+
+```{r, echo=FALSE}
+ggplot(data = milksub) +
+  geom_jitter(aes(x = year, y = milk_million, color = state)) +
+  ggtitle('Pounds of Milk Produced Over Time by State') +
+  xlab('Year') +
+  ylab('Milk Produced (Million lb)') +
+  geom_smooth(method = lm, aes(x = year, y = milk_million))
+```
+
+The blue line that appears in the second plot represents the average milk produced each each year for all the states. 
+
+**The Year when the Most Milk was Produced**
+
+```{r, echo=FALSE}
+group_by(milk, year) %>%
+  summarise(sum(milk_million))
+```
+
+In 2017, the most amount of milk was produced. 
+
+**The Year when the Least Milk was Produced**
+
+In 1970, the least amount of milk was produced. 
+
+```{r, echo=FALSE}
+filter(milk, year == 2017) %>% 
+  arrange(milk_million)
+```
+
+
+**In 2017, the 5 States that Produced the Most Milk**
+
+**In 2017, the 5 States that Produced the Least Milk**
+
+**What was most helpful in Learning about this Data**
+
+**Ethics of Data Analysis**
+
+##### Who Benefits
+
+##### Who suffers
