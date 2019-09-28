@@ -24,6 +24,33 @@ milk2000 <- milk %>%
 ```
 # Individual
 
+## Andres
+
+**Distribution of Yearly Milk Production from 1996**
+
+```{r, echo=FALSE}
+ggplot(data = milk_1996, aes(x = milk_million)) +
+  geom_histogram(bins = 15, fill = 'red') + 
+  ggtitle('Distribution of Milk Produced in 1996 by State') + 
+  xlab('Lbs in Millions') + 
+  ylab('Number of States') 
+```
+
+**Summary of Data from 1996**
+
+```{r, echo =FALSE}
+group_by(milk_1996, state) %>%
+  summarise(milk_million)
+```
+
+```{r, echo =FALSE}
+summarise(milk_1996, mean(milk_million))
+```
+
+```{r, echo=FALSE}
+summarise(milk_1996, median(milk_million))
+```
+
 ## Julia Foley
 
 **Distribution of the Yearly Milk Production from 2000**
