@@ -72,6 +72,70 @@ minmilk <- BirthMilk %>%
 head(minmilk, n=1)
 ```
 
+## Declan Franklin 
+
+<p>&nbsp;</p>
+
+**The Data shown below is the Production of Milk for each state in the 1998** 
+<p>&nbsp;</p>
+
+```{r, warning=FALSE, message=FALSE, echo=TRUE}
+milk %>%
+    filter(year == 1998 & milk_produced ) %>%
+  mutate(milk_mill_Ibs = milk_produced / 1000000) %>%
+  arrange(desc(milk_mill_Ibs)) %>%
+  rename( 'Milk_Produced_in_Millions_of_Ibs' = 'milk_mill_Ibs') %>%
+  select( -milk_produced) 
+
+    
+```
+<p>&nbsp;</p>
+
+```{r, warning=FALSE, message=FALSE, echo=TRUE}
+mybyr98 <-
+  milk %>%
+  mutate(milk_mill_Ibs = milk_produced / 1000000)
+
+ggplot(data=mybyr98, mapping = aes(x=milk_mill_Ibs)) +
+  geom_histogram( fill = "blue", bins= 30) +
+  labs(x = "Milk Produced by Pounds", y = "Count", title = "Milk Production by the States") +
+  theme_dark()
+
+```
+
+
+<p>&nbsp;</p>
+**Below displays the average ammount of milk produced in 1998:**
+
+
+```{r}
+mybyr98 %>%
+summarize(mean(milk_mill_Ibs)) %>%
+  rename('Average_Amount_Of_Milk_Produced(Mill/Ibs)_in_1998' = 'mean(milk_mill_Ibs)')
+```
+<p>&nbsp;</p>
+**Below displays the median of milk produced in 1998:**
+
+```{r,warning=FALSE, message=FALSE, echo=TRUE}
+mybyr98 %>%
+summarize(median(milk_mill_Ibs)) %>%
+  rename('Median_Of_Milk_Produced(Mill/Ibs)_in_1998' = 'median(milk_mill_Ibs)')
+```
+
+<p>&nbsp;</p>
+
+### Summary: 
+<p>&nbsp;</p>
+My Data concludes that California, Wisconsin, New York, and PA are the only states to make over a million Ibs of milk in 1998. All the other states were below 1 million. This data is displayed in the matrix and visualized with the Histogram. The Data also concludes that in 1998, California produced the most milk, 27620 Mill-Ibs; and Alaska, 14 Mill-Ibs, produced the least amount.
+
+<p>&nbsp;</p>
+
+
+
+
+
+
+
 
 
 
