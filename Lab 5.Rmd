@@ -5,15 +5,16 @@ date: "9/24/2019"
 output: html_document
 ---
 
-```{r setup, include=FALSE, echo=FALSE}
+````{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-milk <- read.csv('state_milk_production.csv')
+library(dplyr)
+milk <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-01-29/state_milk_production.csv")
 head(milk)
-milk <- milk %>%
-  mutate(milk_million = milk_produced/1000000)
+milk <-
+  milk %>%
+  mutate(milk_million = milk_produced / 1000000)
 ```
-
 
 ```{r, echo=FALSE}
 milk2000 <- milk %>%
@@ -82,9 +83,9 @@ head(minmilk, n=1)
 ```{r, warning=FALSE, message=FALSE, echo=TRUE}
 milk %>%
     filter(year == 1998 & milk_produced ) %>%
-  mutate(milk_mill_Ibs = milk_produced / 1000000) %>%
-  arrange(desc(milk_mill_Ibs)) %>%
-  rename( 'Milk_Produced_in_Millions_of_Ibs' = 'milk_mill_Ibs') %>%
+  mutate(milk_million = milk_produced / 1000000) %>%
+  arrange(desc(milk_million)) %>%
+  rename( 'Milk_Produced_in_Millions_of_Ibs' = 'milk_million') %>%
   select( -milk_produced) 
 
     
@@ -94,9 +95,9 @@ milk %>%
 ```{r, warning=FALSE, message=FALSE, echo=TRUE}
 mybyr98 <-
   milk %>%
-  mutate(milk_mill_Ibs = milk_produced / 1000000)
+  mutate(milk_million = milk_produced / 1000000)
 
-ggplot(data=mybyr98, mapping = aes(x=milk_mill_Ibs)) +
+ggplot(data=mybyr98, mapping = aes(x=milk_million)) +
   geom_histogram( fill = "blue", bins= 30) +
   labs(x = "Milk Produced by Pounds", y = "Count", title = "Milk Production by the States") +
   theme_dark()
@@ -109,17 +110,17 @@ ggplot(data=mybyr98, mapping = aes(x=milk_mill_Ibs)) +
 
 
 ```{r}
-mybyr98 %>%
-summarize(mean(milk_mill_Ibs)) %>%
-  rename('Average_Amount_Of_Milk_Produced(Mill/Ibs)_in_1998' = 'mean(milk_mill_Ibs)')
+milk %>%
+summarize(mean(milk_million)) %>%
+  rename('Average_Amount_Of_Milk_Produced(Mill/Ibs)_in_1998' = 'mean(milk_million)')
 ```
 <p>&nbsp;</p>
 **Below displays the median of milk produced in 1998:**
 
 ```{r,warning=FALSE, message=FALSE, echo=TRUE}
-mybyr98 %>%
-summarize(median(milk_mill_Ibs)) %>%
-  rename('Median_Of_Milk_Produced(Mill/Ibs)_in_1998' = 'median(milk_mill_Ibs)')
+milk %>%
+summarize(median(milk_million)) %>%
+  rename('Median_Of_Milk_Produced(Mill/Ibs)_in_1998' = 'median(milk_million)')
 ```
 
 <p>&nbsp;</p>
