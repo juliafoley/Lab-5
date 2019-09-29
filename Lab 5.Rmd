@@ -308,6 +308,10 @@ head(bottomfive, n=5)
 
 The most useful thing I learned from this lab is how to use piping and when to stop using it. I spent a lot of time over piping my variables and it was leaving me with weird data. I now know how to use the different sorting and filtering commands.
 
+#### Andres:
+
+Figuring out how to access datasets that didn't come loaded into R-studio will prepare me for future projects in which most, if not all data will have to be imported into my software from an outside location. I also appreciated the opportunity to apply what I learned about dplyr functions in a group lab setting to attain relevant insights. 
+
 **Ethics of Data Analysis**
 
 ##### Who Benefits
