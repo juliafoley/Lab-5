@@ -31,7 +31,7 @@ BirthMilk <- milk %>%
   filter(year == 1998)
 
 ggplot(data = BirthMilk, aes(x = milk_million)) +
-  geom_histogram(color='white') + 
+  geom_histogram(bins= 25, color='white') + 
   ggtitle('Distribution estimate of milk produced in 1998 by state') +
   ylab('Count of States producing x-amount of milk') +
   xlab('Million of pounds of milk produced') +
