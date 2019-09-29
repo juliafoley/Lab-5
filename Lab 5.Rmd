@@ -304,6 +304,10 @@ head(bottomfive, n=5)
 
 **What was most helpful in Learning about this Data**
 
+##### Thomas:
+
+The most useful thing I learned from this lab is how to use piping and when to stop using it. I spent a lot of time over piping my variables and it was leaving me with weird data. I now know how to use the different sorting and filtering commands.
+
 **Ethics of Data Analysis**
 
 ##### Who Benefits
