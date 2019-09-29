@@ -314,6 +314,8 @@ Figuring out how to access datasets that didn't come loaded into R-studio will p
 
 **Ethics of Data Analysis**
 
-##### Who Benefits
+##### Who Benefits/Suffers
 
-##### Who suffers
+Some states( California, Wisconsin, Idaho),  produce dairy products at a significantly higher rate than do others. The exportation of dairy products is an environmental issue that could be mitigated by an increase in local dairy production. This could be a boon to states looking to increase their supply of dairy products as well as reduce the environmental impact associated with shipping it. This, however, could decrease the demand for California and Wisconsin dairy products which would be a burden to workers inside of those industries. 
+
+
