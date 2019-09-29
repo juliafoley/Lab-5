@@ -312,6 +312,11 @@ The most useful thing I learned from this lab is how to use piping and when to s
 
 Figuring out how to access datasets that didn't come loaded into R-studio will prepare me for future projects in which most, if not all data will have to be imported into my software from an outside location. I also appreciated the opportunity to apply what I learned about dplyr functions in a group lab setting to attain relevant insights. 
 
+##### Declan:
+
+Through exploring this data, we learned about piping and how to incorporate it into our studies. Additionally, I learned how to pull in raw data directly from github , rather than having to download the data online and using a read.csv. The read.cvs is okay, but it’s not ideal for sharing code/data.
+
+
 **Ethics of Data Analysis**
 
 ##### Who Benefits/Suffers
