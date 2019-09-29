@@ -97,9 +97,10 @@ mybyr98 <-
   milk %>%
   mutate(milk_million = milk_produced / 1000000)
 
-ggplot(data=mybyr98, mapping = aes(x=milk_million)) +
+ggplot(data=milk, mapping = aes(x=milk_million)) +
   geom_histogram( fill = "blue", bins= 30) +
-  labs(x = "Milk Produced by Pounds", y = "Count", title = "Milk Production by the States") +
+  labs(x = "Milk Produced by Pounds", y = "Number of States", title = "Milk Production by the States") +
+  scale_y_continuous(labels =c("0"="0", "200"="10","400"="20","600"="30","800"="40")) +
   theme_dark()
 
 ```
@@ -132,6 +133,64 @@ My Data concludes that California, Wisconsin, New York, and PA are the only stat
 <p>&nbsp;</p>
 
 
+
+```{r echo=FALSE }
+
+# Extract the data for 1970 only
+milk1970 <- milk %>%
+  filter(year == 1970)
+```
+
+## Nisia Pinto
+
+**Distribution of Yearly Milk Production from 1995**
+```{r echo=FALSE}
+milk1995 <- milk %>%
+  filter(year == 1995)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE }
+ggplot(data = milk1995, aes(x = milk_million)) +
+  geom_histogram(bins = 15, fill = 'orange') + ggtitle('Distribution of Milk Produced in 1995 by State') + 
+  xlab('Milk production in Mill. of pounds') + 
+  ylab('Number of States') 
+```
+**Summary of Data from 1995**
+```{r, echo=FALSE}
+group_by(milk1995, state) %>%
+  summarise(milk_million)
+```
+
+```{r, echo=FALSE}
+summarise(milk1995, mean(milk_million)) 
+```
+
+```{r, echo=FALSE}
+summarise(milk1995, median(milk_million))
+```
+
+```{r echo=FALSE, results=FALSE }
+summarise(milk1995, max(milk_million))
+```
+```{r echo=FALSE, results=FALSE}
+summarise(milk1995, min(milk_million))
+```
+```{r echo=FALSE}
+milkmin <- milk1995 %>%
+  filter(milk_million %in% c('12')) %>%
+  select(state, milk_million)
+milkmin
+```
+```{r echo=FALSE}
+milkmax <- milk1995 %>%
+  filter(milk_million %in% c('25327')) %>%
+  select(state, milk_million)
+milkmax
+```
+
+**Findings**
+
+The data for 1995 milk production in each state, show us that. The maximum ampount of milk was produced in California 25327 Million lbs of milk. The least amount of milk was produced in Alaska about 12 Million lbs. The average mil produced was 3105.86	Million lbs of milk and a median of 1512 Million lbs. 
 
 
 
