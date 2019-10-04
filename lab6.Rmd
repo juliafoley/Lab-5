@@ -59,10 +59,17 @@ anst1
 
 <p>
 ### Visual Representation 
+```{r}
+HolidaySeason <- COflights %>% filter(ARR_DELAY > 15 ,CANCELLED == 0, DEST == 'DEN') 
 
+ggplot(HolidaySeason, mapping = aes(x = MONTH)) + 
+geom_histogram(fill = 'steelblue',binwidth = 1, color = 'turquoise2') +
+ scale_x_continuous(breaks = seq(0, 12, 1)) + 
+ ggtitle('Count of Delayed Flights to Denver by Month') + 
+ xlab('Month') + ylab('Number of Flights') + 
+ theme_minimal()
 
-
-
+```
 
 ### Conclusion and Recommendation 
 
@@ -365,8 +372,16 @@ For the individual part, I studied the probability that a flight would have an a
 **Team**
 
 For the team part, our team got together on Thursday and together came up with our two main questions and how we were gonna do the plots. As a team we created a hypothesis for question 2. Then, I began working on question 2. I first calculated the probability that a flight arrived or departed in denver out of the total number of flights. Then, for each time, I found the probability that there would be a delay at that time out of the total number of flights arriving or departing in Denver at that time. Additionally, for each time, I used mutate to create a new variable that would say whether or not there was a arrival delay. I, then, created a bar plot to represent how many flights there were at the specific time and seperated whether or not there was a delay using the new variable. 
+<p>
 
+##Andres Acevedo
+<p>
+**Individual**
+I explored the relationhsip between the distance traveled by a plane and it's arrival delay by calculating the probability that a flight into Denver would be delayed in arriving. I then filtered the dataset to reflect the arrival delays longer than an hour. Finally, to see what the probability was that a flight travelling 1000 miles or more would be delayed arriving my 60 or more minutes, I calculated conditional probability 
 
+**Team**
+
+I created the plot for Question 1. I used the HolidaySeason data to 
 
 
 ## Declan Franklin
