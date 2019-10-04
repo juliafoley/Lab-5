@@ -320,7 +320,7 @@ I found that out of the flights arriving or departing in Denver, 17.1% of the fl
 
 **Question**
 
-Given a carrier what is the probably that a flight will be delayed
+For any given a carrier what is the probability that a flight will be delayed.
 
 **Probabilities**
 
@@ -341,6 +341,8 @@ print(Probtab)
 
 **Graph**
 
+Comparing total flights by carrier to delayed flights by carrier.
+
 ```{r, echo=FALSE}
 car <- COflights %>% filter(CANCELLED!=1) %>% filter(DIVERTED!=1) %>% mutate(Delayed=ARR_DELAY>=15) %>% group_by(CARRIER) 
 
@@ -353,118 +355,12 @@ Carriers <- c("AA", "AS", "B6", "DL", "EV", "F9", "NK", "OO", "UA", "VX", "WN")
 
 Probtab <- data.frame(Carriers,Probability)
 
-ggplot(car) +geom_bar(mapping=aes( x=CARRIER, fill=Delayed),position="dodge") + ylab("Flight Count") + ggtitle("Delayed Flights vs Total Flights by Carrier") + labs(caption  = "Does not include cancled or diverted flights") + theme_minimal()
+ggplot(car) +geom_bar(mapping=aes( x=CARRIER, fill=Delayed),position="dodge") + ylab("Flight Count") + ggtitle("Total Flights vs Delayed Flights by Carrier") + labs(caption  = "*Does not include cancelled or diverted flights*") + theme_minimal()
 ```
 
 **Findings**
 
 With a probability of .3, B9 (BIMINI Island Air Inc) is the carrier with the most delayed arrival times. This means that 30% of all their flights that land in Denver arrive late. So if your goal is to arrive in Denver on time I recommend flying UA (United Airlines) because they only have a 13% chance of delayed arrival. 
-
-## Nisia Pinto
-```{r,echo=FALSE, message=FALSE}
-library(tidyverse)
-COflights <- read_csv("https://files.osf.io/v1/resources/3z5as4pej8/providers/osfstorage/5a8ca28f57103100104584db")
-```
-The data set denflights has a total of *443227* flights coming to and departing from Denver. This flights arrived to the destination.In addition, there are a total of *148029* flights with a delayed arrival and *154750* with a delayed departure .
-
-```{r,echo=FALSE, message=FALSE}
-denflights<-COflights%>%
-filter(ORIGIN=='DEN'|DEST=='DEN',!is.na(ARR_TIME))
-total <-denflights %>%
-count()
-late<-filter(denflights,ARR_DELAY>0)
-tlate<-late%>% count()
-latedep<- filter(denflights,DEP_DELAY>0)
-tlatedep<- latedep %>% count()
-```
-
-
-
-**What is the probability that a flight arriving late is from the 3 majors airlines,compared to the ones with less flights?**-Probability
-
-I will calculate the probability of a flight arriving late was from the 3 majors airlines:
-```{r,echo=FALSE, message=FALSE}
-numUA<- late %>% filter(CARRIER=='UA')%>% count()
-UA <-numUA/tlate
-UA
-```
-
-```{r,echo=FALSE, message=FALSE}
-numOO<- late %>% filter(CARRIER=='OO')%>% count()
-OO <-numOO/tlate
-OO
-```
-
-```{r,echo=FALSE, message=FALSE}
-numWN<- late %>% filter(CARRIER=='WN')%>% count()
-WN <-numWN/tlate
-WN
-```
-```{r,echo=FALSE, message=FALSE}
-numAS<- late %>% filter(CARRIER=='AS')%>% count()
-AS <-numAS/tlate
-AS
-```
-
-```{r,echo=FALSE, message=FALSE}
-numB6<- late %>% filter(CARRIER=='B6')%>% count()
-B6 <-numB6/tlate
-B6
-```
-```{r,echo=FALSE, message=FALSE}
-numVX<- late %>% filter(CARRIER=='VX')%>% count()
-VX <-numVX/tlate
-VX
-```
-
-The results showed us that UA,OO and WN which are the companies with more flights have a probablity 0.20, 0.19,and 0.38 of arriving late respectively. Which is higher than companies with less flights where the probability is less than 0.008.
-
-**Given that SouthWest airline has a higher probability of WN has a higher probability of arriving late. What is the probablity of delayed departure greater than 0 if flights are coming from major airport cities?**-Joint Probability
-
-Southwest has more delayed flights in Denver. However, the city that has more delayed flights is Phoenix with *1693* delayed flights. In this city they have a 0.025 probability of departing late. In Denver Southwest has a probability of 0.53 of departing late.
-
-```{r,echo=FALSE, message=FALSE}
-b<- latedep %>% filter(CARRIER=='WN')
-summary(as.factor(b$ORIGIN))
-```
-
-```{r, echo=FALSE, message=FALSE}
-depWNDEN<- latedep %>% filter(CARRIER=='WN'&ORIGIN=='DEN')%>% count()
-latedepWN<- b %>% count() 
-qa<-depWNDEN/latedepWN
-qa
-```
-```{r,echo=FALSE, message=FALSE}
-depWNPHX<- latedep %>% filter(CARRIER=='WN'&ORIGIN=='PHX')%>% count()
-latedepWN<- b %>% count() 
-qb<-depWNPHX/latedepWN
-qb
-```
-
-
-**What is the probability of a flight never departing given it is a Southwest flight?**-Conditional Probability
-
-Out of the *3172* that never departed from Denver or arrived in Denver 886 are from Southwest. There is a probability of 0.28	for not showing up. 
-```{r,echo=FALSE, message=FALSE}
-never<-COflights%>%
-filter(ORIGIN=='DEN'|DEST=='DEN',is.na(ARR_TIME))
-neverWN<-never%>% filter(CARRIER=='WN')%>% count()
-q3<-neverWN/count(never)
-q3
-```
-
-```{r echo=FALSE}
-ggplot(data=latedep)+geom_density(aes(x=ARR_DELAY))+facet_wrap(~CARRIER)+
-theme(plot.title=element_text(color="orange",face="bold", hjust=0.5)) +
-labs(title="Late Departure by Airlines") + xlim(15,100)
-```
-
-*Conclusion and Findings:*
-With this data we can verify that travelling with Southwest is not the best option.Especially not in Denver. They flights are delayed or do not arrive on time. In addition, almost 30% of the flights cancelled in Denver are from Southwest. With the data we were able to verify that, Southwest struggles to maintain its time schedule in major airport cities: Las Vegas, Los Angeles, Chicago and Phoenix. Suprisingly, in places in Texas it has a low number of delayed flights compared to other cities. Its headquarters are in Dallas and with this data we can see that the service is better where the headquarters are.
- 
-**Recommendations**
-
-Avoid Southwest in large cities, if you travel within a smaller city you will benefit using Southwest.
 
 # Description of What Each Member Did 
 <p>
@@ -572,7 +468,7 @@ At first, I was looking into what causes flights to be canceled by comparing tot
 
 #### Non-Defaults
 
-a custom data frame, fill, postion=" dodge", title, x and y labels, theme.
+A custom data frame, fill, postion=" dodge", title, x and y labels, caption, theme.
 
 **Team**
 
