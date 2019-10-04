@@ -341,7 +341,7 @@ print(Probtab)
 
 **Graph**
 
-```{r}
+```{r, echo=FALSE}
 car <- COflights %>% filter(CANCELLED!=1) %>% filter(DIVERTED!=1) %>% mutate(Delayed=ARR_DELAY>=15) %>% group_by(CARRIER) 
 
 tot<- car %>% summarise(sum=n()) 
@@ -353,7 +353,7 @@ Carriers <- c("AA", "AS", "B6", "DL", "EV", "F9", "NK", "OO", "UA", "VX", "WN")
 
 Probtab <- data.frame(Carriers,Probability)
 
-ggplot(car) +geom_bar(mapping=aes( x=CARRIER, fill=Delayed),position="dodge") + ylab("Flight Count") + ggtitle("Delayed Flights vs Total Flights by Carrier") + labs(caption  = "Does not include cancled or diverted flights")
+ggplot(car) +geom_bar(mapping=aes( x=CARRIER, fill=Delayed),position="dodge") + ylab("Flight Count") + ggtitle("Delayed Flights vs Total Flights by Carrier") + labs(caption  = "Does not include cancled or diverted flights") + theme_minimal()
 ```
 
 **Findings**
@@ -442,4 +442,26 @@ I created the plot for Question 1. I used the HolidaySeason data frame to initia
 <p>
 
 **Individual** 
+
+
+**Individual** 
+
+
+
+## Thomas Neal
+<p>
+
+**Individual**
+
+
+At first, I was looking into what causes flights to be canceled by comparing total canceled flights to the cancellation code. However, although I found interesting data I decided not to focus on this because It didn't help progress our team's research. I then pivoted to look at the probability that a carrier would have a canceled flight. This also provided interesting data, however, I decided to change my research question one last time to the probability that a carrier will have a delayed arrival time. This allowed me to make recommendations based on the carrier, and better related to our team question.
+
+#### Non-Defaults
+
+a custom data frame, fill, postion=" dodge", title, x and y labels, theme.
+
+**Team**
+
+I helped to alter the data we were looking at in order to better represent the questions we were researching.
+
 
