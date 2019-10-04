@@ -242,6 +242,48 @@ From the plot, it appears that as the depature delays increase, the arrival dela
 
 I found that out of the flights arriving or departing in Denver, 17.1% of the flights have an arrival time more than 15 minutes late. Of the flights with an arrival time more than 15 minutes late, 49.32% of the flights have a depature time of over 15 minutes late and a late aircraft delay. The fact that the number of flights with a depature time of over 15 minutes late and a late aircraft delay is about half of the flights with an arrival time over 15 minutes late makes sense because the graph shows that about half of the flights have a late aircraft delay and about half do not. Additionally, 8.43% of flights arriving and departing in Denver have an arrival time over 15 minutes late, a departure time over 15 minutes late, and a late aircraft delay. Additionally, 7.9% of flights total have an arrival time over 15 minutes late, a departure time over 15 minutes late, and a late aircraft delay in Denver. This shows that though it is common to have a delayed departure time over 15 minutes late and a late aircraft delay when you have an arrival time over 15 minutes late, it is not very common to have all three out of the total number of flights.  
 
+### Thomas Neal
+
+**Question**
+
+Given a carrier what is the probably that a flight will be delayed
+
+**Probabilities**
+
+```{r, echo=FALSE}
+car <- COflights %>% filter(CANCELLED!=1) %>% filter(DIVERTED!=1) %>% mutate(Delayed=ARR_DELAY>=15) %>% group_by(CARRIER) 
+
+tot<- car %>% summarise(sum=n()) 
+deltot<- car %>% filter(ARR_DELAY>=15) %>% summarise(delsum=n())
+
+Probability <- deltot$delsum/tot$sum
+
+Carriers <- c("AA", "AS", "B6", "DL", "EV", "F9", "NK", "OO", "UA", "VX", "WN")
+
+Probtab <- data.frame(Carriers,Probability)
+
+print(Probtab)
+```
+
+**Graph**
+
+```{r}
+car <- COflights %>% filter(CANCELLED!=1) %>% filter(DIVERTED!=1) %>% mutate(Delayed=ARR_DELAY>=15) %>% group_by(CARRIER) 
+
+tot<- car %>% summarise(sum=n()) 
+deltot<- car %>% filter(ARR_DELAY>=15) %>% summarise(delsum=n())
+
+Probability <- deltot$delsum/tot$sum
+
+Carriers <- c("AA", "AS", "B6", "DL", "EV", "F9", "NK", "OO", "UA", "VX", "WN")
+
+Probtab <- data.frame(Carriers,Probability)
+
+ggplot(car) +geom_bar(mapping=aes( x=CARRIER, fill=Delayed),position="dodge") + ylab("Flight Count") + ggtitle("Delayed Flights vs Total Flights by Carrier") + labs(caption  = "Does not include cancled or diverted flights")
+```
+
+**Findings**
+
 
 
 ## What Each Member Did 
