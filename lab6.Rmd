@@ -24,14 +24,6 @@ DENFlights <- COflights %>%
 <p>
 **What is the probability that a flight arrives on time in Denver given that it is the holiday season (October - December)?** 
 
-### Why Important for Question 1
-
-Question 1 is important because it could determine what time of year costumers want to travel. It also represents what time of year there are more delays. The holiday season is a busy time for traveling, therefore, it is important to study if delays are higher for that season. 
-
-### Deeper Explanation for Question 1
-
-This is important because if delays are higher during a busy season it can become chaos. If the airport can determine that there are more delays during the holiday season then, they can focus on the delays for just that time of year as opposed to all year. This could help majorly reduce the average delay overall. Additionally, determining the different delays for the different time of years would help to explain why delays happen. For example, if there are more delays during the holiday season, this could be because there are more flights during that time. Additionally, they can communicate with the citizens using the airport how long they can expect their flights to be delayed during a certain time of year. 
-
 ### Hypothesis
 
 **The Holiday season will result in a high percentage of flights arriving late.** 
@@ -64,15 +56,18 @@ anst1 <- numt1 / demt1
 anst1
 ```
 
-<p> 
-### The data shows that the probability a flight to Denver International Airport will arrive into DIA on time given that it's the holiday season is about 49.1%. This means, during the 2017 holiday season, people travelling to DIA had close to a 50% chance of arriving late (or on time). This could be a problem for connecting flights, or for people trying to catch scheduled rides from the airport. 
 
 <p>
 ### Visual Representation 
 
 
 
-### Conclusion
+
+
+### Conclusion and Recommendation 
+
+**The data shows that the probability a flight to Denver International Airport will arrive into DIA on time given that it's the holiday season is about 49.1%. This means, during the 2017 holiday season, people travelling to DIA had close to a 50% chance of arriving late (or on time). This could be a problem for connecting flights, or for people trying to catch scheduled rides from the airport. During the holiday season, P-Hackers advice that people account for delays when scheduling rides and for their holiday plans. For DIA, it's advised that they either higher more employees so that they can help with the flow of people, or they could offer deals for cheaper flights at time when less people fly. The deals could incentivize people to take the cheaper flights, and in return, the airport could be less hectic.** 
+
 
 
 
