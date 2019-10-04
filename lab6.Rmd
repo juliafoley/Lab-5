@@ -231,10 +231,7 @@ count(team6) / count(team9) *100
 
 ### Conclusion 
 
-
-
-**Question 2**
-The probabilities show that there is a higher chance of delay at 18:00 then any of the four times we studied. Additionally, there is a lower chance of delay at 6:00 than any of the four times. However, all of the probabilities are relatively similar. 
+**The probabilities show that there is a higher chance of delay at 18:00 then any of the four times we studied. Additionally, there is a lower chance of delay at 6:00 than any of the four times. However, all of the probabilities are relatively similar.** 
 
 <p>
 ### Recommendation 
@@ -413,6 +410,88 @@ ggplot(car) +geom_bar(mapping=aes( x=CARRIER, fill=Delayed),position="dodge") + 
 
 With a probability of .3, B9 (BIMINI Island Air Inc) is the carrier with the most delayed arrival times. This means that 30% of all their flights that land in Denver arrive late. So if your goal is to arrive in Denver on time I recommend flying UA (United Airlines) because they only have a 13% chance of delayed arrival. 
 
+
+
+
+<p>
+## Declan Franklin 
+<p>
+
+
+### Question
+
+**What's the probability that a flight is delayed given that the security delay is longer then 1 hours?**
+<p>
+
+### Hypothesis 
+
+**When security is delayed by atleast an hour, there will be a high probability that a flight is also delayed**
+
+<p>
+
+### Computation
+
+**This probabilty can be determined using the therom of conditional probability and Bayes's Law. I will name the events in the sample space as: S = "The event when the security delay is $>=$ 1 hour", and D = "The event when a flight is delayed". The equation is: \[ P(D|S)=\frac{P(DS)}{P(D)}\ \ \textrm{which, by Bayes's Law, can be rewritten as} \ \ \ P(D|S)=\frac{P(S|D)P(D)}{P(S|D)P(D)+P(S|D^c)P(D^c)}\] **
+
+<p>
+
+**First I will create a variable for the numerator for the Probability**
+```{r}
+numSD <- COflights %>%
+  filter(DEP_DELAY >=15, SECURITY_DELAY >= 60) %>%
+  summarise(sum=n())
+
+numD <- COflights %>%
+  filter(DEP_DELAY >= 15) %>%
+  summarise(sum=n())
+numD
+```
+
+<p>
+
+**Next I will create a two variable that represent when the flights are delayed when security is atleast 2 hours plus  the denominator**
+```{r}
+demSD <- COflights %>%
+  filter(!is.na(DEP_DELAY<15), SECURITY_DELAY >= 60) %>%
+  summarise(sum=n())
+
+demD <- COflights %>%
+  filter(!is.na(DEP_DELAY< 15)) %>%
+  summarise(sum=n())
+
+demSD
+```
+<p>
+
+**Finally, I will compute the conditional probability: \[ P(D|S)=\frac{P(DS)}{P(D)}\]**
+
+```{r}
+ansD <- (numSD*numD) / (demD*demSD +numSD*numD)
+ansD
+```
+
+
+<p>
+
+### Visualization 
+**Here as a plot showing the corrilation bewteen the two**
+```{r, message=FALSE, warning=FALSE}
+
+ggplot(COflights, mapping=aes(SECURITY_DELAY, DEP_DELAY)) +
+  geom_smooth() +
+  labs(x = "Security Delay", y= "Departure Delay",title ="The Relation between Security Delay and Departure Delay") +
+  theme_light()
+
+```
+
+
+### Conclusion
+
+**As the data shows, if security is delayed at least an hour, then the probability that a flight is also delayed is about 15%. Even if security is extra-long, the odds that someone’s flight is delayed is low. In conclusion, people should arrive to the airport early so they can get through security without worrying about missing their flight.**  
+
+
+
+
 # Description of What Each Member Did 
 <p>
 
@@ -449,11 +528,16 @@ I created the plot for Question 1. I used the HolidaySeason data frame to initia
 ## Declan Franklin
 <p>
 
+<p>
+
 **Individual** 
 
+For my individual research, I analized the probabilty that a flight departes late given that the security delay is atleast an hour. I used LaTex to add visualse to my explainations for computing probabilities. For my graph I used geom_smooth to represent the trend between late flights and delayed secuity.
 
-**Individual** 
+<p>
+**Team** 
 
+For the team research, I used my experience with statistics to computed the probabilities. I also used LaTex to make the equations look nice to help vizualize the ideas of a conditional probability to someone whom might have no experience with them at all. Finally, I went through the entire project to make sure it looked nice and neat.
 
 
 ## Thomas Neal
