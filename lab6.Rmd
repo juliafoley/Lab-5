@@ -377,11 +377,65 @@ For the team part, our team got together on Thursday and together came up with o
 ##Andres Acevedo
 <p>
 **Individual**
+
+**Hypothesis**
+Longer flights will have more time in the air to make up any lost time from a departure or a weather delay. therefore, the arrival delays associated with very long distance >2000 miles flights will be less than the arrival delays associated with moderately long distance >1000 mile flights. 
+
+```{r, echo = TRUE}
+
+ggplot(LongDistance)  +
+ geom_histogram(fill = "#FF6666", binwidth = 10, mapping =aes(x = ARR_DELAY))+
+  xlim(-50,300) +
+  ggtitle('Distribution of Long Distance Flights and their Arrival Delays') + 
+  xlab('Arrival Delay in Minutes') + 
+  ylab('Number of Flights')
+
+#First, find all FLights that were not cancelled and were headed to denver.
+DENarrivals <- COflights %>% filter(DEST =='DEN', CANCELLED == 0)
+
+#Now Filter DENarrivals to find the number of flights with ARR_DELAY >15
+DENdelays <- DENarrivals %>% filter(ARR_DELAY > 15)
+
+summarize(DENarrivals, 'Number of Flights into DEN' = n())
+summarize(DENdelays, 'Number of Delayed Flights into DEN' = n())
+#Probability A = 
+(33567/221642) *100
+#Now count the number of delayed flights into denver and divide it by total flights arriving in denver (Number of Delayed Flights arriving in denver/Number of flights arrived in denver) this will be your probability of a flight into denver being delayed.
+
+
+
+
+#Joint Probability is 
+
+#Number of Flights into DEN w/ARR_Delay >60/Number of Delayed Flights Arriving in Denver
+#For your joint probability you want to take DENdelays and filter is to include only ARR_Delay>60
+DENBigDelay <- DENdelays %>% filter(ARR_DELAY >60)
+
+summarize(DENBigDelay, 'number of flights delayed 60 min or more' = n())
+
+summarize(DENdelays, 'Number of Delayed Flights arrived in Denver' = n())
+#Joint Probability 
+(10541/33567) *100
+
+
+#Conditional Probability. 
+
+#Looking for the probability that a flight into denver will be delayed by more than 60 minutes given that it traveled more than 1000 miles.
+
+#First Define a new data set that includes all flights into denver that are delayed by more than an hour and also came from a distance of more than 1000 miles.
+BigDelay <- DENdelays %>% filter(ARR_DELAY >60, DISTANCE >1000)
+LongDistance <- DENarrivals %>% filter(DISTANCE >1000)
+
+summarize(BigDelay, 'Num of flights delayed more than 60min' = n())
+summarize(LongDistance, 'Num of flights with Distance >1000' = n())
+#Condition Probability that a Filight will arrive more than an hour late given that it came more than 1000 miles
+(3188/64620)*100 
+
 I explored the relationhsip between the distance traveled by a plane and it's arrival delay by calculating the probability that a flight into Denver would be delayed in arriving. I then filtered the dataset to reflect the arrival delays longer than an hour. Finally, to see what the probability was that a flight travelling 1000 miles or more would be delayed arriving my 60 or more minutes, I calculated conditional probability 
 
 **Team**
 
-I created the plot for Question 1. I used the HolidaySeason data to 
+I created the plot for Question 1. I used the HolidaySeason data frame to initialize the ggplot. From there, I used a histogram to count the number of delayed flights arriving in Denver in a given month. I filled the bars with the 'steelblue' aesthetic and outlined the bins with the 'turquoise2' aesthetic. I set the bin widths to 1 to represent each month and scaled the x-axis to be between [0,12] with a step of 1 month. I added a title as well as labels and labels as well as a minimal theme. 
 
 
 ## Declan Franklin
