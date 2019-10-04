@@ -24,6 +24,14 @@ DENFlights <- COflights %>%
 <p>
 **What is the probability that a flight arrives on time in Denver given that it is the holiday season (October - December)?** 
 
+### Why Important for Question 1
+
+Question 1 is important because it could determine what time of year costumers want to travel. It also represents what time of year there are more delays. The holiday season is a busy time for traveling, therefore, it is important to study if delays are higher for that season. 
+
+### Deeper Explanation for Question 1
+
+This is important because if delays are higher during a busy season it can become chaos. If the airport can determine that there are more delays during the holiday season then, they can focus on the delays for just that time of year as opposed to all year. This could help majorly reduce the average delay overall. Additionally, determining the different delays for the different time of years would help to explain why delays happen. For example, if there are more delays during the holiday season, this could be because there are more flights during that time. Additionally, they can communicate with the citizens using the airport how long they can expect their flights to be delayed during a certain time of year. 
+
 ### Hypothesis
 
 **The Holiday season will result in a high percentage of flights arriving late.** 
@@ -72,6 +80,13 @@ anst1
 <p>
 **What is the probability that a flight is delayed departing or arriving in Denver given the time of day (specifically 6:00, 12:00, 18:00, and 24:00)?** 
 
+### Why Important for Question 2
+
+Question 2 is important because it could determine what time of day costumers want to travel. It also represents what time of day there are more delays. It is important to study what time of day there is more delays to determine why delays are happening and when the delays are the highest. 
+
+### Deeper Explanation for Question 2
+
+This is important because if they can determine when delays are the highest, they can find why delays are happening. If delays are higher at night, it could be because delays are stacking on top of each other in a domino like effect. However, if delays are higher in the morning, it could be because of something that happened over night. These are not the only explanations to what could have happened, they just show that the time of day impacts why the delays happened. Additionally, the airport could communicate to the citizens what kind of delays they can expect depending on the time of day. 
 
 ```{r, echo=FALSE}
 team1 <- DENFlights %>%
