@@ -258,39 +258,35 @@ ggplot(LongDistance)  +
   ggtitle('Distribution of Long Distance Flights and their Arrival Delays') + 
   xlab('Arrival Delay in Minutes') + 
   ylab('Number of Flights')
-
-#First, find all FLights that were not cancelled and were headed to denver.
+```
+Probability that flight to Denver is delayed
+```{r} 
 DENarrivals <- COflights %>% filter(DEST =='DEN', CANCELLED == 0)
-
-#Now Filter DENarrivals to find the number of flights with ARR_DELAY >15
 DENdelays <- DENarrivals %>% filter(ARR_DELAY > 15)
 
 summarize(DENarrivals, 'Number of Flights into DEN' = n())
 summarize(DENdelays, 'Number of Delayed Flights into DEN' = n())
-#Probability A = 
 (33567/221642) *100
-#Now count the number of delayed flights into denver and divide it by total flights arriving in denver (Number of Delayed Flights arriving in denver/Number of flights arrived in denver) this will be your probability of a flight into denver being delayed.
-
-#Joint Probability is 
+```
+Now count the number of delayed flights into denver and divide it by total flights arriving in denver (Number of Delayed Flights arriving in denver/Number of flights arrived in denver) this will be your probability of a flight into denver being delayed.
+Joint Probability is 
 
 #Number of Flights into DEN w/ARR_Delay >60/Number of Delayed Flights Arriving in Denver
 #For your joint probability you want to take DENdelays and filter is to include only ARR_Delay>60
+```{r}
 DENBigDelay <- DENdelays %>% filter(ARR_DELAY >60)
-
 summarize(DENBigDelay, 'number of flights delayed 60 min or more' = n())
-
 summarize(DENdelays, 'Number of Delayed Flights arrived in Denver' = n())
 #Joint Probability 
 (10541/33567) *100
-
-#Conditional Probability. 
-
-#Looking for the probability that a flight into denver will be delayed by more than 60 minutes given that it traveled more than 1000 miles.
+```
+Conditional Probability. 
+Looking for the probability that a flight into denver will be delayed by more than 60 minutes given that it traveled more than 1000 miles.
 
 #First Define a new data set that includes all flights into denver that are delayed by more than an hour and also came from a distance of more than 1000 miles.
+```{r}
 BigDelay <- DENdelays %>% filter(ARR_DELAY >60, DISTANCE >1000)
 LongDistance <- DENarrivals %>% filter(DISTANCE >1000)
-
 summarize(BigDelay, 'Num of flights delayed more than 60min' = n())
 summarize(LongDistance, 'Num of flights with Distance >1000' = n())
 #Condition Probability that a Filight will arrive more than an hour late given that it came more than 1000 miles
