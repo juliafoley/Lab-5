@@ -1,0 +1,130 @@
+---
+title: "Lab7"
+author: "Julia Foley"
+date: "10/8/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+data1 <- read_delim(file = "household_power_consumption.txt", delim = ';', na = c('','?'), col_types = cols(Date = col_date(format = "%d/%m/%Y"), Time = col_time(format = "%H:%M:%S"), Global_active_power = col_double(), Global_reactive_power = col_double(), Voltage = col_double(),Global_intensity = col_double(), Sub_metering_1 = col_double(), Sub_metering_2 = col_double(), Sub_metering_3 = col_double()))
+
+data1 <- data1 %>%
+  separate(Date, into = c("Year", "Month", "Day"))
+
+```
+
+## Question
+Which year has the most amount of enegry used in the kitchen compared to the total amount of energy used? 
+
+## Why the Question is Interesting
+
+This question is interesting because it shows how much energy is being consumed by a water heater and an Air-conditioner. This will help companies, environmentalists, and people figure out where most of their active energy is being used. This will help the population know that they should focus on heater and air-conditioning when trying to save energy. Additionally, I wanted to study it by year because I thought it was interesting to see how it changed. 
+
+## How I Came up with the Question
+
+I came up with the question by exploring the different relations of the data. I was interested in using the sub_metering so, I compared them to the other variables and eventually found one that I liked. I found it really interesting to see what percent of energy was used by what type of energy so, I chose that as my question. 
+
+## How I Addressed the Question 
+
+I addressed the question by comparing the probabilities of the different years. For each year, I created a new column with the total count of energy from an electric water heater and an air-conditioner. Then, for each year, I created a new column with the total count of the active energy used. Lastly, for each year, I divided the first column by the second column. This told me the probability that active energy in that year was consumed by an electric water heater and an air-conditioner. Additionally, I plotted a histogram with the total count of active energy divided into whether it was consumed by an electric water heater and an air-conditioner (TRUE) or if it was not (FALSE). I used the colors to better seperate the two bars because it was hard to see which bar was which without the colors. Lastly, I facet wrapped the graph by year so the reader could see the total amount in each year. 
+
+## My Findings, Plot, and Statistics 
+
+
+```{r,echo=FALSE}
+data2 <- data1 %>% 
+  mutate(sub3 = Sub_metering_3>0) 
+
+data3 <- data1 %>%
+  filter(Year == "2006") %>%
+  mutate(sub3 = Sub_metering_3>0)
+
+data5 <- data3 %>% filter(sub3 == TRUE) %>% count(sub3) 
+
+data6 <- data1 %>%
+  filter(Year == "2007") %>%
+  mutate(sub3 = Sub_metering_3>0)
+
+data8 <- data6 %>% filter(sub3 == TRUE) %>% count(sub3) 
+
+data9 <- data1 %>%
+  filter(Year == "2008") %>%
+  mutate(sub3 = Sub_metering_3>0)
+
+data10 <- data9 %>% filter(sub3 == TRUE) %>% count(sub3) 
+
+data11 <- data1 %>%
+  filter(Year == "2009") %>%
+  mutate(sub3 = Sub_metering_3>0)
+
+data12 <- data11 %>% filter(sub3 == TRUE) %>% count(sub3) 
+
+data13 <- data1 %>%
+  filter(Year == "2010") %>%
+  mutate(sub3 = Sub_metering_3>0)
+
+data14 <- data13 %>% filter(sub3 == TRUE) %>% count(sub3) 
+
+data7 <- data1 %>% 
+  filter(Year == "2006") %>%
+  mutate(power1 = Global_active_power > 0) %>%
+  filter(!is.na(power1)) %>%
+  count(power1)
+
+data15 <- data1 %>% 
+  filter(Year == "2007") %>%
+  mutate(power1 = Global_active_power > 0) %>%
+  filter(!is.na(power1)) %>%
+  count(power1)
+
+data16 <- data1 %>% 
+  filter(Year == "2008") %>%
+  mutate(power1 = Global_active_power > 0) %>%
+  filter(!is.na(power1)) %>%
+  count(power1)
+
+data17<- data1 %>% 
+  filter(Year == "2009") %>%
+  mutate(power1 = Global_active_power > 0) %>%
+  filter(!is.na(power1)) %>%
+  count(power1)
+
+data18 <- data1 %>% 
+  filter(Year == "2010") %>%
+  mutate(power1 = Global_active_power > 0) %>%
+  filter(!is.na(power1)) %>%
+  count(power1)
+
+data5/data7*100
+
+data8/data15*100
+
+data10/data16*100
+
+data12/data17*100
+
+data14/data18*100
+```
+
+In 2006, 42.48% of household global minute-averaged active power was consumed by an electric water-heater and an air-conditioner. In 2007, 33.57% of household global minute-averaged active power was consumed by an electric water-heater and an air-conditioner. In 2008, 58.66% of household global minute-averaged active power was consumed by an electric water-heater and an air-conditioner. In 2009, 67.65% of household global minute-averaged active power was consumed by an electric water-heater and an air-conditioner. In 2010, 76.72% of household global minute-averaged active power was consumed by an electric water-heater and an air-conditioner.
+
+
+### How much active energy was consumed by an Electric Water Heater and an Air-Conditioner compared to the active energy that was not consumed by an Electric Water Heater and an Air-Conditioner 
+
+##### True represents that the active energy was from an Electric Water Heater and an Air-Conditioner, False represents that the active energy was from something other than an Electric Water Heater and an Air-Conditioner
+
+
+```{r,echo=FALSE}
+ggplot(data = data2) +
+  geom_bar(width = 1, mapping = aes(x = sub3, fill = sub3)) + 
+  facet_wrap(~Year) +
+  labs(x = "Active Energy from an Electric Water Heater and an Air-Conditioner", fill = "Energy from Heater and Air-Conditioner")
+```
+
+2010 had the highest percentage of household global minute-averaged active power was consumed by an electric water-heater and an air-conditioner. From this it is shown that the amount of energy consumed by an electric water-heater and an air-conditioner has been increasing between 2006 and 2010. The graph also illustrates that the amount of energy consumed by an electric water-heater and an air-conditioner has been increasing between 2006 and 2010.
+
+## Who Benefits and Who is Harmed by my Analysis 
+
+Most benefit from my analysis because it shows where the most active energy is being consumed. However, companies who are trying to sell heaters and air-conditioners are harmed from my anaylsis because they cannot claim that the heaters/air-conditioner are using less and less energy overtime. Overall, my analysis helps a lot of people and will help towards improving the environment.  
