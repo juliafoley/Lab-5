@@ -219,3 +219,63 @@ print(b)
 ```
 ## Who Benefits and Who is Harmed by my Analysis
 The people that will benefit from this analysis are government instituitions when making prediction for energy prices. In addition, tv networks will able to see what time they should show their tv shows and what type of demographic they will have an impact on. Who does not benefit are household because they will have to consume more energy pay higher energy prices. 
+
+
+**Andres Acevedo**
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse) 
+
+macpath <- "/Users/Andres/Desktop/Lab 7 Individual/household_power_consumption.txt" 
+ 
+ data1 <-  read_delim(file = macpath, delim=';', na = c('', '?'),
+                    col_types = cols(
+                      Date = col_date(format="%d/%m/%Y"),
+                      Time = col_time(format="%H:%M:%S"),
+                      Global_active_power = col_double(),
+                      Global_reactive_power = col_double(),
+                      Voltage = col_double(),
+                      Global_intensity = col_double(),
+                      Sub_metering_1 = col_double(),
+                      Sub_metering_2 = col_double(),
+                      Sub_metering_3 = col_double()
+                    ))
+                   
+data1 <- data1 %>% mutate(year=substr(Date,1,4), month=substr(Date, 6,7), day=substr(Date, 9,10))
+
+data1 <- data1 %>% mutate(hour=substr(Time,1,2), minute=substr(Time, 4,5), second=substr(Time, 7,8))
+
+data1 <- data1 %>% mutate( day=as.integer(day),
+                           month=as.integer(month),
+                           year=as.integer(year),
+                           hour=as.integer(hour),
+                           minute=as.integer(minute),
+                           second=as.integer(second))
+
+data1 <- data1 %>% mutate(act_energy_consumed_permin = Global_active_power * 1000/60)
+data1 <- data1 %>% mutate(sub_1_proportion = Sub_metering_1/act_energy_consumed_permin)
+data1 <- data1 %>% mutate(sub_2_proportion = Sub_metering_2/act_energy_consumed_permin)
+data1 <- data1 %>% mutate(sub_3_proportion = Sub_metering_2/act_energy_consumed_permin)
+```
+
+##Question
+How household usage of the kitchen changes throughout the year? What portion of the total power used came from the kitchen? 
+
+## How I came up with, and addressed the question. 
+I wanted to see whether higher and lower temperatures common in winter and summer influenced the proportion of the power used in the household coming from the kitchen. To explore this I mutated the data1 set to include a column representing the average power consumed per minute in the household. I then mutated again to create a column that represented what percent of the per-minute power total came from the kitchen. I then plotted that average versus time to see how the proportion changed from month to month.
+
+### Hypothesis
+Kitchen power usage will account for a greater percent of total power usage in the winter months when there are plenty of holidays and will account for a lesser percent of total power usage in the summer when a family may not want to cook hot meals and may go out to dinners and go on vacations.  
+
+```{r, warning=FALSE}
+ggplot(data1) +
+        geom_smooth(se = FALSE, mapping = aes(x = month, y = sub_1_proportion)) + ggtitle("Kitchen Power Usage as Percent of Total Power Usage") + xlab("Month") + ylab("Sub Metering 1 Usage") + theme_minimal() + scale_x_continuous(breaks = seq(0, 12, 1))
+```
+
+
+##Outcome and Interesting Stats
+I found that my hypothesis was wrong. The winter months seemed to be the months when the average amount of electricity came from the kitchen. Though I did find something surprising. The kitchen utilities accounted for a shockingly small percentage of total power usage in the household on a per-minute basis. Usage of the kitchen peaked near the end of May, where kitchen utilties accounted for just about 3% of by-minute power use. But, true to my initial intuition, kitchen utility usage hit its bottom in mid-July when it made up less than 1.5% by-minute power usage. On average, the kitchen seems to account for roughly 2% of per-minute power usage. Far less than I would have guessed. 
+
+##Who's Helped and Who's Hurt
+I have a hard time imagining anyone could be hurt by this analysis. My assumption is that the household consented to being observed and that any difference in behavior on their part was due to a decision they made. As for who it helps, I would imagine that anyone wanting to increase the efficiency of electrical utilities would probably want to start with those that actually use a large proportion of the total power in a household. As it seems the kitchen does not, it might be more prudent to look to increase the efficiency of other items like lightbulbs, AC units and water heaters. 
