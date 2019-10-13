@@ -128,3 +128,94 @@ ggplot(data = data2) +
 ## Who Benefits and Who is Harmed by my Analysis 
 
 Most benefit from my analysis because it shows where the most active energy is being consumed. However, companies who are trying to sell heaters and air-conditioners are harmed from my anaylsis because they cannot claim that the heaters/air-conditioner are using less and less energy overtime. Overall, my analysis helps a lot of people and will help towards improving the environment.  
+
+## Nisia Pinto
+
+```{r, warning=FALSE,echo=FALSE,message=FALSE,eval=FALSE}
+library(tidyverse)
+library(lubridate)
+library(dplyr)
+library(magrittr)
+```
+```{r}
+path <- "C:\\Users\\nisia\\OneDrive\\Área de Trabalho\\LAB7\\household_power_consumption.txt"
+```
+
+
+```{r, warning=FALSE,echo=FALSE,message=FALSE,eval=FALSE}
+data1 <- read_delim(file = path, delim=';', na = c('', '?'),
+                    col_types = cols(
+                      Date = col_date(format="%d/%m/%Y"),
+                      Time = col_time(format="%H:%M:%S"),
+                      Global_active_power = col_double(),
+                      Global_reactive_power = col_double(),
+                      Voltage = col_double(),
+                      Global_intensity = col_double(),
+                      Sub_metering_1 = col_double(),
+                      Sub_metering_2 = col_double(),
+                      Sub_metering_3 = col_double()
+                    ))
+```
+
+```{r, warning=FALSE,echo=FALSE,message=FALSE}
+data2 <- data1 %>% mutate(year=substr(Date,1,4), month=substr(Date, 6,7), day=substr(Date, 9,10))
+```
+
+```{r, warning=FALSE,echo=FALSE,message=FALSE}
+data3 <- data2 %>% mutate(hour=substr(Time,1,2), minute=substr(Time, 4,5), second=substr(Time, 7,8))
+```
+
+```{r, warning=FALSE,echo=FALSE,message=FALSE}
+data4 <- data3 %>% mutate( day=as.integer(day),
+                           month=as.integer(month),
+                           year=as.integer(year),
+                           hour=as.integer(hour),
+                           minute=as.integer(minute),
+                           second=as.integer(second))
+```
+## Question
+*How does the global active power in the household changed on May 2007 vs November 2010?*
+Hypothesys: The global active power will have an overall increase in 2010. 
+With this two plots we can verify that the energy consumption along the hours incresased in 2010 compared to 2007.
+
+## Why the Question is Interesting:
+
+The data we have available show us the years 2006 to 2010. These data was collected during the economic crises of 2008. With this information, we will be able to collect information about the energy consumption outcomes during an economic crises. In addition, we can observe the time of the day people use more energy.
+
+## How I Came up with the Question
+I came up with the question by going over historical data for these specific years. The ones more relevant were Great Recession, economic crises of 2008 and Pr.Obama election.I used this background to guide my questions. After analysing all the 12 months in these 4 years, I was able to see some patterns and see that the energy usage during the day has increased since 2007. I looked for unemployment rates and we can see an increase in unenployment from 2007 to its highest in 2010.
+
+## How I Addressed the Question:
+To address this question I used tidy data techniques. As an example, I used filter to refine my data for the specific months May 2007 and November 2010. Finnaly,I used count do find my probabilities.
+
+
+
+## My Findings, Plot, and Statistics 
+
+```{r, warning=FALSE,echo=FALSE,message=FALSE}
+crises1<-data4 %>% filter(year=="2007")
+crisesa<-crises1%>% filter(month==5)
+p1<-ggplot(data=crisesa, aes(x=hour, y=Global_active_power)) +
+  geom_bar(stat="identity") + ggtitle("Global Active Power May.2007")
+p1
+
+```
+
+
+
+```{r, warning=FALSE,echo=FALSE,message=FALSE}
+crises2<-data4 %>% filter(year=="2010")
+crises2a<-crises2a %>% filter(month==11)
+p2<-ggplot(data=crises2a, aes(x=hour, y=Global_active_power,color="red")) +
+geom_bar(color="black",stat="identity") + ggtitle("Global Active Power Nov.2010")
+p2
+```
+There is a probability of 0.008 in 2007 for Global_active_power greater than 1 and a probability of 0.009 for 2010. This means that in 2010 more people consumed energy in the mornings. With this information, we can verify the unemployment rate increasing because more people are staying inside and using more energy.
+```{r, warning=FALSE,echo=FALSE,message=FALSE,eval=FALSE}
+a<-count(crisesa%>% filter(Global_active_power>1))/count(data4%>% filter(hour>=6|hour<=10))
+b<-count(crises2a%>% filter(Global_active_power>1))/count(data4%>% filter(hour>=6|hour<=10))
+print(a)
+print(b)
+```
+## Who Benefits and Who is Harmed by my Analysis
+The people that will benefit from this analysis are government instituitions when making prediction for energy prices. In addition, tv networks will able to see what time they should show their tv shows and what type of demographic they will have an impact on. Who does not benefit are household because they will have to consume more energy pay higher energy prices. 
