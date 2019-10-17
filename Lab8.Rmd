@@ -1,0 +1,27 @@
+---
+title: "Lab 8"
+author: "P-Hacker: Andres Acevedo, Julia Foley, Thomas Neal, Nisia Pinto, Declan Franklin"
+date: "10/17/2019"
+output: html_document
+---
+
+
+
+
+### Domain Expert:
+
+### Overall Question
+
+### Dataset Background
+
+### Individual Questions
+
+**Andres Acevedo**
+
+**Julia Foley**
+
+**Thomas Neal**
+
+**Declan Franklin**
+
+**Nisia Pinto**
