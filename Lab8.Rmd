@@ -66,13 +66,18 @@ Question1:
 Question2:
 
 ### Nisia Pinto:
-**Questions:**
-Question1:
-Question2:
 
-**Why are These Questions Interesting/Important?**
-Question1:
-Question2:
+**Questions:**
+
+Question1: What is the relationship between the amount of fouls/misconducts on field with winning?
+
+Question2: Is there a correlation between high income cities in England and number of wins or good plays? 
+
+**Why are These Questions Important?**
+
+Question1: This question is important because when observing games usually unnecessary fouls occur. I would like to verify if there a need for this lack of attention on field or it is only a mean to a victorious end. In addition, it could help educate players and change some safety rules  of the game.
+
+Question2: Better teams are better paid, this question is important to future football players that would like to transfer to different teams within the country.
 
 ## Visualizations of the East Africa Lake Data
 
@@ -153,3 +158,26 @@ suppressMessages(print(graph))
 
 ### Nisia Pinto
 **CRU and MAM Rainfall Data**
+
+```{r, echo=FALSE}
+path<-"East Africa lake data.xlsx"
+```
+
+```{r, echo=FALSE, comment=FALSE, message=FALSE}
+CRU<-read_excel(path,sheet=9) #retrieve data
+CRU<-select(CRU,Year,`GPCC MAM Normalized`,`CRU MAM Normalized`,`GPCC OND Normalized`,`CRU OND Normalized`)
+CRU2<- CRU%>% 
+  gather(key="GPCC Seasons",value="Rainfall GPCC",`GPCC MAM Normalized`,`GPCC OND Normalized` )
+CRU3<-CRU2%>%
+  gather(key="CRU Seasons",value="Rainfall CRU",`CRU MAM Normalized`,`CRU OND Normalized` )
+```
+
+```{r,fig.height=5,fig.width=15, echo=FALSE }
+ggplot(CRU3) +
+  geom_line(mapping=aes(x = Year,y=`Rainfall GPCC`,color=`GPCC Seasons`),linetype=1) +
+  xlab('Year') + ylab('Rainfall GPPC')+
+  scale_x_continuous(breaks = seq(1900, 2010, 10)) + 
+  scale_y_continuous(breaks = seq(0, 1, 0.25))+
+  ggtitle("Rainfall GPPC Data \nShort Rain (March-April-May) VS Long Rain (October-November-December)")+     theme(plot.title = element_text(hjust=50))+
+  theme_bw()
+```
