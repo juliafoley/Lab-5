@@ -17,7 +17,7 @@ Background is..
 
 ### Individual Questions
 
-#### Andres Acevedo:
+### Andres Acevedo:
 **Questions:**
 Why does telegraph.co hate these refs so much? Do they really do aything wrong? Or are their mistakes just overpublicized? I'll try to answer these questions by looking at the number of penalties called by the 'Best' and 'Worst' refs in the Barclays Premier League. I want to see if the bad refs call a disproportinate number of penalties compared to the good refs. I want to see if they give out more yellow cards or red cards. If the home team wins too much or too little. If there a greater number of goals scored or if fewer goals are scored. My backup question is to find out how penalties impact the number of goals scored in a game. If a higher number of penalties resulted in more or less total goals being scored. 
 
@@ -27,7 +27,8 @@ Question 1: Im interested in this question because it's always good to have a wa
 Question2:
 There are many kinds of penalties. Some will result in a direct scoring chance like from a cornerkick or a free kick near the goalie box. Others will result in a change of posession which could have little chance of resulting in goal. Some even result in an ejection. Teams have to make informed decisions about how aggressively to play their opponents. If the number of penalties doesnt result in fewer goals scored by the team, or more goals scored by the opposing team, it may be worth it to play more aggressively. If the opposite, it may be reasonable to back off and just crowd the box with defense to take away passing lanes.
 
-#### Julia Foley:
+
+### Julia Foley:
 **Questions:**
 Question1:
 Question2:
@@ -35,7 +36,8 @@ Question2:
 **Why are These Questions Important?**
 Question1:
 Question2:
-#### Thomas Neal:
+
+### Thomas Neal:
 **Questions:**
 Question1:
 Question2:
@@ -43,7 +45,8 @@ Question2:
 **Why are These Questions Important?**
 Question1:
 Question2:
-#### Declan Franklin:
+
+### Declan Franklin:
 
 **Questions:**
 Question1:
@@ -64,9 +67,9 @@ Question2:
 
 ## Visualizations of the East Africa Lake Data
 
-## Andres Acevedo:
+### Andres Acevedo:
 
-### Tanganyka (Done in class with Dr.Vance)
+**Tanganyka (Done in class with Dr.Vance)**
 ```{r}
 library(tidyverse)
 library(readxl)
@@ -98,14 +101,14 @@ ggplot(Tang.skinny) +
 ggplot(Tang.skinny) +
   geom_smooth(mapping = aes(x = year1, y = value), color = 'black') + geom_jitter(mapping = aes(x = year1, y = value), color = 'steelblue', alpha = 0.5) + facet_wrap(~measurement) + ggtitle('Rain Variation Vs Time for Tang') + xlab('Year') + ylab('Rainfall Variation')
 ```
-**Julia Foley**
-##
+### Julia Foley
+**xxx**
 
 **Thomas Neal**
-##
+**xxx**
 
-**Declan Franklin**
-##
+### Declan Franklin
+**xxx**
 
-**Nisia Pinto**
-## CRU and MAM Raninfall Data
+### Nisia Pinto
+**CRU and MAM Rainfall Data**
