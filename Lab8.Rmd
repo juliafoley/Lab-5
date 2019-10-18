@@ -26,7 +26,7 @@ The dataset we will analyze next week is data for the 2015-2016 season of the En
 **Questions:**
 Why does telegraph.co hate these refs so much? Do they really do aything wrong? Or are their mistakes just overpublicized? I'll try to answer these questions by looking at the number of penalties called by the 'Best' and 'Worst' refs in the Barclays Premier League. I want to see if the bad refs call a disproportinate number of penalties compared to the good refs. I want to see if they give out more yellow cards or red cards. If the home team wins too much or too little. If there a greater number of goals scored or if fewer goals are scored. My backup question is to find out how penalties impact the number of goals scored in a game. If a higher number of penalties resulted in more or less total goals being scored. 
 
-**Why are These Questions Important?**
+**Why are These Questions Interesting/Important?**
 Question 1: Im interested in this question because it's always good to have a way to gague the veracity of a news article.  If these refs are considered to be the 'worst' or 'best' refs, teams need to know if theres any reason for that. We as readers should know whether to take the premise of the article seriously. 
 
 Question2:
@@ -38,20 +38,16 @@ There are many kinds of penalties. Some will result in a direct scoring chance l
 Question 1: Which team has the highest probability of winning when they are at home?
 Question 2: Which referee gave the most red cards? 
 
-**Why are These Questions Interesting?**
-Question 1: This is interesting because it will show whether or not a team will win at home. I think that it is interesting to see if there is a trend between winnings and location. It is interesting to see if being the home team impacts the probability of a win. Additionally, it will be interesting to see if a team with a better record overall has a higher probability of winning at home or if there is another factor that goes into it. 
-Question 2: I find it interesting to see which referees gave out more red cards because it shows which referees are stricter. It is interesting to see if the number of red cards is correlated by the number of games each referee refereed or if there is an outside factor that contributes to the correlation. I think it is fascinating to see the data and reasons behind the number of red cards. 
-
-**Why are These Questions Important?**
-Question 1: This could help to explain the idea of home team advantage. Additionally, it could help determine the win average and therefore, help predict whether or not a team is going win. This could help teams determine whether or not the home team advantage plays a role in their win average. Lastly, it will show which teams are better when they are at home. 
-Question 2: This is important because it shows if a certain referee is more likely to give a player a red card. If this is the case, the team may want to be more careful about fouls to avoid red cards. Additionally, it can show how strict a referee is which would show whether a referee stays to the rules exactly or whether he is more lenient. This could change how some of the games are played if the players know how strict the referee is. 
+**Why are These Questions Interesting/Important?**
+Question 1: This is interesting because it will show whether or not a team will win at home. I think that it is interesting to see if there is a trend between winnings and location. It is interesting to see if being the home team impacts the probability of a win. Additionally, it will be interesting to see if a team with a better record overall has a higher probability of winning at home or if there is another factor that goes into it. This  question is important because it could help to explain the idea of home team advantage. Additionally, it could help determine the win average and therefore, help predict whether or not a team is going win. This could help teams determine whether or not the home team advantage plays a role in their win average. Lastly, it will show which teams are better when they are at home. 
+Question 2: I find it interesting to see which referees gave out more red cards because it shows which referees are stricter. It is interesting to see if the number of red cards is correlated by the number of games each referee refereed or if there is an outside factor that contributes to the correlation. I think it is fascinating to see the data and reasons behind the number of red cards. This is important because it shows if a certain referee is more likely to give a player a red card. If this is the case, the team may want to be more careful about fouls to avoid red cards. Additionally, it can show how strict a referee is which would show whether a referee stays to the rules exactly or whether he is more lenient. This could change how some of the games are played if the players know how strict the referee is. 
 
 ### Thomas Neal:
 **Questions:**
 Question1:
 Question2:
 
-**Why are These Questions Important?**
+**Why are These Questions Interesting/Important?**
 Question1:
 Question2:
 
@@ -61,7 +57,7 @@ Question2:
 Question1:
 Question2:
 
-**Why are These Questions Important?**
+**Why are These Questions Interesting/Important?**
 Question1:
 Question2:
 
@@ -70,7 +66,7 @@ Question2:
 Question1:
 Question2:
 
-**Why are These Questions Important?**
+**Why are These Questions Interesting/Important?**
 Question1:
 Question2:
 
