@@ -34,12 +34,16 @@ There are many kinds of penalties. Some will result in a direct scoring chance l
 
 
 ### Julia Foley:
+
 **Questions:**
 Question 1: Which team has the highest probability of winning when they are at home?
+
 Question 2: Which referee gave the most red cards? 
 
 **Why are These Questions Interesting/Important?**
+
 Question 1: This is interesting because it will show whether or not a team will win at home. I think that it is interesting to see if there is a trend between winnings and location. It is interesting to see if being the home team impacts the probability of a win. Additionally, it will be interesting to see if a team with a better record overall has a higher probability of winning at home or if there is another factor that goes into it. This  question is important because it could help to explain the idea of home team advantage. Additionally, it could help determine the win average and therefore, help predict whether or not a team is going win. This could help teams determine whether or not the home team advantage plays a role in their win average. Lastly, it will show which teams are better when they are at home. 
+
 Question 2: I find it interesting to see which referees gave out more red cards because it shows which referees are stricter. It is interesting to see if the number of red cards is correlated by the number of games each referee refereed or if there is an outside factor that contributes to the correlation. I think it is fascinating to see the data and reasons behind the number of red cards. This is important because it shows if a certain referee is more likely to give a player a red card. If this is the case, the team may want to be more careful about fouls to avoid red cards. Additionally, it can show how strict a referee is which would show whether a referee stays to the rules exactly or whether he is more lenient. This could change how some of the games are played if the players know how strict the referee is. 
 
 ### Thomas Neal:
@@ -84,7 +88,7 @@ Question2: Better teams are better paid, this question is important to future fo
 ### Andres Acevedo:
 
 **Tanganyka (Done in class with Dr.Vance)**
-```{r}
+```{r, echo = TRUE}
 library(tidyverse)
 library(readxl)
 path <- "/Users/Andres/Desktop/DataScience2600/East Africa lake data.xlsx"
@@ -117,7 +121,7 @@ ggplot(Tang.skinny) +
 ### Julia Foley
 **VOI Rainfall**
 
-```{r}
+```{r, echo = TRUE}
 VOI <- select(voi2,`Year`, `Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`)
 VOI <- gather(VOI,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,key=month,value=rainfall)
 
