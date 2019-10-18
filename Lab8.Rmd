@@ -126,6 +126,7 @@ ggplot(VOI, mapping = aes(Year,rainfall)) +
 **Thomas Neal**
 **Challa Rainfall**
 
+
 ```{r, echo=FALSE}
 library(readxl)
 Challa <- East_Africa_lake_data <- read_excel("East Africa lake data.xlsx", sheet = "Challa")
@@ -137,10 +138,11 @@ Challa <- Challa %>% mutate( `varve thickness`=as.double(`varve thickness`),`dar
 
 
 
- ggplot(data=Challa) + geom_smooth(mapping=aes(x=`varve number`, y=`dark layer`, color="dark layer"), se=FALSE)  + geom_smooth(mapping=aes(x=`varve number`, y=`varve thickness`, color="varve thickness" ),se=FALSE) + geom_smooth(mapping=aes(x=`varve number`, y=`light layer`,color="light layer" ),se=FALSE) + labs(title="Rainfall in Challa over time", x="Time", y="amount of rain") +  scale_colour_manual("", 
+graph <- ggplot(data=Challa) + geom_smooth(mapping=aes(x=`varve number`, y=`dark layer`, color="dark layer"), se=FALSE)  + geom_smooth(mapping=aes(x=`varve number`, y=`varve thickness`, color="varve thickness" ),se=FALSE) + geom_smooth(mapping=aes(x=`varve number`, y=`light layer`,color="light layer" ),se=FALSE) + labs(title="Rainfall in Challa Over Time", x="Time", y="Amount of Rain") +  scale_colour_manual("", 
                       breaks = c("dark layer", "varve thickness", "light layer"),
                       values = c("red", "green", "blue"))+ theme_dark()
 
+suppressMessages(print(graph))
 
 ```
 
