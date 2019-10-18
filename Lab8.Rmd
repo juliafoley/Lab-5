@@ -124,7 +124,25 @@ ggplot(VOI, mapping = aes(Year,rainfall)) +
 ```
 
 **Thomas Neal**
-**xxx**
+**Challa Rainfall**
+
+```{r, echo=FALSE}
+library(readxl)
+Challa <- East_Africa_lake_data <- read_excel("East Africa lake data.xlsx", sheet = "Challa")
+Challa=Challa[-1,]
+
+Challa[is.na(Challa)] <- 0
+
+Challa <- Challa %>% mutate( `varve thickness`=as.double(`varve thickness`),`dark layer`=as.double(`dark layer`), `light layer`=as.double(`light layer`) )
+
+
+
+ ggplot(data=Challa) + geom_smooth(mapping=aes(x=`varve number`, y=`dark layer`, color="dark layer"), se=FALSE)  + geom_smooth(mapping=aes(x=`varve number`, y=`varve thickness`, color="varve thickness" ),se=FALSE) + geom_smooth(mapping=aes(x=`varve number`, y=`light layer`,color="light layer" ),se=FALSE) + labs(title="Rainfall in Challa over time", x="Time", y="amount of rain") +  scale_colour_manual("", 
+                      breaks = c("dark layer", "varve thickness", "light layer"),
+                      values = c("red", "green", "blue"))+ theme_dark()
+
+
+```
 
 ### Declan Franklin
 **xxx**
