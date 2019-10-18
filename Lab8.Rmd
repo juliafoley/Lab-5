@@ -124,7 +124,9 @@ ggplot(VOI, mapping = aes(Year,rainfall)) +
 ```
 
 **Thomas Neal**
-**Challa Rainfall**
+
+**Challa Varve Levels**
+
 
 
 ```{r, echo=FALSE}
@@ -138,13 +140,15 @@ Challa <- Challa %>% mutate( `varve thickness`=as.double(`varve thickness`),`dar
 
 
 
-graph <- ggplot(data=Challa) + geom_smooth(mapping=aes(x=`varve number`, y=`dark layer`, color="dark layer"), se=FALSE)  + geom_smooth(mapping=aes(x=`varve number`, y=`varve thickness`, color="varve thickness" ),se=FALSE) + geom_smooth(mapping=aes(x=`varve number`, y=`light layer`,color="light layer" ),se=FALSE) + labs(title="Rainfall in Challa Over Time", x="Time", y="Amount of Rain") +  scale_colour_manual("", 
+graph <- ggplot(data=Challa) + geom_smooth(mapping=aes(x=`varve number`, y=`dark layer`, color="dark layer"), se=FALSE)  + geom_smooth(mapping=aes(x=`varve number`, y=`varve thickness`, color="varve thickness" ),se=FALSE) + geom_smooth(mapping=aes(x=`varve number`, y=`light layer`,color="light layer" ),se=FALSE) + labs(title="Varve in Challa Over Time", x="Time", y="Varve Levels") +  scale_colour_manual("", 
                       breaks = c("dark layer", "varve thickness", "light layer"),
                       values = c("red", "green", "blue"))+ theme_dark()
 
 suppressMessages(print(graph))
 
 ```
+
+ Varve is an annual layer of sediment that can be used to track climate change across years. It is a pair of thin layers of clay and silt. The blue line represents the overall varve thickness. The other two lines represent the two different layers with red denoting the darker layer of sediment and green being the lighter layer.
 
 ### Declan Franklin
 **xxx**
