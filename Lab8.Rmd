@@ -18,6 +18,51 @@ output: html_document
 
 **Andres Acevedo**
 
+Why does telegraph.co hate these refs so much? Do they really do aything wrong? Or are their mistakes more public. I'll try to answer these questions by looking at the number of penalties called by the 'Best' and 'Worst' refs in the Barclays Premier League. I want to see if the bad refs call a disproportinate number of penalties compared to the good refs. I want to see if they give out more yellow cards or red cards. If the home team wins too much or too little. If there a greater number of goals scored or if fewer goals are scored. My backup question is to find out how penalties impact the number of goals scored in a game. If a higher number of penalties resulted in more or less total goals being scored. 
+
+## Why are These Questions Important?
+Question 1: Im interested in this question because it's always good to have a way to gague the veracity of a news article.  If these refs are considered to be the 'worst' or 'best' refs, teams need to know if theres any reason for that. We as readers should know whether to take the premise of the article seriously. 
+
+Question2:
+There are many kinds of penalties. Some will result in a direct scoring chance like from a cornerkick or a free kick near the goalie box. Others will result in a change of posession which could have little chance of resulting in goal. Some even result in an ejection. Teams have to make informed decisions about how aggressively to play their opponents. If the number of penalties doesnt result in fewer goals scored by the team, or more goals scored by the opposing team, it may be worth it to play more aggressively. If the opposite, it may be reasonable to back off and just crowd the box with defense to take away passing lanes. 
+
+### Tanganyka (Done in class with Dr.Vance)
+```{r}
+library(tidyverse)
+library(readxl)
+path <- "/Users/Andres/Desktop/DataScience2600/East Africa lake data.xlsx"
+Tang <- read_excel(path, sheet = 6)
+
+Tang <- select(Tang, `Year AD...1`,`BSi (normalized)`,`Year AD...4`,`Charcoal (normalized)`,`Year`,TEX86)
+
+Tang <- rename(Tang,year1=`Year AD...1`,BSi=`BSi (normalized)`, year2=`Year AD...4`,Charcoal=`Charcoal (normalized)`,year3=`Year`)
+
+Tang1 <- Tang %>% select(year1,BSi)
+Tang2 <- Tang %>% select(year2,Charcoal)
+Tang3 <- Tang %>% select(year3,TEX86)
+
+Tang1$year1 <- round(Tang1$year1)
+Tang2$year2 <- round(Tang2$year2)
+Tang3$year3 <- round(Tang3$year3)
+
+Tang12 <- full_join(Tang1,Tang2,by=c("year1"="year2"))
+
+Tang <- full_join(Tang12,Tang3,by = c("year1"="year3"))
+
+Tang.skinny <- gather(Tang,key="measurement",value="value",BSi, Charcoal,TEX86)
+
+ggplot(Tang.skinny) +
+  geom_line(mapping = aes(x = year1, y = value), color = 'steelblue') + facet_wrap(~measurement) +
+  ggtitle("Rainfall Variation vs Time for Tang") + xlab('Year') + ylab('Rainfall Variation') + theme_minimal() + scale_x_continuous(breaks = seq(1000, 2000, 250)) + scale_y_continuous(breaks = seq(0, 2.5, 0.5))
+
+ggplot(Tang.skinny) +
+  geom_smooth(mapping = aes(x = year1, y = value), color = 'black') + geom_jitter(mapping = aes(x = year1, y = value), color = 'turquoise', alpha = 0.5) + facet_wrap(~measurement) + ggtitle('Rain Variation Vs Time for Tang') + xlab('Year') + ylab('Rainfall Variation')
+
+
+
+
+```
+<p>
 **Julia Foley**
 
 **Thomas Neal**
