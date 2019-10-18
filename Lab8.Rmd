@@ -48,12 +48,16 @@ Question 2: This is important because it shows if a certain referee is more like
 
 ### Thomas Neal:
 **Questions:**
-Question1:
-Question2:
+
+Question1: What is the correlation between winning and being the home team?
+
+Question2: Given that a team has had a player ejected (red card) what is the probability that they still win?
 
 **Why are These Questions Important?**
-Question1:
-Question2:
+
+Question1: This question is interesting because it will address the idea of a home-field advantage. If there is a strong positive correlation then it is likely that having the home field is an advantage. If the correlation is 0 or negative it shows that home-field advantage does not affect chances of winning.
+
+Question2: This question is important because it will help teams determine how important it is that a player does not get ejected. This could lead teams to go for fouls more or less.
 
 ### Declan Franklin:
 
