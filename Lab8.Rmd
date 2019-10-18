@@ -12,10 +12,15 @@ In this lab we will find analyze ...
 Our domain expert is...FIFA, sports recruiters, football betting...
 ### Overall Question
 Question is...
-### Dataset Background
-Background is..England football teams...
 
-### Individual Questions
+### Why Question is Important
+
+### Why Those Reasons are Important
+
+### Dataset Background
+The dataset we will analyze next week is data for the 2015-2016 season of the English Premier League. This data includes statistics relating to soccer such as Home Goals for each game and Number of Red Cards for each game. 
+
+## Individual Questions
 
 ### Andres Acevedo:
 **Questions:**
@@ -30,12 +35,16 @@ There are many kinds of penalties. Some will result in a direct scoring chance l
 
 ### Julia Foley:
 **Questions:**
-Question1:
-Question2:
+Question 1: Which team has the highest probability of winning when they are at home?
+Question 2: Which referee gave the most red cards? 
+
+**Why are These Questions Interesting?**
+Question 1: This is interesting because it will show whether or not a team will win at home. I think that it is interesting to see if there is a trend between winnings and location. It is interesting to see if being the home team impacts the probability of a win. Additionally, it will be interesting to see if a team with a better record overall has a higher probability of winning at home or if there is another factor that goes into it. 
+Question 2: I find it interesting to see which referees gave out more red cards because it shows which referees are stricter. It is interesting to see if the number of red cards is correlated by the number of games each referee refereed or if there is an outside factor that contributes to the correlation. I think it is fascinating to see the data and reasons behind the number of red cards. 
 
 **Why are These Questions Important?**
-Question1:
-Question2:
+Question 1: This could help to explain the idea of home team advantage. Additionally, it could help determine the win average and therefore, help predict whether or not a team is going win. This could help teams determine whether or not the home team advantage plays a role in their win average. Lastly, it will show which teams are better when they are at home. 
+Question 2: This is important because it shows if a certain referee is more likely to give a player a red card. If this is the case, the team may want to be more careful about fouls to avoid red cards. Additionally, it can show how strict a referee is which would show whether a referee stays to the rules exactly or whether he is more lenient. This could change how some of the games are played if the players know how strict the referee is. 
 
 ### Thomas Neal:
 **Questions:**
@@ -101,8 +110,18 @@ ggplot(Tang.skinny) +
 ggplot(Tang.skinny) +
   geom_smooth(mapping = aes(x = year1, y = value), color = 'black') + geom_jitter(mapping = aes(x = year1, y = value), color = 'steelblue', alpha = 0.5) + facet_wrap(~measurement) + ggtitle('Rain Variation Vs Time for Tang') + xlab('Year') + ylab('Rainfall Variation')
 ```
+
 ### Julia Foley
-**xxx**
+**VOI Rainfall**
+
+```{r}
+VOI <- select(voi2,`Year`, `Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`)
+VOI <- gather(VOI,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,key=month,value=rainfall)
+
+ggplot(VOI, mapping = aes(Year,rainfall)) +
+  geom_count() +
+  labs(y = "Amount of Rainfall in a Month")
+```
 
 **Thomas Neal**
 **xxx**
