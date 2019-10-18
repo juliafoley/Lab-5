@@ -104,11 +104,9 @@ Tang <- full_join(Tang12,Tang3,by = c("year1"="year3"))
 Tang.skinny <- gather(Tang,key="measurement",value="value",BSi, Charcoal,TEX86)
 
 ggplot(Tang.skinny) +
-  geom_line(mapping = aes(x = year1, y = value), color = 'steelblue') + facet_wrap(~measurement) +
-  ggtitle("Rainfall Variation vs Time for Tang") + xlab('Year') + ylab('Rainfall Variation') + theme_minimal() + scale_x_continuous(breaks = seq(1000, 2000, 250)) + scale_y_continuous(breaks = seq(0, 2.5, 0.5))
-
-ggplot(Tang.skinny) +
-  geom_smooth(mapping = aes(x = year1, y = value), color = 'black') + geom_jitter(mapping = aes(x = year1, y = value), color = 'steelblue', alpha = 0.5) + facet_wrap(~measurement) + ggtitle('Rain Variation Vs Time for Tang') + xlab('Year') + ylab('Rainfall Variation')
+  geom_smooth(se = FALSE, mapping = aes(x = year1, y = value, col = measurement)) + 
+  ggtitle('Rain Variation Vs Time for Tang') + xlab('Year') + ylab('Rainfall Variation') + 
+  theme_minimal()
 ```
 
 ### Julia Foley
