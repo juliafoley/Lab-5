@@ -105,7 +105,7 @@ Tang.skinny <- gather(Tang,key="measurement",value="value",BSi, Charcoal,TEX86)
 
 ggplot(Tang.skinny) +
   geom_smooth(se = FALSE, mapping = aes(x = year1, y = value, col = measurement)) + 
-  ggtitle('Rain Variation Vs Time for Tang') + xlab('Year') + ylab('Rainfall Variation') + 
+  ggtitle('Rain Variation Vs Time for Tanganyika') + xlab('Year') + ylab('Rainfall Variation') + 
   theme_minimal()
 ```
 
