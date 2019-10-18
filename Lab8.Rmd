@@ -140,7 +140,7 @@ Challa <- Challa %>% mutate( `varve thickness`=as.double(`varve thickness`),`dar
 
 
 
-graph <- ggplot(data=Challa) + geom_smooth(mapping=aes(x=`varve number`, y=`dark layer`, color="dark layer"), se=FALSE)  + geom_smooth(mapping=aes(x=`varve number`, y=`varve thickness`, color="varve thickness" ),se=FALSE) + geom_smooth(mapping=aes(x=`varve number`, y=`light layer`,color="light layer" ),se=FALSE) + labs(title="Varve in Challa Over Time", x="Time", y="Varve Levels") +  scale_colour_manual("", 
+graph <- ggplot(data=Challa) + geom_smooth(mapping=aes(x=`Age AD`, y=`dark layer`, color="dark layer"), se=FALSE)  + geom_smooth(mapping=aes(x=`Age AD`, y=`varve thickness`, color="varve thickness" ),se=FALSE) + geom_smooth(mapping=aes(x=`Age AD`, y=`light layer`,color="light layer" ),se=FALSE) + labs(title="Varve in Challa Over Time", x="Time in Years", y="Varve Levels") +  scale_colour_manual("", 
                       breaks = c("dark layer", "varve thickness", "light layer"),
                       values = c("red", "green", "blue"))+ theme_dark()
 
