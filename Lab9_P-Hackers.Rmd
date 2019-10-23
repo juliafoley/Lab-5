@@ -9,12 +9,13 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(dplyr)
-BPL15 <- read_csv("https://datahub.io/sports-data/english-premier-league/r/season-1516.csv")
+BPL14 <- read_csv("https://datahub.io/sports-data/english-premier-league/r/season-1314.csv")
 as.tibble(BPL15)
 ```
 
+
 ```{r}
-BPL15_tidy <- BPL15 %>% 
+BPL14_tidy <- BPL15 %>% 
   rename(
     "Full_Time_Home_Goals" ="FTHG",
     "Full_Time_Away_Goals" ="FTAG",
@@ -43,6 +44,6 @@ BPL15_tidy <- BPL15 %>%
 
 
 ```{r}
-BPL15_tidy
+BPL14_tidy
 ```
 
