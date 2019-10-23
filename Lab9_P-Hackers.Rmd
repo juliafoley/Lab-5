@@ -10,12 +10,15 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(dplyr)
 BPL14 <- read_csv("https://datahub.io/sports-data/english-premier-league/r/season-1415.csv")
+BPL15 <- read_csv("https://datahub.io/sports-data/english-premier-league/r/season-1516.csv")
+as.tibble(BPL14)
 as.tibble(BPL15)
+
 ```
 
 
 ```{r}
-BPL14_tidy <- BPL15 %>% 
+BPL14_tidy <- BPL14 %>% 
   rename(
     "Full_Time_Home_Goals" ="FTHG",
     "Full_Time_Away_Goals" ="FTAG",
