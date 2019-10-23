@@ -1,0 +1,48 @@
+---
+title: "Lab9_P-Hackers"
+author: "Declan Franklin"
+date: "10/22/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+BPL15 <- read_csv("https://datahub.io/sports-data/english-premier-league/r/season-1516.csv")
+as.tibble(BPL15)
+```
+
+```{r}
+BPL15_tidy <- BPL15 %>% 
+  rename(
+    "Full_Time_Home_Goals" ="FTHG",
+    "Full_Time_Away_Goals" ="FTAG",
+    "Full_Time_Result" ="FTR",
+    "Half_Time_Home_Goals" = "HTHG",
+    "Half_Time_Away_Goals" = "HTAG",
+    "Half_Time_Result"="HTR",
+    "Home_Shots" = "HS",
+    "Away_Shots" ="AS",
+    "Home_Shots_On_Target" = "HST",
+    "Away_Shots_On_Target" = "AST",
+    "Home_Fouls" ="HF",
+    "Away_Fouls" = "AF",
+    "Home_Corners" = "HC",
+    "Away_Corners" = "AC",
+    "Home_Yellows" = "HY",
+    "Away_Yellows" = "AY",
+    "Home_Reds" = "HR",
+    "Away_Reds" = "AR", 
+    "Home_Team_Wins_Odds" = "B365H",
+    "Draw_Odds" = "B365D",
+    "Away_Team_Wins_Odds" = "B365A"
+    
+  ) 
+```
+
+
+```{r}
+BPL15_tidy
+```
+
