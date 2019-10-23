@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(dplyr)
-BPL14 <- read_csv("https://datahub.io/sports-data/english-premier-league/r/season-1314.csv")
+BPL14 <- read_csv("https://datahub.io/sports-data/english-premier-league/r/season-1415.csv")
 as.tibble(BPL15)
 ```
 
