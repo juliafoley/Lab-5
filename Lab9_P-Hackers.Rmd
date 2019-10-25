@@ -405,6 +405,9 @@ This analysis will help the team make informed questions about the data set and 
 ### Thomas Neal:
 <p>
 #### Questions:
+
+How do shots on goal and shots on target affect overall goals across the season? is it better to take more shots or take more accurate shots?
+
 <p>
 #### Findings:
 
@@ -436,11 +439,53 @@ goaltrys5 <- left_join(goaltrys4, goalsontarget)
 print(goaltrys5)
 ```
 
+On target goals average:
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+ontargetave<- mean(goaltrys5$`Percentage of Goals Made form on target shots`)
+print(ontargetave)
+
+
+```
+
+On target goals SD:
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+OntargetSD<-sd(goaltrys5$`Percentage of Goals Made form on target shots`)
+
+print(OntargetSD)
+
+```
+
+Total shots made/total shots taken average:
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+totalave <- mean(goaltrys5$`Percentage of Goals Made`)
+print(goaltrys5)
+
+
+```
+
+Total shots made/total shots taken SD:
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+totalSD<- sd(goaltrys5$`Percentage of Goals Made`)
+print(totalSD)
+
+```
+
 
 <p>
 #### Advice to Teams:
+
+My advice to the teams would be to take less wild shots on goal. They tend to miss more often and more shots on goals does not correlate to more goals. The teams should make sure the shots they are taking are "on target shots" because on target shots are more likely to result in goals. So if you are gambaling on a game go for the team that takes more controlled shots because it will result in more goals.
+
 <p>
 #### Ethical Considerations:
+
+This is not a foolproof way to predict if a team will win so it may be unethical to recommend a person place a bet off this info.
+
+
 <p>
 ## Individual Plots
 <p>
@@ -586,3 +631,4 @@ I gave a new perspective to the team question, help tydying the data set, in add
 
 
 ### Thomas Neal
+
