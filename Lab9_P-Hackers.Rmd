@@ -19,7 +19,7 @@ as.tibble(BPL15)
 ```
 
 
-```{r}
+```{r, echo=FALSE}
 BPL14_tidy <- BPL14 %>% 
   rename(
   
@@ -51,7 +51,7 @@ as.tibble(BPL14_tidy)
 
 
 
-```{r}
+```{r, echo=FALSE}
 BPL15_tidy <- BPL15 %>% 
   rename(
     "Full_Time_Home_Goals" ="FTHG",
@@ -80,16 +80,23 @@ BPL15_tidy <- BPL15 %>%
 
 
 # Team 
-
+<p>
 ## Question 
 
+What's the Probability that Lecister would win everygame in the 2015-2016 season?
+<p>
 ## Why Important? 
 
+Occurding to ESPN, at the begaining of the 2015-2016, had a 5000 to 1 chance of winning the league. They of course didn't seem to be fazed by the numbers and the rest is history. 
+<p>
 ## Why those reasons are important? 
+
+We know the odds they had to win the league, but we want to see the odds to win every game. Only one team, 2003-2004 Arsenal, went unbeated. They did draw some games but didn't lose one. This has yet to be done again but we want to see if Lecister had a shot.
+<p>
 
 ## Findings/Conclusion
 
-```{r}
+```{r,echo=TRUE}
 LC <- BPL14_tidy %>% gather('HomeTeam', 'AwayTeam', key = 'Home/Away', value = 'team')
 
 LC1 <- LC %>% select(team, Full_Time_Result, Home_Team_Wins_Odds, Away_Team_Wins_Odds)
@@ -116,21 +123,41 @@ LC11 <- LC4 %>% filter(team == "Leicester") %>% rename('odds' = 'mean(odds)')
 
 LC12 <- LC11 %>% select(odds)
 
-LC13 <- LC12/LC10
+LC13 <- LC12/380
+
+LC13
 
 ```
 
-In the 2014-2015 season, Leichester's percentage of wins was 50% and had an average betting odds of 3.6. In the 2015-2016 season, Leichester's percentage of wins was 37% and had an average betting odd of 3.03. 
+In the 2014-2015 season, Leicester's percentage of wins was 50% and had an average betting odds of 3.6. In the 2015-2016 season, Leicester's percentage of wins was 37% and had an average betting odd of 3.03. There odds to win every game though were only just 0.009472645 
 
-Chelsea, who won the english premier league in the 2014-2015 season and the 2016-2017 season, had a average betting odds of 5.17 in the 2014-2015 season and had an average betting odds of 3.67 in the 2015-2016 season. Additionally, Chelsea's percentage of wins for 2014-2015 was 47% and their percentage of wins for 2015-2016 was 32%. 
+To put this into perspective, Chelsea, who won the english premier league in the 2014-2015 season and the 2016-2017 season, had a average betting odds of 5.17 in the 2014-2015 season and had an average betting odds of 3.67 in the 2015-2016 season. Additionally, Chelsea's percentage of wins for 2014-2015 was 47% and their percentage of wins for 2015-2016 was 32%. 
 
-Leichester had a worse season the year they won whereas Chelsea had a better season the year they won. This shows that it would be very hard to predict that leichester would win. 
+Leicester had a worse season the year they won whereas Chelsea had a better season the year they won. This shows that it would be very hard to predict that leichester would win. 
+<p>
+
+
+## Graph
+
+```{r}
+graphdata <- BPL15_tidy %>%
+  filter(`HomeTeam`=="Leicester" & `Full_Time_Result` =="H" | `AwayTeam`=="Leicester" &`Full_Time_Result` == "A") 
+graphdata
+ggplot(graphdata, mapping = aes(`Full_Time_Home_Goals`,`Full_Time_Away_Goals`)) +
+  geom_jitter() +
+  facet_wrap(~`Full_Time_Result`) +
+```
+
 
 ## Recommendation/ Why implementing it is important? 
+<p>
+Leicester's 2015-2016 will likely become into a movie one day. They started the season with hardly known players and created stars. They never took their foot off the breaks, and while they didn't win every game, they managed to get a point by holding onto the draw. They crazy part is they over change the odds week in and week out. Vichai Srivaddhanaprabha's name will be forever engraved in  premier league history, may he rest in peace.
+
+
 
 ## Description of Dataset
 
-
+We first changed the data so that the variable names were readable. Then we tidyed the tibble so that every column has 1 variable and each row has 1 observation. Then we gathered the home and away teams and filtered their betting odds. We summed the odd for Leicester City and divided it by everyteams odds 
 
 
 ## Individual Questions, Findings and Advice to Teams
@@ -143,7 +170,7 @@ How does the number of penalties called relate to the number of scoring chances 
 
 #### Findings:
 
-Scoring opportunites in matches called by a 'good ref' were maximized when the total number of penalties called on the home team didnt exceed 10 with a steep drop off in the number of scoring opportunities as the number of penalties called continued to increase. This could indicate that a moderate approach to attacking the ball carrier and jumping offsides to get an advantage on a break away. Good refs could be more likely to become more strict as a team continues to push their penalty luck throughout a game. On the other hand, in matches called by a 'bad ref', the margin of error for the home team seemed to increase. A steep dropoff in the number of scoring opportunites only came once the number of penalties called exceeded 18. This could mean that the calls made by 'bad refs' don't tend to be ones that take away scoring chances from the home team. They could also be making more calls that allow the home team a better shot on net like a free kick or a penalty kick. This could indicate that a club wishing to maximize thier scoring opportunities can still do so even if they play more aggresively. 
+In order to get the data I needed, I used the dplyr filter function to create different data frames to single out the good refs and bad refs. I created one data frame for M. Oliver and one for A.Taylor and I used a full join to turn them into a new data set called 'good refs'. I repeated this process for the 'bad refs'. I used the dplyr mutate function to sum the total home shots and total home shots on target and called that variable total home scoring chances. In order to get the data I needed, I used the dplyr filter function to create different data frames to single out the good refs and bad refs. I created one data frame for M. Oliver and one for A.Taylor and they used a full join to turn them into a new data set called 'good refs'. I repeated this process for the 'bad refs'. I used the dplyr mutate function to sum the total home shots and total home shots on target and called that variable total home scoring chances. Scoring opportunities in matches called by a 'good ref' were maximized when the total number of penalties called on the home team didn't exceed 10 with a steep drop off in the number of scoring opportunities as the number of penalties called continued to increase. This could indicate that a moderate approach to attacking the ball carrier and jumping offsides to get an advantage on a breakaway. Good refs could be more likely to become more strict as a team continues to push their penalty luck throughout a game. On the other hand, in matches called by a 'bad ref', the margin of error for the home team seemed to increase. A steep dropoff in the number of scoring opportunities only came once the number of penalties called exceeded 18. This could mean that the calls made by 'bad refs' don't tend to be ones that take away scoring chances from the home team. They could also be making more calls that allow the home team a better shot on the net like a free kick or a penalty kick. This could indicate that a club wishing to maximize their scoring opportunities can still do so even if they play more aggressively.
 
 #### Advice to Teams:
 My advice to teams in the BPL is to taylor your strategy to the type of ref calling the match. A better ref could be more strict and could call more penalties likely to deprive you of scoring chances and therefore, a more conservative approach could be of benifit. A worse ref could be more lenient which could be why they're so hated and therefore, a more agressive approach may not be detrimentl to the overall success of your team. 
@@ -254,8 +281,8 @@ I was able to clean up the data so that I could filter through the games where t
 <p>
 This Data shows that no team has secured a victory while being up at half. In the BPL, a team can never take their foot off the gas. My advice is that gambling on Premier league soccer is always a risk because any team can win any game.
 
-
 <p>
+
 ### Nisia Pinto:
 <p>
 #### Questions:
@@ -364,8 +391,10 @@ ggplot(declansdata,mapping=aes(`n`)) +
 ### Julia Foley
 
 I created 14 new data sets in order to answer my question. Within those data sets, I used group_by, select, filter, count, mutate, summarise, mean, rename, cummean, and gather. I created new columns, using mutate, in order to find the probabilties and the percentages. Additionally, I used gather to find the average betting odds accross all of the companies. Lastly, I used ggplot and geom_histogram to plot my data. Additionally, for the team part, I found the statistics and mutate datasets in order to get us the information we need. 
-
+<p>
 ### Declan Franklin
+<p>
+I found the data online and cleaned up the columns. I wrote the background and conclusion about the Leicster's owner and story. For my individual part, I filtered through to see if the team up at half was likely to win the game. I graphed my findings with geom_density() and inserted a mean line using geom_vline.
 
 ### Nisia Pinto 
 
