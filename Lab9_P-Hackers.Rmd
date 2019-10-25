@@ -283,16 +283,123 @@ This Data shows that no team has secured a victory while being up at half. In th
 
 <p>
 
+
+```{r,echo=FALSE, message=FALSE}
+library(tidyverse)
+library(dplyr)
+```
+
+```{r,echo=FALSE, message=FALSE,warning=FALSE}
+BPL14 <- read_csv("https://datahub.io/sports-data/english-premier-league/r/season-1415.csv")
+BPL15 <- read_csv("https://datahub.io/sports-data/english-premier-league/r/season-1516.csv")
+BPL14<-as.tibble(BPL14)
+BPL15<-as.tibble(BPL15)
+```
+
+
+```{r,echo=FALSE, message=FALSE}
+BPL14_tidy <- BPL14 %>% 
+  rename(
+    "Full_Time_Home_Goals" ="FTHG",
+    "Full_Time_Away_Goals" ="FTAG",
+    "Full_Time_Result" ="FTR",
+    "Half_Time_Home_Goals" = "HTHG",
+    "Half_Time_Away_Goals" = "HTAG",
+    "Half_Time_Result"="HTR",
+    "Home_Shots" = "HS",
+    "Away_Shots" ="AS",
+    "Home_Shots_On_Target" = "HST",
+    "Away_Shots_On_Target" = "AST",
+    "Home_Fouls" ="HF",
+    "Away_Fouls" = "AF",
+    "Home_Corners" = "HC",
+    "Away_Corners" = "AC",
+    "Home_Yellows" = "HY",
+    "Away_Yellows" = "AY",
+    "Home_Reds" = "HR",
+    "Away_Reds" = "AR", 
+    "Home_Team_Wins_Odds" = "B365H",
+    "Draw_Odds" = "B365D",
+    "Away_Team_Wins_Odds" = "B365A"
+    
+  )
+```
+
+
 ### Nisia Pinto:
-<p>
-#### Questions:
-<p>
-#### Findings:
-<p>
-#### Advice to Teams:
-<p>
-#### Ethical Considerations:
-<p>
+**Questions:**
+Do high income cities in England Have higher probability of winning compared to the ones with the lowest income?
+H: High income cities have higher probabilities of winning.
+**Findings:**
+Accordind to findawealthmanager.com the highest income city in England is London, Manchester and Liverpool from highest to lowest income ( there are others in-between, but for the purspose of this report, I will analyze these three).London team is Arsenal and Chelsea, Manchester is Manchester City and Manchester United and Liverpool team is Liverpool.
+```{r, echo=FALSE, message=FALSE}
+
+ManC<-BPL14_tidy %>% 
+  filter(HomeTeam=="Man City") %>% mutate("Goals" = `Full_Time_Home_Goals` +`Full_Time_Away_Goals`)%>%
+  select(`Div`,`Date`,`HomeTeam`,`AwayTeam`,`Goals`)
+ManU<-BPL14_tidy %>% 
+  filter(HomeTeam=="Man United")%>% mutate("Goals" = `Full_Time_Home_Goals` +`Full_Time_Away_Goals`)%>%
+  select(`Div`,`Date`,`HomeTeam`,`AwayTeam`,`Goals`)
+Man<-full_join(ManC,ManU)
+Ars<-BPL14_tidy %>% 
+  filter(HomeTeam=="Arsenal")%>% mutate("Goals" = `Full_Time_Home_Goals` +`Full_Time_Away_Goals`)%>%
+  select(`Div`,`Date`,`HomeTeam`,`AwayTeam`,`Goals`)
+Che<-BPL14_tidy %>% 
+  filter(HomeTeam=="Chelsea")%>% mutate("Goals" = `Full_Time_Home_Goals` +`Full_Time_Away_Goals`)%>%
+  select(`Div`,`Date`,`HomeTeam`,`AwayTeam`,`Goals`)
+Lon<-full_join(Ars,Che)
+Liv<-BPL14_tidy %>% 
+  filter(HomeTeam=="Liverpool")%>% mutate("Goals" = `Full_Time_Home_Goals` +`Full_Time_Away_Goals`)%>%
+  select(`Div`,`Date`,`HomeTeam`,`AwayTeam`,`Goals`)
+Tliv<-sum(Liv$Goals)
+TLon<-sum(Lon$Goals)
+TMan<-sum(Man$Goals)
+tot<-sum(Tliv,TLon,TMan)
+a<-TMan/tot
+b<-TLon/tot
+c<-Tliv/tot
+```
+Manchester has 0.4318182 of the goals, London has 0.3787879 of the goals and Liverpool has 0.1893939 of the goals scored in this year.
+
+```{r,echo=FALSE, message=FALSE}
+ManCP<-BPL14_tidy %>% 
+  filter(HomeTeam=="Man City") %>% 
+  select(`Div`,`Date`,`HomeTeam`,`AwayTeam`,`Full_Time_Home_Goals`,`Full_Time_Away_Goals`)
+ManUP<-BPL14_tidy %>% 
+  filter(HomeTeam=="Man United")%>%
+  select(`Div`,`Date`,`HomeTeam`,`AwayTeam`,`Full_Time_Home_Goals`,`Full_Time_Away_Goals`)
+ManP<-full_join(ManCP,ManUP)
+ArsP<-BPL14_tidy %>% 
+  filter(HomeTeam=="Arsenal")%>% 
+  select(`Div`,`Date`,`HomeTeam`,`AwayTeam`,`Full_Time_Home_Goals`,`Full_Time_Away_Goals`)
+CheP<-BPL14_tidy %>% 
+  filter(HomeTeam=="Chelsea")%>% 
+  select(`Div`,`Date`,`HomeTeam`,`AwayTeam`,`Full_Time_Home_Goals`,`Full_Time_Away_Goals`)
+LonP<-full_join(ArsP,CheP)
+LivP<-BPL14_tidy %>% 
+  filter(HomeTeam=="Liverpool")%>% 
+  select(`Div`,`Date`,`HomeTeam`,`AwayTeam`,`Full_Time_Home_Goals`,`Full_Time_Away_Goals`)
+LMAN<-ManP %>% filter(`Full_Time_Home_Goals`==0|`Full_Time_Away_Goals`==0)
+LLon<-LonP %>% filter(`Full_Time_Home_Goals`==0|`Full_Time_Away_Goals`==0)
+LLiv<-LivP %>% filter(`Full_Time_Home_Goals`==0|`Full_Time_Away_Goals`==0)
+TL1<-full_join(LMAN,LLon)
+TL<-full_join(TL1,LLiv)
+#PROBABILITIES OF LOOSING
+M<-count(LMAN)/count(TL)
+L<-count(LLon)/count(TL)
+LV<-count(LLiv)/count(TL)
+```
+The probability of loosing either at home or away is 0.15,0.44 and 0.41 for Liverpool,London and Manchester. Respectively,despite being the among the cities with lower income its football team is significantely good if we consider overall performance. However, Chelsea  which is among the football team among the highest income cities in Englang won the title in this year.
+
+**Tyding the data:**
+
+In this data I used filter, mutate, select and full_join. I used filter to separate the data according to the cities that interest me :London, Manchester and Liverpool. In addition I used filter to filter team by the number of goals, in this case zero. Full join I used to merge the data that I want to work with.
+
+**Advice to Teams:**
+Performance is relatively important in games. Liverpool had a good performance and few losses but did not win the title. The amount of plays you make has to be taken into consideration.
+
+**Ethical Considerations:**
+This analysis will help the team make informed questions about the data set and evaluate results compared to Leicester Team. It is helpful because we can predict outcomes when Leicester city face one of this cities. In addition, with this results we can help lower income football cities because the return will be worth it.
 ### Thomas Neal:
 <p>
 #### Questions:
@@ -379,6 +486,14 @@ ggplot(declansdata,mapping=aes(`n`)) +
 
 ### Nisia Pinto:
 
+```{r,echo=FALSE,message=FALSE, fig.height=5,fig.width=15 }
+data<-full_join(Liv,Man)
+ggplot(data)+
+  geom_point(mapping=aes(x = `AwayTeam`,y=Goals,color=HomeTeam),size = 3) + 
+  xlab('Teams') + ylab('Goals')+
+  ggtitle("Liverpool Team and Manchester Teams")+
+  theme_bw()
+```
 ### Thomas Neal:
 
 
@@ -397,5 +512,8 @@ I created 14 new data sets in order to answer my question. Within those data set
 I found the data online and cleaned up the columns. I wrote the background and conclusion about the Leicster's owner and story. For my individual part, I filtered through to see if the team up at half was likely to win the game. I graphed my findings with geom_density() and inserted a mean line using geom_vline.
 
 ### Nisia Pinto 
+
+I gave a new perspective to the team question, help tydying the data set, in addition I also created formulas to answer my question.
+
 
 ### Thomas Neal
