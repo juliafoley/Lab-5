@@ -49,10 +49,18 @@ BPL14_tidy <- BPL14 %>%
 ```{r}
 BPL14_tidy
 ```
-## Individual Questions
+## Individual Questions, Findings and Advice to Teams
 
 ### Andres Acevedo:
 **Questions:**
+
+How does the number of penalties called relate to the number of scoring chances a particular fotbal club will get in a game? How does this change based on whether a 'good' ref is calling the game and whether a 'bad' ref is calling it? What would you suggest to the club based on your findings?
+
+##Findings
+Scoring opportunites in matches called by a 'good ref' were maximized when the total number of penalties called on the home team didnt exceed 10 with a steep drop off in the number of scoring opportunities as the number of penalties called continued to increase. This could indicate that a moderate approach to attacking the ball carrier and jumping offsides to get an advantage on a break away. Good refs could be more likely to become more strict as a team continues to push their penalty luck throughout a game. On the other hand, in matches called by a 'bad ref', the margin of error for the home team seemed to increase. A steep dropoff in the number of scoring opportunites only came once the number of penalties called exceeded 18. This could mean that the calls made by 'bad refs' don't tend to be ones that take away scoring chances from the home team. They could also be making more calls that allow the home team a better shot on net like a free kick or a penalty kick. This could indicate that a club wishing to maximize thier scoring opportunities can still do so even if they play more aggresively. 
+
+##Advice to Teams
+My advice to teams in the BPL is to taylor your strategy to the type of ref calling the match. A better ref could be more strict and could call more penalties likely to deprive you of scoring chances and therefore, a more conservative approach could be of benifit. A worse ref could be more lenient which could be why they're so hated and therefore, a more agressive approach may not be detrimentl to the overall success of your team. 
 
 ### Julia Foley:
 **Questions:**
@@ -63,7 +71,45 @@ BPL14_tidy
 ### Nisia Pinto:
 **Questions:**
 
-## Individual Questions
-
 ### Thomas Neal:
 **Questions:**
+
+## Individual Plots
+
+### Andres Acevedo:
+```{r, echo = FALSE, warning = FALSE}
+bad_jones <- BPL15_tidy %>% filter(Referee == "M Jones") %>% mutate("tot_pen" = `Home_Fouls`+ `Away_Fouls` ) %>% mutate("tot_goal" = `Full_Time_Home_Goals` + `Full_Time_Away_Goals` )
+
+bad_east <- BPL15_tidy %>% filter(Referee == "R East") %>% mutate("tot_pen" = `Home_Fouls`+ `Away_Fouls` ) %>% mutate("tot_goal" = `Full_Time_Home_Goals` + `Full_Time_Away_Goals` )
+
+bad_refs <- full_join(bad_jones, bad_east)
+bad_refs <- bad_refs %>% mutate("home_score_opp" = Home_Shots + Home_Shots_On_Target )
+
+good_oliver <- BPL15_tidy %>% filter(Referee == "M Oliver") %>% mutate("tot_pen" = `Home_Fouls`+ `Away_Fouls` ) %>% mutate("tot_goal" = `Full_Time_Home_Goals` + `Full_Time_Away_Goals` )
+
+good_taylor <- BPL15_tidy %>% filter(Referee == "A Taylor") %>% mutate("tot_pen" = `Home_Fouls`+ `Away_Fouls` ) %>% mutate("tot_goal" = `Full_Time_Home_Goals` + `Full_Time_Away_Goals` )
+
+good_refs <- full_join(good_oliver, good_taylor)
+good_refs <- good_refs %>% mutate("home_score_opp" = Home_Shots + Home_Shots_On_Target )
+
+ggplot(good_refs) + 
+geom_smooth(se = FALSE, mapping = aes(x = Home_Fouls, y = home_score_opp ), col = 'steelblue') + 
+ggtitle("Home Team Scoring Opportunities vs Penalties for Well Reffed Games") + 
+xlab("Total Penalties") + ylab("Scoring Opportunities") + theme_minimal() + 
+scale_x_continuous(breaks = seq(0,30,1)) + scale_y_continuous(breaks = seq(0,30,1))
+
+ggplot(bad_refs) + 
+geom_smooth(se = FALSE, mapping = aes(x = Home_Fouls, y = home_score_opp ), col = 'red') + 
+ggtitle("Home Team Scoring Opportunities vs Penalties for Poorly Reffed Games") + 
+xlab("Total Penalties") + ylab("Scoring Opportunities") + theme_minimal() + 
+scale_x_continuous(breaks = seq(0,30,1)) + scale_y_continuous(breaks = seq(0,30,1))
+```
+
+
+### Julia Foley:
+
+### Declan Franklin:
+
+### Nisia Pinto:
+
+### Thomas Neal:
