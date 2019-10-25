@@ -408,6 +408,34 @@ This analysis will help the team make informed questions about the data set and 
 <p>
 #### Findings:
 
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+library(reshape2)
+goals <- BPL14_tidy %>% mutate("Percentage of Goals Made"=Full_Time_Home_Goals/Home_Shots*100) %>% group_by(HomeTeam) %>% summarise("Percentage of Goals Made"=mean(`Percentage of Goals Made`))
+
+goalsontarget <- BPL14_tidy %>% mutate("Percentage of Goals Made form on target shots"=Home_Shots_On_Target/Home_Shots*100) %>% group_by(HomeTeam) %>% summarise("Percentage of Goals Made form on target shots"=mean(`Percentage of Goals Made form on target shots`))
+
+shotsongoal <- BPL14_tidy  %>% group_by(HomeTeam) %>% summarise("Shots on goal"=sum(Home_Shots))
+
+
+
+shotsmade <- BPL14_tidy  %>% group_by(HomeTeam) %>% summarise("Goals"=sum(Full_Time_Home_Goals))
+
+
+shotsontarget <- BPL14_tidy  %>% group_by(HomeTeam) %>% summarise("Shots on Target"=sum(Home_Shots_On_Target))
+
+
+goaltrys <- left_join(shotsongoal, shotsmade)
+
+goaltrys3 <- left_join(goaltrys, goals)
+
+goaltrys4 <- left_join(goaltrys3, shotsontarget)
+
+goaltrys5 <- left_join(goaltrys4, goalsontarget)
+
+print(goaltrys5)
+```
+
 
 <p>
 #### Advice to Teams:
