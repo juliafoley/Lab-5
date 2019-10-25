@@ -9,6 +9,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(dplyr)
+library(tidyr)
+library(stringr)
 BPL14 <- read_csv("https://datahub.io/sports-data/english-premier-league/r/season-1415.csv")
 BPL15 <- read_csv("https://datahub.io/sports-data/english-premier-league/r/season-1516.csv")
 as.tibble(BPL14)
@@ -20,6 +22,7 @@ as.tibble(BPL15)
 ```{r}
 BPL14_tidy <- BPL14 %>% 
   rename(
+  
     "Full_Time_Home_Goals" ="FTHG",
     "Full_Time_Away_Goals" ="FTAG",
     "Full_Time_Result" ="FTR",
@@ -43,65 +46,238 @@ BPL14_tidy <- BPL14 %>%
     "Away_Team_Wins_Odds" = "B365A"
     
   ) 
+as.tibble(BPL14_tidy)
 ```
+
 
 
 ```{r}
-BPL14_tidy
+BPL15_tidy <- BPL15 %>% 
+  rename(
+    "Full_Time_Home_Goals" ="FTHG",
+    "Full_Time_Away_Goals" ="FTAG",
+    "Full_Time_Result" ="FTR",
+    "Half_Time_Home_Goals" = "HTHG",
+    "Half_Time_Away_Goals" = "HTAG",
+    "Half_Time_Result"="HTR",
+    "Home_Shots" = "HS",
+    "Away_Shots" ="AS",
+    "Home_Shots_On_Target" = "HST",
+    "Away_Shots_On_Target" = "AST",
+    "Home_Fouls" ="HF",
+    "Away_Fouls" = "AF",
+    "Home_Corners" = "HC",
+    "Away_Corners" = "AC",
+    "Home_Yellows" = "HY",
+    "Away_Yellows" = "AY",
+    "Home_Reds" = "HR",
+    "Away_Reds" = "AR", 
+    "Home_Team_Wins_Odds" = "B365H",
+    "Draw_Odds" = "B365D",
+    "Away_Team_Wins_Odds" = "B365A"
+  )
 ```
+
+
+# Team 
+
+## Question 
+
+## Why Important? 
+
+## Why those reasons are important? 
+
+## Findings/Conclusion
+
+```{r}
+LC <- BPL14_tidy %>% gather('HomeTeam', 'AwayTeam', key = 'Home/Away', value = 'team')
+
+LC1 <- LC %>% select(team, Full_Time_Result, Home_Team_Wins_Odds, Away_Team_Wins_Odds)
+
+LC2 <- LC1 %>% group_by(team) %>% select(team, Full_Time_Result, Home_Team_Wins_Odds, Away_Team_Wins_Odds) %>% filter(Full_Time_Result == "H") %>% count(Full_Time_Result) %>% mutate(per = n / 38)
+
+LC3 <- LC1 %>% gather('Home_Team_Wins_Odds', 'Away_Team_Wins_Odds', key = 'home/away', value = 'odds') 
+
+LC4 <- LC3 %>% group_by(team) %>% summarise(mean(odds))
+
+LC5 <- BPL15_tidy %>% gather('HomeTeam', 'AwayTeam', key = 'Home/Away', value = 'team')
+
+LC6 <- LC5 %>% select(team, Full_Time_Result, Home_Team_Wins_Odds, Away_Team_Wins_Odds)
+
+LC7 <- LC6 %>% group_by(team) %>% select(team, Full_Time_Result, Home_Team_Wins_Odds, Away_Team_Wins_Odds) %>% filter(Full_Time_Result == "H") %>% count(Full_Time_Result) %>% mutate(per = n / 38)
+
+LC8 <- LC6 %>% gather('Home_Team_Wins_Odds', 'Away_Team_Wins_Odds', key = 'home/away', value = 'odds') 
+
+LC9 <- LC8 %>% group_by(team) %>% summarise(mean(odds))
+
+LC10 <- LC3 %>% filter(team == "Leicester") %>% summarise(sum(odds))
+
+LC11 <- LC4 %>% filter(team == "Leicester") %>% rename('odds' = 'mean(odds)')
+
+LC12 <- LC11 %>% select(odds)
+
+LC13 <- LC12/LC10
+
+```
+
+In the 2014-2015 season, Leichester's percentage of wins was 50% and had an average betting odds of 3.6. In the 2015-2016 season, Leichester's percentage of wins was 37% and had an average betting odd of 3.03. 
+
+Chelsea, who won the english premier league in the 2014-2015 season and the 2016-2017 season, had a average betting odds of 5.17 in the 2014-2015 season and had an average betting odds of 3.67 in the 2015-2016 season. Additionally, Chelsea's percentage of wins for 2014-2015 was 47% and their percentage of wins for 2015-2016 was 32%. 
+
+Leichester had a worse season the year they won whereas Chelsea had a better season the year they won. This shows that it would be very hard to predict that leichester would win. 
+
+## Recommendation/ Why implementing it is important? 
+
+## Description of Dataset
+
+
+
+
 ## Individual Questions, Findings and Advice to Teams
 
 ### Andres Acevedo:
-**Questions:**
+
+#### Questions:
+
 How does the number of penalties called relate to the number of scoring chances a particular fotbal club will get in a game? How does this change based on whether a 'good' ref is calling the game and whether a 'bad' ref is calling it? What would you suggest to the club based on your findings?
 
-**Findings:**
-In order to get the data I needed, I used the dplyr filter function to create different dataframes to single out the good refs and bad refs. I created one dataframe for M. Oliver and one for A.Taylor and they I used a full join to turn them into a new data set called 'good refs'. I repeated this process for the 'bad refs'. I used the dplyr mutate function to sum the total home shots and total home shots on target and called that variable total home scoring chances. Scoring opportunites in matches called by a 'good ref' were maximized when the total number of penalties called on the home team didnt exceed 10 with a steep drop off in the number of scoring opportunities as the number of penalties called continued to increase. This could indicate that a moderate approach to attacking the ball carrier and jumping offsides to get an advantage on a break away. Good refs could be more likely to become more strict as a team continues to push their penalty luck throughout a game. On the other hand, in matches called by a 'bad ref', the margin of error for the home team seemed to increase. A steep dropoff in the number of scoring opportunites only came once the number of penalties called exceeded 18. This could mean that the calls made by 'bad refs' don't tend to be ones that take away scoring chances from the home team. They could also be making more calls that allow the home team a better shot on net like a free kick or a penalty kick. This could indicate that a club wishing to maximize thier scoring opportunities can still do so even if they play more aggresively. 
+#### Findings:
 
-**Advice to Teams:**
+Scoring opportunites in matches called by a 'good ref' were maximized when the total number of penalties called on the home team didnt exceed 10 with a steep drop off in the number of scoring opportunities as the number of penalties called continued to increase. This could indicate that a moderate approach to attacking the ball carrier and jumping offsides to get an advantage on a break away. Good refs could be more likely to become more strict as a team continues to push their penalty luck throughout a game. On the other hand, in matches called by a 'bad ref', the margin of error for the home team seemed to increase. A steep dropoff in the number of scoring opportunites only came once the number of penalties called exceeded 18. This could mean that the calls made by 'bad refs' don't tend to be ones that take away scoring chances from the home team. They could also be making more calls that allow the home team a better shot on net like a free kick or a penalty kick. This could indicate that a club wishing to maximize thier scoring opportunities can still do so even if they play more aggresively. 
+
+#### Advice to Teams:
 My advice to teams in the BPL is to taylor your strategy to the type of ref calling the match. A better ref could be more strict and could call more penalties likely to deprive you of scoring chances and therefore, a more conservative approach could be of benifit. A worse ref could be more lenient which could be why they're so hated and therefore, a more agressive approach may not be detrimentl to the overall success of your team. 
 
-**Ethical Considerations:**
+#### Ethical Considerations:
+
 Hopefully this analysis would help ny team that chose to hire me. I would hope that this analysis would help them taylor their approach to each game depending on the type of ref they are getting. I would hope that this analysis would harm any team that did not hire me and would encourage them to do so. On a more serious note, it may be unethical to name certain refs as 'good' or 'bad' based on the suggestion of a dubious news source like Telegraph UK. Differences between refs can often be chalked up to differences in perception but it's undenieable that there are differences in the way refs call games and that there is value in trying to anticipate what a ref would be likely to do when calling a match that includes your team. 
 
 ### Julia Foley:
-**Questions:**
+<p>
+```{r}
+homewin2 <- BPL15_tidy %>% group_by(HomeTeam) %>% select(HomeTeam, Full_Time_Result) %>% filter(Full_Time_Result == "H") %>% count(Full_Time_Result) %>% select(HomeTeam, n) %>% mutate(per = n / 19)
 
-**Findings:**
 
-**Advice to Teams:**
+homewin <- BPL15_tidy %>% group_by(HomeTeam) %>% select(HomeTeam, BbAvH) %>% summarise(mean(BbAvH))
 
-**Ethical Considerations:**
 
+homewin1 <- BPL15_tidy %>% group_by(HomeTeam) %>% select(HomeTeam, Home_Shots) %>% summarise(mean(Home_Shots))
+
+homewin3 <- BPL15_tidy %>% group_by(HomeTeam) %>% select(HomeTeam, Home_Shots_On_Target) %>% summarise(mean(Home_Shots_On_Target))
+
+homewin4 <- BPL15_tidy %>% group_by(HomeTeam) %>% select(HomeTeam, Home_Shots_On_Target, Home_Shots) %>% mutate(hstp = cummean(Home_Shots_On_Target)) %>% mutate(hsp = cummean(Home_Shots)) %>% mutate(accur = hstp/hsp) %>% summarise(mean(accur))
+
+homewin5 <- BPL15_tidy %>% group_by(HomeTeam) %>% select(HomeTeam, Home_Corners) %>% summarise(mean(Home_Corners))
+
+
+astonv <- BPL15_tidy %>% filter(HomeTeam == "Aston Villa") %>% select(HomeTeam, Home_Team_Wins_Odds, BWH, IWH, LBH, PSH, VCH, WHH) %>% gather('Home_Team_Wins_Odds', 'BWH', 'IWH', 'LBH', 'PSH', 'VCH', 'WHH', key = 'company', value = 'odds')
+
+mancity <- BPL15_tidy %>% filter(HomeTeam == "Man City") %>% select(HomeTeam, Home_Team_Wins_Odds, BWH, IWH, LBH, PSH, VCH, WHH) %>% gather('Home_Team_Wins_Odds', 'BWH', 'IWH', 'LBH', 'PSH', 'VCH', 'WHH', key = 'company', value = 'odds') 
+
+astonv1 <- astonv %>% group_by(company) %>% summarise(mean(odds)) %>% rename("odds" = "mean(odds)")
+
+mancity1 <- mancity %>% group_by(company) %>% summarise(mean(odds))
+
+astonv2 <- astonv %>% summarise(mean(odds))
+
+
+mancity2 <- mancity %>% summarise(mean(odds))
+
+
+astonwin <- BPL15_tidy %>% filter(HomeTeam == "Aston Villa")
+
+mancitywin <- BPL15_tidy %>% filter(HomeTeam == "Man City")
+
+```
+
+#### Questions:
+
+Specifically focusing on Aston Villa and Manchester City, is there a correlation between betting odds and number of wins? What contributed to the number of home wins Astin Villa and Man City had in the 15-16 season?
+
+#### Hypothesis:
+
+Manchester City, who has the lowest average betting odds, will have more home wins than Aston Villa, who has the highest average betting odds because betting odds increase as the chances of winning decrease. Additionally, as the number of shots on goal increase, the number of wins will increase. 
+
+#### Findings:
+
+Manchester City had the lowest average betting odds and the highest number of wins whereas Aston Villa had the highest average betting odds and the lowest number of wins. Manchester City had an average of 1.52 per game betting odds according to BetBrain. Aston Villa had an average of 4.23 per game betting odds according to BetBrain. Manchester City had an average of 1.53 per game betting odds according to Pinnacle. Aston Villa had an average of 4.39 per game betting odds according to Pinnacle. Manchester City had an average of 1.53 per game betting odds according to Bet&Win. Aston Villa had an average of 4.15 per game betting odds according to Bet&Win. Manchester City had an average of 1.53 per game betting odds according to Bet365. Aston Villa had an average of 4.41 per game betting odds according to Bet365. Manchester City had an average of 1.5 per game betting odds according to Interwetten. Aston Villa had an average of 3.84 per game betting odds according to Interwetten. Manchester City had an average of 1.52 per game betting odds according to Ladbrokes. Aston Villa had an average of 4.22 per game betting odds according to Ladbrokes. Manchester City had an average of 1.52 per game betting odds according to VC. Aston Villa had an average of 4.47 per game betting odds according to VC. Manchester City had an average of 1.54 per game betting odds according to William Hill. Aston Villa had an average of 4.37 per game betting odds according to William Hill. The accuracy of the betting odds are supported by the number of wins, the number of shots on goal, the accuracy of shots on goal, and the number of corners. Manchester won 12 out of 19 home games in the 2015-2016 season with a 63% chance of winning at home. Aston Villa, on the other hand, won 2 out of 19 home games in the 2015-2016 season with a 11% chance of winning at home. Additionally, Manchester City had an average of 18.26 shots on goal per game whereas Aston Villa had an average of 10.84 shots on goal per game. Manchester City had a higher probability of being on target when shooting on goal with a 28.1% accuracy as compared with a 27.9% accuracy of Aston Villa. Additionally, Manchester City had an average of 8.16 corners during a home game whereas, Aston Villa only had an average of 4.95 corners per home game.  
+
+
+#### Conclusion/Advice to Teams:
+
+My hypothesis was correct. Manchester City had a higher number of wins, shots on goal, accuracy and corners than Aston Villa. This supports the accuracy of the betting odds since the betting companies correctly predicted that Manchester City would win more than Aston Villa. This means that generally a gambler can trust the betting odds when placing their bet. Additionally, the statistics and the data show a correlation between betting odds, wins, shots on goal, accuracy, and number of corners when at home. I have found that as the betting on decreases, the number of wins, the probability of winning, the number of shots on goal, the accuracy of the shots, and the number of corners in a home game increase. Though, I just specifically anaylzed two teams, the statistics and accuracy hold for most of the teams. Due to the accuracy of the betting odds, I would advise gamblers to bet with the teams who have lower betting odds because statistically, they will win. My findings help betting companies because it shows that their probabilities are not a fraud/scam and are accurate. 
+<p>
+
+#### Ethical Consideration 
+
+My findings help betting companies because it shows that their probabilities are not a fraud/scam and are accurate. Additionally, My findings would help the gamblers because it shows that the betting companies are giving accurate odds and therefore, the gamblers can trust them.
+
+<p>
 ### Declan Franklin:
-**Questions:**
+<p>
+#### Questions:
 
-**Findings:**
+What's the probability that in the 2014-2015 season, teams winning at half time will win the game?
 
-**Advice to Teams:**
+<p>
+#### Findings:
 
-**Ethical Considerations:**
+```{r,echo=FALSE}
+BPL14_tidy %>%
+  filter(`Full_Time_Result` != "D") %>%
+  summarise(sum=n())
+```
 
+<p>
+
+```{r,echo=FALSE}
+declansdata <- BPL14_tidy %>%
+  select(-Div,-BWH,-BWD,-BWA,-IWH,-IWD,-LBH,-LBD,-LBA,-PSH,-PSD,-PSA,-WHH,-WHD,-SJH,-SJD,-SJA,-VCH,VCD,-VCA,-Bb1X2,-BbMxH, -BbAvH,-BbMxD,-BbAvD,-BbMxA,-BbAvA,-`BbMx>2.5`,-`BbAv<2.5`,-`BbMx<2.5`,-BbAHh,-BbAH,-BbMxAHA,-BbAvAHH,-BbMxA,-IWA,-WHA,-VCD,-BbOU,-`BbAv>2.5`,-BbMxAHH,-BbAvAHA,-PSCH,-PSCD,-PSCA) %>%
+select(`HomeTeam`,`AwayTeam`,Half_Time_Away_Goals,Half_Time_Home_Goals,Half_Time_Result,Full_Time_Result) %>%
+  
+filter(`Full_Time_Result`!= "D" & `Half_Time_Result` !="D") %>%
+mutate("Win_After_Up_At_Half"=as.numeric(`Half_Time_Result` == `Full_Time_Result`)) %>%
+group_by(Full_Time_Result,Half_Time_Result) %>%
+count()
+
+
+declansdata
+```
+
+<p> 
+I was able to clean up the data so that I could filter through the games where the half time result equals the full-time result (not including draws). The Data shows that out of the 380 matches, 168 of the games, the team up at half will win the Game. That's roughly just 44% of the time. Being up at half does not mean the game is over yet.
+
+
+
+<p>
+#### Advice to Teams:
+<p>
+This Data shows that no team has secured a victory while being up at half. In the BPL, a team can never take their foot off the gas. My advice is that gambling on Premier league soccer is always a risk because any team can win any game.
+
+
+<p>
 ### Nisia Pinto:
-**Questions:**
-
-**Findings:**
-
-**Advice to Teams:**
-
-**Ethical Considerations:**
-
+<p>
+#### Questions:
+<p>
+#### Findings:
+<p>
+#### Advice to Teams:
+<p>
+#### Ethical Considerations:
+<p>
 ### Thomas Neal:
-**Questions:**
-
-**Findings:**
-
-**Advice to Teams:**
-
-**Ethical Considerations:**
-
+<p>
+#### Questions:
+<p>
+#### Findings:
+<p>
+#### Advice to Teams:
+<p>
+#### Ethical Considerations:
+<p>
 ## Individual Plots
-
+<p>
 ### Andres Acevedo:
 ```{r, echo = FALSE, warning = FALSE}
 bad_jones <- BPL15_tidy %>% filter(Referee == "M Jones") %>% mutate("tot_pen" = `Home_Fouls`+ `Away_Fouls` ) %>% mutate("tot_goal" = `Full_Time_Home_Goals` + `Full_Time_Away_Goals` )
@@ -133,9 +309,64 @@ scale_x_continuous(breaks = seq(0,30,1)) + scale_y_continuous(breaks = seq(0,30,
 
 
 ### Julia Foley:
+<p>
+
+```{r, echo=FALSE}
+ggplot(data = astonv, mapping = aes(x = odds)) +
+  geom_histogram(binwidth = .2) +
+  labs(title = "Aston Villa's Betting Odds")
+```
+
+```{r, echo=FALSE}
+ggplot(data = mancity, mapping = aes(x = odds)) +
+  geom_histogram(binwidth = .05) +
+  labs(title = "Manchester City's Betting Odds")
+```
+
+```{r, echo=FALSE}
+ggplot(data = astonwin, mapping = aes(x = Full_Time_Result)) +
+  geom_bar() + 
+  labs(title = "Aston Villa's Home Game Wins", subtitle = "A = Away won, D = Draw, H = Aston Villa Won", x = "Result at End of Game")
+```
+
+```{r, echo=FALSE}
+ggplot(data = mancitywin, mapping = aes(x = Full_Time_Result)) +
+  geom_bar() +
+  labs(title = "Manchester City's Home Game Wins", subtitle = "A = Away won, D = Draw, H = Manchester City Won", x = "Result at End of Game")
+```
+
 
 ### Declan Franklin:
+
+
+```{r}
+
+ggplot(declansdata,mapping=aes(`n`)) +
+  geom_density(fill=4) + 
+  geom_vline(aes(xintercept = mean(`n`))) +
+
+  labs(x = "Teams That Win After Being Up At Half")
+```
+
+
 
 ### Nisia Pinto:
 
 ### Thomas Neal:
+
+
+
+
+## Summary of Who did What
+
+### Andres Acevedo
+
+### Julia Foley
+
+I created 14 new data sets in order to answer my question. Within those data sets, I used group_by, select, filter, count, mutate, summarise, mean, rename, cummean, and gather. I created new columns, using mutate, in order to find the probabilties and the percentages. Additionally, I used gather to find the average betting odds accross all of the companies. Lastly, I used ggplot and geom_histogram to plot my data. Additionally, for the team part, I found the statistics and mutate datasets in order to get us the information we need. 
+
+### Declan Franklin
+
+### Nisia Pinto 
+
+### Thomas Neal
