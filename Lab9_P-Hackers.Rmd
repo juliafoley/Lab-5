@@ -632,3 +632,5 @@ I gave a new perspective to the team question, help tydying the data set, in add
 
 ### Thomas Neal
 
+I helped to tidy the data. I also made some good graphs to help visualize the data. I also help in formatting and creating the team lab.
+
