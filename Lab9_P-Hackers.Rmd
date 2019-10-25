@@ -49,4 +49,21 @@ BPL14_tidy <- BPL14 %>%
 ```{r}
 BPL14_tidy
 ```
+## Individual Questions
 
+### Andres Acevedo:
+**Questions:**
+
+### Julia Foley:
+**Questions:**
+
+### Declan Franklin:
+**Questions:**
+
+### Nisia Pinto:
+**Questions:**
+
+## Individual Questions
+
+### Thomas Neal:
+**Questions:**
