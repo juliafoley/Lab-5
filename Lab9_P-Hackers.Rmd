@@ -53,26 +53,52 @@ BPL14_tidy
 
 ### Andres Acevedo:
 **Questions:**
-
 How does the number of penalties called relate to the number of scoring chances a particular fotbal club will get in a game? How does this change based on whether a 'good' ref is calling the game and whether a 'bad' ref is calling it? What would you suggest to the club based on your findings?
 
-##Findings
+**Findings:**
 Scoring opportunites in matches called by a 'good ref' were maximized when the total number of penalties called on the home team didnt exceed 10 with a steep drop off in the number of scoring opportunities as the number of penalties called continued to increase. This could indicate that a moderate approach to attacking the ball carrier and jumping offsides to get an advantage on a break away. Good refs could be more likely to become more strict as a team continues to push their penalty luck throughout a game. On the other hand, in matches called by a 'bad ref', the margin of error for the home team seemed to increase. A steep dropoff in the number of scoring opportunites only came once the number of penalties called exceeded 18. This could mean that the calls made by 'bad refs' don't tend to be ones that take away scoring chances from the home team. They could also be making more calls that allow the home team a better shot on net like a free kick or a penalty kick. This could indicate that a club wishing to maximize thier scoring opportunities can still do so even if they play more aggresively. 
 
-##Advice to Teams
+**Advice to Teams:**
 My advice to teams in the BPL is to taylor your strategy to the type of ref calling the match. A better ref could be more strict and could call more penalties likely to deprive you of scoring chances and therefore, a more conservative approach could be of benifit. A worse ref could be more lenient which could be why they're so hated and therefore, a more agressive approach may not be detrimentl to the overall success of your team. 
+
+**Ethical Considerations:**
+Hopefully this analysis would help ny team that chose to hire me. I would hope that this analysis would help them taylor their approach to each game depending on the type of ref they are getting. I would hope that this analysis would harm any team that did not hire me and would encourage them to do so. On a more serious note, it may be unethical to name certain refs as 'good' or 'bad' based on the suggestion of a dubious news source like Telegraph UK. Differences between refs can often be chalked up to differences in perception but it's undenieable that there are differences in the way refs call games and that there is value in trying to anticipate what a ref would be likely to do when calling a match that includes your team. 
 
 ### Julia Foley:
 **Questions:**
 
+**Findings:**
+
+**Advice to Teams:**
+
+**Ethical Considerations:**
+
 ### Declan Franklin:
 **Questions:**
+
+**Findings:**
+
+**Advice to Teams:**
+
+**Ethical Considerations:**
 
 ### Nisia Pinto:
 **Questions:**
 
+**Findings:**
+
+**Advice to Teams:**
+
+**Ethical Considerations:**
+
 ### Thomas Neal:
 **Questions:**
+
+**Findings:**
+
+**Advice to Teams:**
+
+**Ethical Considerations:**
 
 ## Individual Plots
 
