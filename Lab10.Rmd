@@ -1,0 +1,45 @@
+---
+title: "Lab10"
+author: "Thomas Neal"
+date: "10/29/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+```
+
+
+```{r}
+Questions <- read_csv("~/DataScience/lab10/Questions_trunc.csv")
+
+Answers <- read_csv("~/DataScience/lab10/Answers_trunc.csv")
+
+
+```
+
+
+```{r}
+qanda <- Answers %>% left_join(Questions, c('ParentId' = 'Id'))
+
+qanda <- qanda %>% mutate(total_time = CreationDate.x - CreationDate.y) %>% filter(total_time>0)
+
+qanda <- qanda %>% select(c(-X7.x,-X7.y))
+
+qanda 
+```
+
+
+```{r}
+qanda <- qanda %>% separate(CreationDate.x, c("DateX","TimeX"), sep="T", remove=TRUE, convert=FALSE, extra="warn", fill="warn")
+
+qanda <- qanda %>% separate(CreationDate.y, c("DateY","TimeY"), sep="T", remove=TRUE, convert=FALSE, extra="warn", fill="warn")
+
+qanda <- qanda %>% select(c(-X.x,-X.y))
+
+ qanda
+```
+
+
