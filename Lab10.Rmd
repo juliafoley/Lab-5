@@ -1,6 +1,6 @@
 ---
 title: "Lab10"
-author: "Thomas Neal"
+author: "P-Hackers"
 date: "10/29/2019"
 output: html_document
 ---
@@ -31,15 +31,5 @@ qanda <- qanda %>% select(c(-X7.x,-X7.y))
 qanda 
 ```
 
-
-```{r}
-qanda <- qanda %>% separate(CreationDate.x, c("DateX","TimeX"), sep="T", remove=TRUE, convert=FALSE, extra="warn", fill="warn")
-
-qanda <- qanda %>% separate(CreationDate.y, c("DateY","TimeY"), sep="T", remove=TRUE, convert=FALSE, extra="warn", fill="warn")
-
-qanda <- qanda %>% select(c(-X.x,-X.y))
-
- qanda
-```
 
 
