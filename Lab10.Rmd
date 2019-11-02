@@ -9,16 +9,15 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(lubridate)
-```
-
-
-```{r}
 Questions <- read_csv("~/DataScience/lab10/Questions_trunc.csv")
 
 Answers <- read_csv("~/DataScience/lab10/Answers_trunc.csv")
-
-
+colnames(Answers)
+colnames(Questions)
+str(Answers)
+str(Questions)
 ```
+
 
 
 ```{r}
@@ -29,6 +28,9 @@ qanda <- qanda %>% mutate(total_time = CreationDate.x - CreationDate.y) %>% filt
 qanda <- qanda %>% select(c(-X7.x,-X7.y))
 
 qanda 
+
+colnames(qanda)
+str(qanda)
 ```
 
 
@@ -41,5 +43,176 @@ qanda <- qanda %>% select(c(-X.x,-X.y))
 
  qanda
 ```
+# Individual 
 
+## Andres Acevedo
+
+### The Relationship I am Examining
+
+### Plots
+
+### My Findings
+
+## Julia Foley
+```{r}
+q_linkj <- questions %>% mutate(link = str_count(Title))
+
+mergedj <- answers %>% left_join(q_linkj, c('ParentId' = 'Id')) 
+
+colnames(mergedj)
+str(mergedj)
+
+mergedj <- mergedj %>% 
+  mutate(total_time = CreationDate.x - CreationDate.y) %>%
+  filter(total_time>0)
+
+mergedj <- mergedj %>% 
+  mutate(total_score = Score.x + Score.y) 
+
+
+mergedj <- mergedj %>% select(c(-X7.x,-X7.y)) 
+
+merged1 <- mergedj %>% summarise(quantile(link, .5))
+
+
+merged2 <- mergedj %>% mutate(long = link > 48 )
+
+``` 
+
+```{r}
+merged3 <- merged2 %>% filter(total_time < 6280) %>% filter(long == 'FALSE') %>% mutate(high = total_score > 50) 
+merged4 <- merged3 %>% select(high) %>% filter(high == 'FALSE')
+merged5 <- 9154/10963
+merged6 <- 10963-9154 
+merged7 <- merged6/10963
+merged8 <- merged2 %>% filter(total_time > 6280) %>% filter(long == 'TRUE') %>% mutate(high = total_score > 50) 
+merged9 <- merged8 %>% select(high) %>% filter(high == 'TRUE')
+merged10 <- 704/5427
+merged11 <- merged6/32090
+merged12 <- 704/32090
+```
+### The Relationship I am Examining
+
+I am examing the relationship between the 50th percentile of the Title Length, the median of total time, and the Score. 
+
+
+### Plots
+
+```{r}
+ggplot(data = merged3, mapping = aes(x = high)) + 
+  geom_bar() + 
+  labs(title = 'Score of IDs with a Title Length below 48 and a Total Time below 6280', x = 'Score > 50', y = 'Number of Ids', subtitle = 'False = Score < 50, True = Score > 50' )
+```
+
+```{r}
+ggplot(data = merged8, mapping = aes(x = high)) + 
+  geom_bar() + 
+  labs(title = 'Score of IDs with a Title Length above 48 and a Total Time above 6280', x = 'Score > 50', y = 'Number of Ids', subtitle = 'False = Score < 50, True = Score > 50' )
+```
+
+### My Findings
+
+The 50th percentile of length of a title is 48. The median of total time is 6280. 
+
+17% of ParentIds have a score of above 50 when they have a title length below 48 and a total time below 6280. This shows that the score is lower when there is a title length below 48 and a total time below 6280. 
+
+Additionally, 13% of ParentIds have a score above 50 when they have a title length above 48 and a total time above 6280.  This shows that the score is lower when there is a title length above 48 and a total time above 6280.  
+
+Additionally, 6% of all ParentIds have a score above 50, a title length of below 48, and a total time below 6280. 2% of all ParentIds have a score above 50, a title length of above 48, and a total time above 6280. 
+
+This shows that it is very uncommon for there to be a score of above 50 when both the title length and the total time are below the median and it is very uncommon for there to be a score of above 50 when both the title length and the total time are above the median. 
+
+I can conclude that scores are higher when the title length and the total time are not both below the median or both above the median. 
+
+
+## Declan Franklin
+
+### The Relationship I am Examining
+
+### Plots
+
+### My Findings
+
+## Thomas Neal 
+
+### The Relationship I am Examining
+
+### Plots
+
+### My Findings
+
+## Nisia Pinto
+
+### The Relationship I am Examining
+
+### Plots
+
+### My Findings 
+
+
+# Team 
+
+## Timeliness of the Answer and Score 
+
+```{r}
+
+quest1 <- merged2 %>% group_by(ParentId) 
+quest5 <- quest1 %>% summarise(mtime = mean(total_time)) 
+
+
+quest2 <- quest5 %>% summarise(mean(mtime))
+quest3 <- quest5 %>% mutate(mavg = mtime > 613852) 
+quest7 <- quest3 %>% filter(mavg == 'TRUE') 
+quest8 <- 1476/9933 
+
+merged <- qanda %>% 
+  mutate(total_time = CreationDate.x - CreationDate.y) %>%
+  filter(total_time>0)
+```
+
+```{r}
+ggplot(merged) + geom_histogram(aes(Score.x), bins=100) +
+  xlim(c(0, 100))
+```
+
+```{r}
+ggplot(merged) + geom_density(aes(Score.x)) + 
+  xlim(c(0, 50))
+```    
+
+```{r}
+ggplot(merged) + geom_density(aes(total_time)) + xlim(c(0, 2000))
+
+```
+
+```{r}
+ggplot(data = (merged)) + 
+  geom_point(mapping = aes(x = total_time, y = Score.x), size=0.1)
+```
+
+The plot shows that higher scores generally have lower total times, Therefore it can be concluded that there is a higher chance of a higher score when the timeliness of the score is lower. 
+
+Additionally, we can conclude that there is a higher probability of a higher score on the first answer as opposed to the second answer. 
+
+We can use calculate the z-scores and percentiles of an individual's scores because we can find the mean, standard deviation, and quantiles of the total time and the score. For example, we could find the percentile of an indidual's score overall or we could find the percentile of an individual's score based on the timeliness of the answer. 
+
+
+## What features affect the score the most 
+
+## Why those features affect the score the most 
+
+# What each Team Member did? 
+
+## Andres Acevedo 
+
+## Julia Foley
+
+I counted the lengths of the title using str_count then found the 50th percentile using quantile. I, then, used left_join to combine the answers and questions data using left_join. Then, I found the total time by subtracting the two creation dates and total score by adding the two scores using mutate. Then, I found the median of the Total Time. Next I mutated and filtered to have a data set that included ParentIds with a Title Length below the 50th percentile and a Total Time below the median. I then found how many of those had a score over 50. I then repeated the process for both above the median. Additionally, I created the outline for the lab. Additionally, I worked on examining the relationship between timliness of an answer and its score. 
+
+
+## Declan Franklin
+
+## Thomas Neal
+
+## Nisia Pinto 
 
