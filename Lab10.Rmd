@@ -45,13 +45,45 @@ qanda <- qanda %>% select(c(-X.x,-X.y))
 ```
 # Individual 
 
-## Andres Acevedo
-
+## Andres Acevedo 
+ 
 ### The Relationship I am Examining
+  I chose to examine the relationship between the length of the Question and the quality(score) of the answer given to that question. I had a feeling that if a question were too long, it might be incoherent and hard to answer. I expected that slightly longer questions which might contain more detail but be more cogent than longer questions to get the best answers. 
+  To go along with this, I included an exploration of the relationship between the length of an answer to a question and the score given to that answer. I applied the same logic to this that I did to the previous question with one caveat. Programming is very precise and when I'm looking for help, I get a lot of benifit from detailed answers that include examples as well as explanation of general concepts. This led me to believe that longer answers would be given higher scores than shorter answers that may be incomplete or miss the point entirely. 
 
-### Plots
+ 
+### Plots 
+```{r, echo = FALSE, warning= FALSE}
+#Data Tidying
+#converting time since question to answer to hours from seconds.
+qanda <- qanda %>% mutate(total_time_hours = total_time /3600) %>% 
+select(-total_time) %>% 
+mutate(`Answer_len` = str_length(Body.x))
 
-### My Findings
+#adding zscore for answer length and question length.
+qanda <- qanda %>% 
+mutate(ans_length = str_length(Body.x)) %>% 
+mutate(quest_len = str_length(Body.y)) %>% 
+mutate(zscore_anslen = abs(mean(ans_length) - ans_length)/sd(ans_length)) %>% 
+mutate(zscore_queslen = abs(mean(quest_len) - quest_len)/sd(quest_len))
+
+#ANDRES PLOT OF zcore for question length vs answer score(do longer questions yield better answers? or are long questions not necessarily precise enough to yield good questions?)
+ggplot(qanda, aes(x = zscore_queslen, y = Score.x)) + 
+geom_smooth(se = FALSE, col = 'steelblue') + ggtitle("Z-Scores of Question Length vs Answer Score") + 
+ylab('Answer Score') + xlab('Question Length Z-Score') + 
+theme_minimal() + xlim(0,10) + geom_hline(yintercept = mean(qanda$Score.x), col = "red")
+
+ggplot(qanda, aes(x = zscore_anslen, y = Score.x)) + 
+geom_smooth(se = FALSE, col = 'steelblue') + 
+ggtitle("Z-Scores of Answer Length vs Answer Score") + 
+ylab('Answer Score') + xlab('Answer Length Z-Score') + theme_minimal() + 
+xlim(0,10) + geom_hline(yintercept = mean(qanda$Score.x), col = "red") 
+#I limited the xlimits to 0,5 because the vast majority of answers have zscores between 0 and 5 and being more than 10 sds from the mean makes you a significant outlier and worthy of removal so as to maintain the accuracy of the general trend.
+```
+
+### My Findings 
+Questions: The plot confirms my hypothesis. It seems as though answer scores are highest when the question is longer than avg but not too long. This tells me that too long of a question may not be precise enough to result in a good answer. The person answering may not have a complete idea of exactly what a longer question is trying to ask and may end up answering multiple questions or miss the original intent of the post completely.  
+Answers: My plots seem to confirm my suspicions. As a general rule, longer answers seem to be rated higher than shorter ones. This could be due to the amount of detail given in longer answers versus the limited amount given in short answers. Programming is very precise and when I'm looking for help, I get a lot of benefits from detailed answers that include examples as well as an explanation of general concepts. I limited the x-limits to [0,5]. I did this because the vast majority of answers have z-scores between 0 and 5 and being more than 10 standard deviations from the mean makes you a significant outlier and worthy of removal to maintain the accuracy of the general trend. The more standard deviations from the mean the length of the answer(higher z-score), the higher the score it's given.
 
 ## Julia Foley
 ```{r}
