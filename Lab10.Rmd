@@ -34,15 +34,7 @@ str(qanda)
 
 <<<<<<< HEAD
 =======
-```{r}
-qanda <- qanda %>% separate(CreationDate.x, c("DateX","TimeX"), sep="T", remove=TRUE, convert=FALSE, extra="warn", fill="warn")
 
-qanda <- qanda %>% separate(CreationDate.y, c("DateY","TimeY"), sep="T", remove=TRUE, convert=FALSE, extra="warn", fill="warn")
-
-qanda <- qanda %>% select(c(-X.x,-X.y))
-
- qanda
-```
 # Individual 
 
 ## Andres Acevedo 
@@ -264,6 +256,15 @@ After running the numbers, it's safe to say, the Score of the question is simila
 I am examining the relationship between the word count and score. I will look at both the question and answer lengths to find what length gives the best score. To do this I will filter to have only unique posts. I then count the words in the body. I then look at the top 200 posts with the highest scores. This will give an average word length to aim for when trying to create a good post.
 
 ### Plots and Data
+
+```{{r, echo=FALSE, warning=FALSE, message=FALSE}
+qanda <- Answers %>% left_join(Questions, c('ParentId' = 'Id'))
+
+qanda <- qanda %>% mutate(total_time = CreationDate.x - CreationDate.y) %>% filter(total_time>0)
+
+qanda <- qanda %>% select(c(-X7.x,-X7.y))
+
+```
 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
