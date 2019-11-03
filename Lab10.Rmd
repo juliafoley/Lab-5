@@ -260,13 +260,13 @@ After running the numbers, it's safe to say, the Score of the question is simila
 
 ### The Relationship I am Examining
 
-I
+
 I am examining the relationship between the word count and score. I will look at both the question and answer lengths to find what length gives the best score. To do this I will filter to have only unique posts. I then count the words in the body. I then look at the top 200 posts with the highest scores. This will give an average word length to aim for when trying to create a good post.
 
 ### Plots and Data
 
 
-```{r, echo=FALSE, warning=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 
 awordcount <- qanda %>% group_by(CreationDate.x) %>%mutate(wordcount=wordcount(Body.x, sep = " ", count.function = sum)) %>% select(Score.x,wordcount,Body.x) 
 
