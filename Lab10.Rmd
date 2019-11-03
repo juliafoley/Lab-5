@@ -456,6 +456,8 @@ I used a left-join to combine the questions csv and the answers csv. The answers
 <p>
 ## Thomas Neal
 
+To tidy the data I used a left join to combined the questions and answers. I then grouped by creation time to filter non-unique posts. I then mutated a new column that would count the words in the posts and sum them. I was then able to compare the word count to the score.
+
 ## Nisia Pinto 
 >>>>>>> master
 
