@@ -18,8 +18,6 @@ str(Answers)
 str(Questions)
 ```
 
-
-
 ```{r}
 qanda <- Answers %>% left_join(Questions, c('ParentId' = 'Id'))
 
@@ -32,7 +30,6 @@ qanda
 colnames(qanda)
 str(qanda)
 ```
-
 
 ```{r}
 qanda <- qanda %>% separate(CreationDate.x, c("DateX","TimeX"), sep="T", remove=TRUE, convert=FALSE, extra="warn", fill="warn")
@@ -171,7 +168,7 @@ mostasked <- Questions %>%
 mostasked
 
 ```
-Users 46646 and 76701 have both asked 58 question. 58 questions is the most question asked by users who signed in while asking questions. It should be noted that there were 949 questions asked by users with out an Id, meaning they asked a question without signing in.
+Users 46646 and 76701 have both asked 58 questions. 58 questions are the most question asked by users who signed in while asking questions. It should be noted that there were 949 questions asked by users without an Id, meaning they asked a question without signing in.
 
 
 <p>
@@ -192,7 +189,7 @@ topscore <- Questions %>%
 
 head(topscore)
 ```
-46646 has a high score of 1686, while 76701 has the high score of 668. 46646 also asked two other questions that scored 1153, 1061.
+46646 has a high score of 1686, while 76701 has a high score of 668. 46646 also asked two other questions that scored 1153, 1061
 
 
 <p>
@@ -243,7 +240,7 @@ ggplot(joineddec, mapping = aes(time_to_answer,Score.y)) +
 <p>
 ### My Findings
 
-The Score of the question is similar to the score of the answer. The score for 44646's question was around 1600 and the answers score was around 2400. The score for 76701's was 668 and the answer was 635. The Quicker the question is answered, the closer the two scores will be. This is an important result because the user that asks a good question can respect a good answer, and hopefully they can expect that answer quickly.
+The Score of the question is similar to the score of the answer. The score for 44646's question was around 1600 and the score of the answer was around 2400. The score for 76701's was 668 and the answer was 635. The Quicker the question is answered, the closer the two scores will be. This is an important result because the user that asks a good question can respect a good answer, and hopefully, they can expect that answer quickly.
 
 ## Thomas Neal 
 
