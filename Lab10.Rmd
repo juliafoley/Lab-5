@@ -261,13 +261,68 @@ After running the numbers, it's safe to say, the Score of the question is simila
 
 ### My Findings
 
+``` {r,echo=FALSE, comment=FALSE, message=FALSE, results=FALSE, warning=FALSE}
+library(tidyverse)
+library(lubridate)
+questions <-read_csv("Questions_trunc.csv")
+answers <- read_csv("Answers_trunc.csv")
+colnames(answers)
+colnames(questions)
+str(answers)
+str(questions)
+```
 ## Nisia Pinto
 
 ### The Relationship I am Examining
+I am examining the relationship between including the code in the question and the quality of the answer. My two hypothesis is: Questions that contain the word "code" have better quality answers, and people that include  "code" in their question receive faster replies. 
 
-### Plots
+```{r,echo=FALSE, comment=FALSE, message=FALSE,results=FALSE}
+qa <- answers %>%
+  left_join(questions, c('ParentId' = 'Id')) 
+qa<- qa %>% 
+  mutate(Body_question= (Body.y))%>%
+  mutate(Score_question=(Score.y))%>%
+  mutate(Body_answer= (Body.x))%>%
+  mutate(Score_answer=(Score.x))%>%
+  mutate(total_time_h= (CreationDate.x - CreationDate.y)/3600)%>%
+  filter(total_time_h>0)
+qa1 <- qa %>% 
+  select(c(-X7.x,-X7.y))%>%
+  select(c(-CreationDate.x,-CreationDate.y))%>%
+  select(c(-Body.x,-Body.y))%>%
+  select(c(-Score.x,-Score.y))
+colnames(qa1)
+str(qa1)
+```
 
-### My Findings 
+```{r, echo=FALSE, comment=FALSE, message=FALSE, warning=FALSE}
+qs <- qa1 %>%
+  mutate(code = str_detect(Body_question, "code")) %>%
+  mutate(question_quality= case_when((Score_question>=30)~"high", ((Score_question<30)~"low")))%>%
+  mutate(answer_quality = case_when((Score_answer>=30)~"high", ((Score_answer<30)~"low")))
+```
+### Plot
+
+```{r, echo=FALSE, comment=FALSE, message=FALSE}
+ggplot(data = qs) +
+  geom_bar(mapping = aes(answer_quality, fill = answer_quality)) +
+  facet_wrap(~ code) +
+  labs(title = "Effect of Code in Questions on Score for Answers", 
+       x = "Score", y = "Count")
+```
+
+```{r, echo=FALSE, warning=FALSE, comment=FALSE, message=FALSE}
+ggplot(qs) +
+  geom_line(mapping=aes(x = Score_answer,y=total_time_h),linetype=1)+
+  xlim(0,500)+
+  xlab('Score of Answer') + ylab('Time to answer')+
+  ggtitle("Answer Score for question that include code  vs Time to Answer")+
+  theme_light()
+```
+
+### My findings
+
+With this analysis, we could verify that the word code as a significant impact on the quality of answers. As we can see in the first plot "Effect of Code in Questions on Score for Answers," the number of answers with high quality increases significantly.However, there is also a high number of low-quality answers for the question that includes code. Consequently, it does not prove my hypothesis my first. Also, despite some discrepancies, we can verify for questions that contain the word code, answers with lower quality answer scores take longer to answer compared to the ones with higher quality answer scores. As a consequence, I was able to verify my second hypothesis that higher quality scores have a faster reply time.
 
 
 # Team 
@@ -340,3 +395,5 @@ I used a left-join to combine the questions csv and the answers csv. The answers
 ## Thomas Neal
 
 ## Nisia Pinto 
+
+I tidied the data set to answer an individual question, and I included an explanation about how the word code affects the outcome of answers. used left_join to combine data set and filter and mutate to shape my data according to my requirements.
