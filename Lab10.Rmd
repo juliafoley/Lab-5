@@ -151,12 +151,100 @@ I can conclude that scores are higher when the title length and the total time a
 
 ## Declan Franklin
 
-### The Relationship I am Examining
+### The Relationship I am Examining 
+
+#### I am exploring the scores of the top two users with the most questions asked.
+<p>
+#### Find who asked the most questions
+```{r,message=FALSE,echo=FALSE}
+mostasked <- Questions %>%
+  select(`OwnerUserId`,`Score`,`Body`) %>%
+  filter(!is.na(OwnerUserId)) %>%
+  group_by(`OwnerUserId`) %>%
+  summarise(sum=n()) %>%
+  arrange(desc(`sum`)) 
+  
+ 
+
+
+mostasked
+
+```
+Users 46646 and 76701 have both asked 58 question. 58 questions is the most question asked by users who signed in while asking questions. It should be noted that there were 949 questions asked by users with out an Id, meaning they asked a question without signing in.
+
+
+<p>
+#### Compare the top score of the top two users questions
+
+
+```{r,message=FALSE,echo=FALSE}
+topscore <- Questions %>%
+  transmute(OwnerUserId = as.numeric(OwnerUserId),
+            Score = as.numeric(Score),
+            Title = as.character(Title),
+            Body = as.character(Body)
+            ) %>%
+ filter(OwnerUserId == 46646 | OwnerUserId == 76701) %>%
+  select(OwnerUserId, Score, Title, Body) %>%
+  group_by(OwnerUserId,Score) %>%
+  arrange(desc(Score)) 
+
+head(topscore)
+```
+46646 has a high score of 1686, while 76701 has the high score of 668. 46646 also asked two other questions that scored 1153, 1061.
+
+
+<p>
+#### What were the questions?
+
+```{r,message=FALSE,echo=FALSE}
+asked <- Questions %>%
+  select(OwnerUserId, Title,Score, Body) %>%
+  filter(`Score` == 1686 | `Score` == 668) %>%
+  select(`OwnerUserId`, Title, Body)
+  
+asked
+```
+User 46646 asked about "Using global variables in a function other than the one that created them". User 76701 asked about "The meaning of a single - and a double - underscore before an object name in Python".
+
+<p>
+#### Now see how their questions were answered.
+
+
+```{r,message=FALSE,echo=FALSE}
+joineddec <- Questions %>%
+  left_join(Answers, by=c('Id'='ParentId')) %>%
+  select(Title,`OwnerUserId.x`, `Body.y`,`OwnerUserId.y`,`Score.x`,`Score.y`, CreationDate.x, CreationDate.y) %>%
+  filter(`Score.y`== 2407 |`Score.y`==635, `OwnerUserId.x` != 30636) %>%
+  mutate(time_to_answer = `CreationDate.y` - `CreationDate.x`)
+
+
+joineddec
+```
+OwnerUserId 5536 answered 46646's question and scored 2407 likes. OwnerUserId 68086 answered 76701's question and scored 635 liked.
+<p>
+
 
 ### Plots
+```{r, message=FALSE}
 
+ggplot(joineddec, mapping = aes(time_to_answer,Score.x)) +
+  geom_point() +
+  facet_wrap(~`OwnerUserId.x`) +
+  labs(caption = "User 46646's question was more popular but took longer to answer then 76701's.")
+
+ggplot(joineddec, mapping = aes(time_to_answer,Score.y)) +
+  geom_point() +
+  facet_wrap(~`OwnerUserId.y`) +
+  labs(caption = "User 5536's answer was more popular but took longer to answer then 68086's.")
+
+```
+<p>
 ### My Findings
 
+The Score of the question is similar to the score of the answer. The score for 44646's question was around 1600 and the answers score was around 2400. The score for 76701's was 668 and the answer was 635. The Quicker the question is answered, the closer the two scores will be. This is an important result because the user that asks a good question can respect a good answer, and hopefully they can expect that answer quickly.
+
+<p>
 ## Thomas Neal 
 
 ### The Relationship I am Examining
