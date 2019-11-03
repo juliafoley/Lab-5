@@ -331,9 +331,12 @@ I used the dplyr mutate function to convert the time since a question was posted
 ## Julia Foley
 
 I counted the lengths of the title using str_count then found the 50th percentile using quantile. I, then, used left_join to combine the answers and questions data using left_join. Then, I found the total time by subtracting the two creation dates and total score by adding the two scores using mutate. Then, I found the median of the Total Time. Next, I mutated and filtered to have a data set that included ParentIds with a Title Length below the 50th percentile and a Total Time below the median. I then found how many of those had a score of over 50. I then repeated the process for both above the median. Additionally, I created an outline for the lab. Additionally, I worked on examining the relationship between timeliness of an answer and its score. 
-
+<p>
 ## Declan Franklin
 
+I used a left-join to combine the questions csv and the answers csv. The answers csv was the X data and I joined them this way to explore the relation between the users with the most questions asked and their highest score. This joined data allows for easier string reference calls because it’s in one csv file. I also worked with Andres by talking the about project allowed. Through this method we were able to get a better understanding to the libraries like stringr and the complicated functions we'd need to solve this lab.
+
+<p>
 ## Thomas Neal
 
 ## Nisia Pinto 
