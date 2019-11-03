@@ -146,7 +146,7 @@ This shows that it is very uncommon for there to be a score of above 50 when bot
 
 I can conclude that scores are higher when the title length and the total time are not both below the median or both above the median. 
 
-
+<p>
 ## Declan Franklin
 
 ### The Relationship I am Examining### The Relationship I am Examining 
@@ -225,23 +225,34 @@ OwnerUserId 5536 answered 46646's question and scored 2407 likes. OwnerUserId 68
 
 ### Plots
 ```{r, message=FALSE}
+namesq <- c(
+  "46646" = "User 46646",
+  "76701" = "User 76701" 
+  
+)
 
+namesa <- c(
+ "5536" = "User 5536",
+  "68086" = "User 68086" 
+)
 ggplot(joineddec, mapping = aes(time_to_answer,Score.x)) +
   geom_point() +
-  facet_wrap(~`OwnerUserId.x`) +
-  labs(caption = "User 46646's question was more popular but took longer to answer then 76701's.")
+  facet_wrap(~`OwnerUserId.x`, labeller = as_labeller(namesq)) +
+  labs(caption = "User 46646's question was more popular but took longer to answer then 76701's.", y = "The Score for the Question")
 
 ggplot(joineddec, mapping = aes(time_to_answer,Score.y)) +
   geom_point() +
-  facet_wrap(~`OwnerUserId.y`) +
-  labs(caption = "User 5536's answer was more popular but took longer to answer then 68086's.")
+  facet_wrap(~`OwnerUserId.y`,labeller = as_labeller(namesa)) +
+  labs(caption = "User 5536's answer was more popular but took longer to answer then 68086's.", y = "The score for the Answer")
+
 
 ```
 <p>
 ### My Findings
 
-The Score of the question is similar to the score of the answer. The score for 44646's question was around 1600 and the score of the answer was around 2400. The score for 76701's was 668 and the answer was 635. The Quicker the question is answered, the closer the two scores will be. This is an important result because the user that asks a good question can respect a good answer, and hopefully, they can expect that answer quickly.
+After running the numbers, it's safe to say, the Score of the question is similar to the score of the answer. The score for 44646's question was around 1600 and the score of the answer was around 2400. The score for 76701's was 668 and the answer was 635. The Quicker the question is answered, the closer the two scores will be. This is an important result because the user that asks a good question can respect a good answer, and hopefully, they can expect that answer quickly.
 
+<p>
 ## Thomas Neal 
 
 ### The Relationship I am Examining
