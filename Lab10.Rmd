@@ -56,7 +56,7 @@ qanda <- qanda %>% select(c(-X.x,-X.y))
 ```{r, echo = FALSE, warning= FALSE}
 #Data Tidying
 #converting time since question to answer to hours from seconds.
-qanda <- qanda %>% mutate(total_time_hours = total_time /3600) %>% select(-total_time) %>% mutate(`Answer_len` = str_length(Body.x))
+qanda <- qanda %>% mutate(total_time_hours = total_time /3600) %>% select(-total_time)
 
 #adding zscore for answer length and question length.
 qanda <- qanda %>% mutate(ans_length = str_length(Body.x)) %>%mutate(quest_len= str_length(Body.y)) %>% mutate(zscore_anslen = (ans_length - mean(ans_length))/sd(ans_length)) %>% mutate(zscore_queslen = (quest_len - mean(quest_len)) /sd(quest_len)) 
