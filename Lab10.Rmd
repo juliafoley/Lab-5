@@ -49,7 +49,7 @@ qanda <- qanda %>% select(c(-X.x,-X.y))
  
 ### The Relationship I am Examining
   I chose to examine the relationship between the length of the Question and the quality(score) of the answer given to that question. I had a feeling that if a question were too long, it might be incoherent and hard to answer. I expected that slightly longer questions which might contain more detail but be more cogent than longer questions to get the best answers. 
-  To go along with this, I included an exploration of the relationship between the length of an answer to a question and the score given to that answer. I applied the same logic to this that I did to the previous question with one caveat. Programming is very precise and when I'm looking for help, I get a lot of benifit from detailed answers that include examples as well as explanation of general concepts. This led me to believe that longer answers would be given higher scores than shorter answers that may be incomplete or miss the point entirely. 
+  To go along with this, I included an exploration of the relationship between the length of an answer to a question and the score given to that answer. I applied the same logic to this that I did to the previous question with one caveat. Programming is very precise and when I'm looking for help, I get a lot of benefits from detailed answers that include examples as well as an explanation of general concepts. This led me to believe that longer answers would be given higher scores than shorter answers that may be incomplete or missing the point entirely. 
 
  
 ### Plots 
@@ -60,21 +60,22 @@ qanda <- qanda %>% mutate(total_time_hours = total_time /3600) %>% select(-total
 
 #adding zscore for answer length and question length.
 qanda <- qanda %>% mutate(ans_length = str_length(Body.x)) %>%mutate(quest_len= str_length(Body.y)) %>% mutate(zscore_anslen = (ans_length - mean(ans_length))/sd(ans_length)) %>% mutate(zscore_queslen = (quest_len - mean(quest_len)) /sd(quest_len)) 
+```
 
+```{r}
 #ANDRES PLOT OF zcore for question length vs answer score(do longer questions yield better answers? or are long questions not necessarily precise enough to yield good questions?)
 ggplot(qanda, aes(x = zscore_queslen, y = Score.x)) + geom_smooth(se = FALSE, col = 'steelblue') + ggtitle("Z-Scores of Question Length vs Answer Score") + ylab('Answer Score') + xlab('Question Length Z-Score') + theme_minimal() + geom_hline(yintercept = mean(qanda$Score.x), col = "red") + xlim(-1,18)
+```
 
+```{r}
  ggplot(qanda, aes(x = zscore_anslen, y = Score.x)) + geom_smooth(se = FALSE, col = 'steelblue') + ggtitle("Z-Scores of Answer Length vs Answer Score") + ylab('Answer Score') + xlab('Answer Length Z-Score') + theme_minimal() + xlim(-1,10) + geom_hline(yintercept = mean(qanda$Score.x), col = "red")
 #I limited the xlimits to 0,5 because the vast majority of answers have zscores between 0 and 5 and being more than 10 sds from the mean makes you a significant outlier and worthy of removal so as to maintain the accuracy of the general trend.
-
 #ANDRES PLOT OF zcore for question length vs answer score(do longer questions yield better answers? or are long questions not necessarily precise enough to yield good questions?)
-
-
-
 ```
 
 ### My Findings 
-Questions: The plot confirms the oposite of my hypothesis. Originally, I thought that relatively longer questions would get the best answers. I believed that more information would help the person answering to fully understand the problem that needed solving. In reality however, questions of below average length tend to have the best answers. In fact, the quality of the answer seems to decrease with an increase in question length. Thinking about why this might be, it occurs to me that the shortest questions are most likely to be the simplist questions. It would make sense for the simplist questions to have the most useful answers. I imagine that shorter questions would be more basic. Looking for answers to simple problems such as using certain functions or simple syntax questions. It would make sense for simpler questions to get more views as they would be viewd by a larger number of beginning coders of which greatly outnumber professional programmers who would be more likely to ask more detailed and complex questions. 
+Questions: The plot confirms the opposite of my hypothesis. Originally, I thought that relatively longer questions would get the best answers. I believed that more information would help the person answering to fully understand the problem that needed solving. In reality, however, questions of below-average length tend to have the best answers. The quality of the answer seems to decrease with an increase in question length. Thinking about why this might be, it occurs to me that the shortest questions are most likely to be the simplest questions. It would make sense for the simplest questions to have the most useful answers. I imagine that shorter questions would be more basic. Looking for answers to simple problems such as using certain functions or simple syntax questions. It would make sense for simpler questions to get more views as they would be viewed by a larger number of beginning coders of which greatly outnumber professional programmers who would be more likely to ask more detailed and complex questions. 
+
 Answers: My plots seem to confirm my suspicions. As a general rule, longer answers seem to be rated higher than shorter ones. This could be due to the amount of detail given in longer answers versus the limited amount given in short answers. Programming is very precise and when I'm looking for help, I get a lot of benefits from detailed answers that include examples as well as an explanation of general concepts. I limited the x-limits to [-1,10]. I did this because the vast majority of answers have z-scores between 0 and 10 and being more than 10 standard deviations from the mean makes you a significant outlier and worthy of removal to maintain the accuracy of the general trend. The more standard deviations from the mean the length of the answer(higher z-score), the higher the score it's given. This is confirmed by the weak positive correlation coefficient of .1395 between zscore_anslen and Answer score.
 
 ## Julia Foley
@@ -151,7 +152,7 @@ I can conclude that scores are higher when the title length and the total time a
 
 ## Declan Franklin
 
-### The Relationship I am Examining 
+### The Relationship I am Examining### The Relationship I am Examining 
 
 #### I am exploring the scores of the top two users with the most questions asked.
 <p>
@@ -244,7 +245,6 @@ ggplot(joineddec, mapping = aes(time_to_answer,Score.y)) +
 
 The Score of the question is similar to the score of the answer. The score for 44646's question was around 1600 and the answers score was around 2400. The score for 76701's was 668 and the answer was 635. The Quicker the question is answered, the closer the two scores will be. This is an important result because the user that asks a good question can respect a good answer, and hopefully they can expect that answer quickly.
 
-<p>
 ## Thomas Neal 
 
 ### The Relationship I am Examining
@@ -306,25 +306,26 @@ The plot shows that higher scores generally have lower total times, Therefore it
 
 Additionally, we can conclude that there is a higher probability of a higher score on the first answer as opposed to the second answer. 
 
-We can use calculate the z-scores and percentiles of an individual's scores because we can find the mean, standard deviation, and quantiles of the total time and the score. For example, we could find the percentile of an indidual's score overall or we could find the percentile of an individual's score based on the timeliness of the answer. 
+We can calculate the z-scores and percentiles of an individual's scores because we can find the mean, standard deviation, and quantiles of the total time and the score. For example, we could find the percentile of an indidual's score overall or we could find the percentile of an individual's score based on the timeliness of the answer. 
 
 
-## What features affect the score the most 
+## What features affect the score the most
+The strongest correlation we found was a positive correlation of .135 between the z-score of the length of the answer and the score the answer received. The longer the answer, seemingly, the higher the score. The other relationship all had positive or negative correlation coefficients less than or equal to .05.
 
 ## Why those features affect the score the most 
+It's possible that the longer an answer is, the more detail it contains about the problem. A high degree of precision is required to program effectively. Because of this, those asking questions can benefit greatly from very specific answers. These answers may include examples as well as counterexamples to help the programmer avoid making similar mistakes in the future. 
 
 # What each Team Member did? 
 
-## Andres Acevedo 
+## Andres Acevedo
+I used the dplyr mutate function to convert the time since a question was posted from seconds to hours. This is a more manageable unit of time and it allowed me to visualize the totality of the data on my plot without having to significantly alter my x and y limits. I then used the stringr str_length() function to create columns that represent the length of both the question being asked and the answer to that question. This allowed me to use mutate() to create z-scores for the length of questions and answers and plot the relationships between the length of a question or answer, and the score it received. I also used the cor() function to calculate the correlation coefficients between multiple variables and answer scores. Finding the strongest to be a coefficient of .135 between answer length z-score and answer score. I also went through the final document with a text editor to fix any spelling or grammar mistakes. 
 
 ## Julia Foley
 
-I counted the lengths of the title using str_count then found the 50th percentile using quantile. I, then, used left_join to combine the answers and questions data using left_join. Then, I found the total time by subtracting the two creation dates and total score by adding the two scores using mutate. Then, I found the median of the Total Time. Next I mutated and filtered to have a data set that included ParentIds with a Title Length below the 50th percentile and a Total Time below the median. I then found how many of those had a score over 50. I then repeated the process for both above the median. Additionally, I created the outline for the lab. Additionally, I worked on examining the relationship between timliness of an answer and its score. 
-
+I counted the lengths of the title using str_count then found the 50th percentile using quantile. I, then, used left_join to combine the answers and questions data using left_join. Then, I found the total time by subtracting the two creation dates and total score by adding the two scores using mutate. Then, I found the median of the Total Time. Next, I mutated and filtered to have a data set that included ParentIds with a Title Length below the 50th percentile and a Total Time below the median. I then found how many of those had a score of over 50. I then repeated the process for both above the median. Additionally, I created an outline for the lab. Additionally, I worked on examining the relationship between timeliness of an answer and its score. 
 
 ## Declan Franklin
 
 ## Thomas Neal
 
 ## Nisia Pinto 
-
