@@ -1,0 +1,17 @@
+---
+title: "Lab11_P-Hackers"
+author: "Declan Franklin"
+date: "11/4/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(babynames)
+
+popnames <- read.csv("https://query.data.world/s/whygze632j7ymm2cfy4rwcyvzvdaeq", header=TRUE, stringsAsFactors=FALSE)
+
+as_tibble(popnames)
+```
+
