@@ -18,5 +18,7 @@ yob2018 <- read.csv("yob2018.txt")
 yob2018 <- yob2018 %>% rename(name = Emma, gender = 'F', num = 'X18688')
 babynames <- babynames
 str(names)
+totalnames <- babynames %>% full_join(yob2018, by = "year") %>% gather('name.x', 'name.y', key = "extra", value = "name" ) %>% gather('sex', 'gender', key = "extra2", value = "sex") %>% gather('n.x', 'n.y', key = "extra3", value = "n") %>% select(-extra, -extra2, -extra3)
+
 ```
 
