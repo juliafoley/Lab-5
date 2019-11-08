@@ -14,11 +14,17 @@ library(stringr)
 popnames <- read.csv("https://query.data.world/s/whygze632j7ymm2cfy4rwcyvzvdaeq", header=TRUE, stringsAsFactors=FALSE)
 
 as_tibble(popnames)
-yob2018 <- read.csv("https://raw.githubusercontent.com/juliafoley/P-Hackers/master/yob2018.txt")
-yob2018 <- yob2018 %>% rename(name = Emma, gender = 'F', num = 'X18688')
+
+yob2018 <- read.csv("https://raw.githubusercontent.com/juliafoley/P-Hackers/master/yob2018.txt",header=FALSE)  %>% rename(name = 'V1', sex = 'V2', n = 'V3') %>% mutate(year=2018)
+yob2018
+
+
 babynames <- babynames
-str(names)
-totalnames <- babynames %>% full_join(yob2018, by = "year") %>% gather('name.x', 'name.y', key = "extra", value = "name" ) %>% gather('sex', 'gender', key = "extra2", value = "sex") %>% gather('n.x', 'n.y', key = "extra3", value = "n") %>% select(-extra, -extra2, -extra3)
+
+totalnames <- full_join(babynames,yob2018) 
+
 
 ```
+
+
 
