@@ -9,9 +9,14 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(babynames)
+library(stringr)
 
 popnames <- read.csv("https://query.data.world/s/whygze632j7ymm2cfy4rwcyvzvdaeq", header=TRUE, stringsAsFactors=FALSE)
 
 as_tibble(popnames)
+yob2018 <- read.csv("yob2018.txt")
+yob2018 <- yob2018 %>% rename(name = Emma, gender = 'F', num = 'X18688')
+babynames <- babynames
+str(names)
 ```
 
