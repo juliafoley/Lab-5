@@ -26,5 +26,79 @@ totalnames <- full_join(babynames,yob2018)
 
 ```
 
+## little mermaid stuff
+
+
+```{r}
+
+arial <- totalnames  %>% filter(str_detect(name, "^A[r]+[iyea][ea]l")) %>% filter(year %in% list(1973, 1988, 1990)) %>% filter(sex=="F") %>% group_by(year) %>% summarise(Unique = n())
+arial
+```
+
+```{r}
+rachel <- totalnames %>% filter(str_detect(name, "^R[ae][aey]*[sc]h[aey]+[l]+e?")) %>% filter(year %in% list(1973, 1988, 1990)) %>% filter(sex=="F") %>% group_by(year) #%>% summarise(Unique = n())
+rachel
+```
+
+```{r}
+arialAllYears <- totalnames  %>% filter(str_detect(name, "^A[r]+[iyea][ea]l")) %>%filter(sex=="F") %>% group_by(year) %>% summarise(Total=sum(n))
+arialAllYears
+ggplot(arialAllYears) + geom_line(mapping=aes(x=year,y=Total)) + geom_vline(xintercept =1989, color="red") + labs(title = "")
+```
+
+
+
+```{r}
+
+vowelnames <- totalnames %>% filter(str_detect(name, "^[AEIOU]"),year>=1988 & year <=1990, sex=="F") %>% group_by(year) %>% summarise(otherprop=sum(prop))
+
+
+ariel19 <-  totalnames  %>% filter(str_detect(name, "^A[r]+[iyea][ea]l"),year>=1988 & year <=1990, sex=="F") %>% group_by(year) %>% summarise(totalprop=sum(prop))
+
+vowelnames
+ariel19
+
+compair <- left_join(vowelnames,ariel19)
+
+compair
+
+```
+
+
+
+
+
+
+
+
+##Individule Plots
+
+
+**Thomas Neal**
+
+```{r}
+
+
+
+Thomas <- totalnames %>% filter(str_detect(name,"^[T][h]*omas$")) %>% filter(sex=="M") %>% group_by(year) %>% summarise(Thomas=sum(n))
+
+
+
+Tho <- totalnames %>% group_by(year) %>%  filter(str_detect(name, "^Tho") | str_detect(name,"^Tom")) %>% filter(sex=="M") %>% summarise(Total=sum(n))
+
+
+comb<- left_join(Thomas,Tho)
+
+
+comb
+
+ggplot(comb) + geom_line(mapping = aes(x=year,y=Total,color="red")) + geom_line(mapping = aes(x=year,y=Thomas,color="blue")) + labs(title= "Popularity of Thomas/Tomas vs all names starting with Tho/Tom" , x="Year", y="Total babies"  ) +scale_color_discrete(name="Key", labels=c("Thomas/Tomas","Tho/Tom"))
+                              
+ggplot(comb) + geom_col(mapping = aes(x=year,y=Total,fill="red")) + geom_col(mapping = aes(x=year,y=Thomas,fill="blue")) + labs(title= "Popularity of Thomas/Tomas vs all names starting with Tho/Tom" , x="Year", y="Total babies"  ) +scale_fill_discrete(name="Key", labels=c("Thomas/Tomas","Tho/Tom"))
+
+ggplot(comb) + geom_point(mapping = aes(x=year,y=Total,color="red")) + geom_point(mapping = aes(x=year,y=Thomas,color="blue")) + labs(title= "Popularity of Thomas/Tomas vs all names starting with Tho/Tom" , x="Year", y="Total babies"  ) +scale_color_discrete(name="Key", labels=c("Thomas/Tomas","Tho/Tom"))
+
+```
+
 
 
