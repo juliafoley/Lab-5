@@ -16,7 +16,13 @@ popnames <- read.csv("https://query.data.world/s/whygze632j7ymm2cfy4rwcyvzvdaeq"
 as_tibble(popnames)
 
 yob2018 <- read.csv("https://raw.githubusercontent.com/juliafoley/P-Hackers/master/yob2018.txt",header=FALSE)  %>% rename(name = 'V1', sex = 'V2', n = 'V3') %>% mutate(year=2018)
-yob2018
+
+
+totalcount <- yob2018 %>% summarise(sum=sum(n))
+
+yob2018 <- yob2018 %>% mutate("prop"=yob2018$n/totalcount$sum)
+
+
 
 
 babynames <- babynames
