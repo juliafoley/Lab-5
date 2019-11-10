@@ -305,8 +305,12 @@ compair
 # Your Names 
 
 ## Andres Acevedo
-
-
+```{r}
+ggplot(andres) + geom_histogram(aes(x = count), col = "steelblue", fill = "turquoise3") + 
+  geom_histogram(data = test_full_join, aes(x = `sum(count)`), col = 'red', alpha = .3) + 
+  ggtitle("Num of Years with Babies Named Versions of 'Andres'") + 
+  xlab("Number of Children Named Andres(Red) or 'And'(Blue)") + ylab("Year Count") + theme_minimal()
+```
 
 ***Change in Popularity from 1996 to  2018***
 
