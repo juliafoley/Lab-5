@@ -110,30 +110,80 @@ Julia is relatively popular compared to other names starting with Jul however, J
 
 ## Thomas Neal 
 
+## Thomas Neal 
 
-```{r}
+***Regular expression***
+To make all my comparisons I wanted to include both spellings of my name: Thomas and Tomas. To do this I used the regular expression "^[T][h]*omas". Then I compared it to all male names starting with "Tho" and "Tom".
+
+***Plots***
+
+```{r, echo=FALSE , warning=FALSE, message=FALSE}
+
+
+Thomasall <- totalnames %>% filter(str_detect(name,"^[T][h]*omas$")) %>% filter( sex=="M") %>% group_by(year) %>% summarise(Thomas=sum(n))
+
+Thoall <- totalnames %>% group_by(year) %>%  filter(str_detect(name, "^Tho") | str_detect(name,"^Tom")) %>% filter(sex=="M") %>% summarise(Total=sum(n))
+
+
+Thomas <- totalnames %>% filter(str_detect(name,"^[T][h]*omas$")) %>% filter(year>1997 & sex=="M") %>% group_by(year) %>% summarise(Thomas=sum(n))
 
 
 
-Thomas <- totalnames %>% filter(str_detect(name,"^[T][h]*omas$")) %>% filter(sex=="M") %>% group_by(year) %>% summarise(Thomas=sum(n))
-
-
-
-Tho <- totalnames %>% group_by(year) %>%  filter(str_detect(name, "^Tho") | str_detect(name,"^Tom")) %>% filter(sex=="M") %>% summarise(Total=sum(n))
+Tho <- totalnames %>% filter(year>1997) %>% group_by(year) %>%  filter(str_detect(name, "^Tho") | str_detect(name,"^Tom")) %>% filter(sex=="M") %>% summarise(Total=sum(n))
 
 
 comb<- left_join(Thomas,Tho)
 
+comball <- left_join(Thomasall,Thoall)
 
-comb
 
-ggplot(comb) + geom_line(mapping = aes(x=year,y=Total,color="red")) + geom_line(mapping = aes(x=year,y=Thomas,color="blue")) + labs(title= "Popularity of Thomas/Tomas vs all names starting with Tho/Tom" , x="Year", y="Total babies"  ) +scale_color_discrete(name="Key", labels=c("Thomas/Tomas","Tho/Tom"))
-                              
-ggplot(comb) + geom_col(mapping = aes(x=year,y=Total,fill="red")) + geom_col(mapping = aes(x=year,y=Thomas,fill="blue")) + labs(title= "Popularity of Thomas/Tomas vs all names starting with Tho/Tom" , x="Year", y="Total babies"  ) +scale_fill_discrete(name="Key", labels=c("Thomas/Tomas","Tho/Tom"))
-
-ggplot(comb) + geom_point(mapping = aes(x=year,y=Total,color="red")) + geom_point(mapping = aes(x=year,y=Thomas,color="blue")) + labs(title= "Popularity of Thomas/Tomas vs all names starting with Tho/Tom" , x="Year", y="Total babies"  ) +scale_color_discrete(name="Key", labels=c("Thomas/Tomas","Tho/Tom"))
 
 ```
+
+```{r, echo=FALSE , warning=FALSE, message=FALSE}
+ggplot(comball) + geom_line(mapping = aes(x=year,y=Total,color="red")) + geom_line(mapping = aes(x=year,y=Thomas,color="blue")) + labs(title= "Popularity of Thomas/Tomas vs all names starting with Tho/Tom (1880-2018)" , x="Year", y="Total babies" , caption = "Black line = Thomas Edison's death" ) +scale_color_discrete(name="Key", labels=c("Thomas/Tomas","Tho/Tom")) + geom_vline(xintercept =1931)
+
+```
+
+
+
+
+```{r,echo=FALSE , warning=FALSE, message=FALSE}
+
+ggplot(comb) + geom_line(mapping = aes(x=year,y=Total,color="red")) + geom_line(mapping = aes(x=year,y=Thomas,color="blue")) + labs(title= "Popularity of Thomas/Tomas vs all names starting with Tho/Tom (1998-2018)" , x="Year", y="Total babies"  ) +scale_color_discrete(name="Key", labels=c("Thomas/Tomas","Tho/Tom")) 
+
+
+```
+
+```{r,echo=FALSE , warning=FALSE, message=FALSE}
+Thomasx <- totalnames %>% filter(str_detect(name,"^[T][h]*omas$")) %>% filter(year>1976 & sex=="M") %>% group_by(year) %>% summarise(Thomas=sum(n))
+
+Thox <- totalnames %>% filter(year>1976) %>% group_by(year) %>%  filter(str_detect(name, "^Tho") | str_detect(name,"^Tom")) %>% filter(sex=="M") %>% summarise(Total=sum(n))
+
+combx <- left_join(Thomasx,Thox)
+
+
+
+ggplot(combx) + geom_line(mapping = aes(x=year,y=Total,color="red")) + geom_line(mapping = aes(x=year,y=Thomas,color="blue")) + labs(title= "Popularity of Thomas/Tomas vs all names starting with Tho/Tom(1977-2018)" , x="Year", y="Total babies"  ) +scale_color_discrete(name="Key", labels=c("Thomas/Tomas","Tho/Tom"))
+                              
+
+```
+
+***Changes in popularity for my name from 1880 to 2018***
+
+#### At the start:
+
+Thomas begins as a relevantly uncommon name, however, my theory is that this changed when Thomas Jefferson (1847-1931) became a household name. Since he was famous for being brilliant there became a positive association with the name Thomas. This leads the name to skyrocket in popularity from 1930-1950. 
+
+####  When I was born to present:
+
+When I was born Thomas was already on a steep decline and would continue to decline until the present. I think much of this decline is due to the name becoming too popular and thus becoming undesirable. Things such as "Thomas The Train" and actors like Tom Hanks and Tom Crews have disincentivized people who want their kids to have a unique name.
+
+***Popularity comparison***
+
+The name Thomas is the majority of names starting with "Tho" or "Tom". The exception are names like Tom, Thorton, and Tommy. The largest point of diversion was around 1960 when the name "Tom" was exceptionally popular. 
+
+
 
 
 ## Nisia Pinto
