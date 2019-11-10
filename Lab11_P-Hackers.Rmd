@@ -29,6 +29,23 @@ totalnames <- full_join(babynames,yob2018)
 
 ## Andres Acevedo 
 
+```{r}
+variant_count <- popnames %>% 
+  filter(str_detect(name, pattern = "^And")) %>% 
+  group_by(year) %>% summarize(variants = n(), sum(count))
+
+test_join <- popnames %>% group_by(year) %>% summarize(total = sum(count))
+
+test_full_join <- variant_count %>% full_join(test_join) %>% 
+mutate(prop = `sum(count)`/total)
+
+ggplot(test_full_join) + 
+  geom_line(aes(x = year, y = prop), col = "steelblue") + 
+  geom_line(data = andres, aes(x = year, y = prop), col = 'red') +
+  ggtitle("Time series of Firsth Three Letters (Blue) and Regex (Red) Over Time") + 
+  xlab("Year") + ylab("Proportion") + theme_minimal()
+```
+
 ## Julia Foley
 
 ```{r}
