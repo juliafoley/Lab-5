@@ -581,3 +581,7 @@ I worked on the Ariel dataset and did my individual plot. I compared the years b
 ### Julia Foley
 
 I found the regex for my name. Then, I plotted the change in proportions of my name and names that start with JUL for 1984-2000 and 2000-2018. I then, calculated the proportion change in terms of a percent. I plotted those as histograms. For the team part, I found which two names I would recommend. We chose my suggestions so I then, explained why we chose those names and plotted them on graphs.  
+
+### Andres Acevedo
+
+I created multiple dataframes so that I could plot the change in proportions over time for my name and names starting with the letters 'And'. This enabled me to determine that the popularity of my name had been increasing up until the middle of the 1980s after which its popularity has been on the decline. I helped a group member create their plots and data frames when they were unsure of how to go about it. Along with the rest of the team, I also calculated the values needed to solve the Ariel and Rachel regex question.
