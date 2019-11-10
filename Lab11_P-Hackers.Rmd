@@ -255,7 +255,7 @@ rachel
 ```{r}
 arialAllYears <- totalnames  %>% filter(str_detect(name, "^A[r]+[iyea][ea]l")) %>%filter(sex=="F") %>% group_by(year) %>% summarise(Total=sum(n))
 arialAllYears
-ggplot(arialAllYears) + geom_line(mapping=aes(x=year,y=Total)) + geom_vline(xintercept =1989, color="red") + labs(title = "")
+ggplot(arialAllYears) + geom_line(mapping=aes(x=year,y=Total)) + geom_vline(xintercept =1989, color="red") + labs(title = "Babys born with some form of the name Ariel", x="Year", y="Babies born with a variation of Ariel", caption = "Red line= Release of the Little Mermaid movie")
 ```
 
 
