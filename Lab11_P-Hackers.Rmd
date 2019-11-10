@@ -364,6 +364,70 @@ ggplot(data = Julplot8200a, mapping = aes(x = sumprop, fill = Year)) +
 
 ## Thomas Neal 
 
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+Thomas1997 <- totalnames %>% filter(str_detect(name,"^[T][h]*omas$")) %>% filter( sex=="M" & year==1997)  %>%  summarise(Thomas=sum(prop))
+Thomaswork
+
+Thomas2018 <- totalnames %>% filter(str_detect(name,"^[T][h]*omas$")) %>% filter( sex=="M" & year==2018)  %>%  summarise(Thomas=sum(prop))
+
+
+
+```
+***Change in Popularity from 1998 to 2018*** 
+In 1998 the proportion of people named Thomas or Tomas was:
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+Thomas1997 <- totalnames %>% filter(str_detect(name,"^[T][h]*omas$")) %>% filter( sex=="M" & year==1997)  %>%  summarise(Thomas=sum(prop))
+Thomaswork
+```
+
+In 2018 the In 1998 the proportion of people named Thomas or Tomas was:
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+Thomas2018 <- totalnames %>% filter(str_detect(name,"^[T][h]*omas$")) %>% filter( sex=="M" & year==2018)  %>%  summarise(Thomas=sum(prop))
+Thomas2018
+
+```
+
+So the change in proportion from 1998 to 2018 is:
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+Thomasprop<-Thomas2018$Thomas-Thomas1997$Thomas
+Thomasprop
+
+```
+
+***Change in Popularity from 1998 to 2018*** 
+In 1977 the proportion of people named Thomas or Tomas was:
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+Thomas1977<- totalnames %>% filter(str_detect(name,"^[T][h]*omas$")) %>% filter( sex=="M" & year==1977)  %>%  summarise(Thomas=sum(prop))
+Thomaswork
+```
+
+In 1998 the proportion of people named Thomas or Tomas was:
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+Thomas1998 <- totalnames %>% filter(str_detect(name,"^[T][h]*omas$")) %>% filter( sex=="M" & year==1998)  %>%  summarise(Thomas=sum(prop))
+Thomas1998
+
+```
+
+So the change in proportion from 1977 to 1998 is:
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+Thomasprop<-Thomas1998$Thomas-Thomas1977$Thomas
+Thomasprop
+
+```
+
 ## Nisia Pinto
 
 ```{r,echo=FALSE, comment=FALSE, message=FALSE,warning=FALSE}
