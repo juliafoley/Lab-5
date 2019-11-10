@@ -178,11 +178,12 @@ compair
 
 
 ***Change in Popularity from 1996 to  2018***
-The name Andres was actually growing in popularity throughout much of the 20th century. This could be explained by the increase in immigration from Spain and Central America. The popularity of my name peaked around 1984 and has been declining ever since. The actual change in proportion from 1996 to 2018 is 0.00339 - 0.00923 = -0.00584
+
+The name Andres was actually growing in popularity throughout much of the 20th century. This could be explained by the increase in immigration from Spain and Central America. The popularity of my name peaked around 1984 and has been declining ever since. The actual change in proportion from 1996 to 2018 was 0.00339 - 0.00923 = -0.00584
 
 ***Change in Population from 1974 to 1996***
-0.00923 - 0.00669 = 0.00254
-While Andres has never been a common name, for much of the 20th century, it was on the rise in terms of it's popularity. This continued until around 1984 and has been on the decline ever since.
+
+While Andres has never been a common name, for much of the 20th century, it was on the rise in terms of it's popularity. This continued until around 1984 and has been on the decline ever since. The actual change in proportion from 1974 to 1996 was 0.00923 - 0.00669 = 0.00254. These changes are small and I don't believe they could be categorized as significant.
 
 ***Relative Change of The Name***
 
