@@ -74,29 +74,55 @@ Juliaprop <- 2999/32032 #.09363
 Julia1982 <- Julia1 %>% filter(year %in% 1982) %>% group_by(year) %>% summarise(prop_A = sum(prop)) #.0019455
 Jul0018 <- 	0.00443067 - Juliaprop
 Jul8200 <- 0.00194553 -	0.00443067 
-Juliarelative <- Julia1 %>% filter(year > 2000) %>% summarise(sum(prop))
-totalrelative <- babynames %>% filter(year > 2000) %>% summarise(sum(prop))
-relative <- Juliarelative / totalrelative
-relative0018 <- relative + Juliaprop
+
+Julia1a <- totalnames %>% filter(str_detect(name, "^Julia$"))
+Julia2000a <- Julia1a %>% filter(year %in% 2000) %>% group_by(year) %>% summarise(prop_A = sum(prop)) # .00443
+Julia2018a <- Julia1a %>% filter(year %in% 2018) %>% group_by(year) %>% summarise(prop_A = sum(prop)) 
+Julia1982a <- Julia1a %>% filter(year %in% 1982) %>% group_by(year) 
+Julia1982suma <- Julia1982a %>% summarise(prop_A = sum(prop)) #.0019455
+Jul0018a <- 0.00439808 - 0.09346903
+Jul8200a <-	0.00194222 -	0.00439808
 
 ```
 
 ```{r,echo=FALSE , warning=FALSE, message=FALSE}
-Julplot <- totalnames %>% filter(str_detect(name, "^Jul")) %>% group_by(year) %>% mutate(Julia = str_detect(name, "^Jul[iey]+a$")) %>% filter(year > 2000 & year < 2018)
-ggplot(data = Julplot, mapping = aes(x = year, y = prop, color = Julia)) +
-  geom_point() +
-  labs(title = "Proportion of names that start with JUL by year from 2000-2018", y = "Proportion of Names")
+Julplot <- totalnames %>% filter(str_detect(name, "^Jul")) %>% group_by(year) %>% filter( year < 2018)
+Juliaplot <- totalnames %>% filter(str_detect(name, "^Julia$")) %>% group_by(year)  %>% filter(year < 2018) 
+
+ggplot(mapping = aes(x = year, y = prop)) +
+  geom_jitter(data = Julplot, color = "blue") + 
+  geom_jitter(data = Juliaplot, color = "red") +
+  labs(title = "Proportion of names that start with JUL by year", y = "Proportion of Names", subtitle = "Blue is names that start with Jul, Red is Julia")
+
+  Julplot <- totalnames %>% filter(str_detect(name, "^Jul")) %>% group_by(year) %>% filter( year == "2018") %>% summarise(sumprop = sum(prop))
+Juliaplot <- totalnames %>% filter(str_detect(name, "^Julia$")) %>% group_by(year)  %>% filter(year == "2018") %>% summarise(sumprop = sum(prop))
+
+ggplot(mapping = aes(x = sumprop)) +
+  geom_histogram(data = Julplot, fill = "blue") + 
+  geom_histogram(data = Juliaplot, fill = "red") +
+  labs(title = "Proportion of names that start with JUL in 2018", x = "Proportion of Names", subtitle = "Blue is names that start with Jul, Red is Julia")
 ```
 
 ```{r,echo=FALSE , warning=FALSE, message=FALSE}
-Julplot8200 <- totalnames %>% filter(str_detect(name, "^Jul")) %>% group_by(year) %>% mutate(Julia = str_detect(name, "^Jul[iey]+a$")) %>% filter(year > 1982 & year < 2000)
-ggplot(data = Julplot8200, mapping = aes(x = year, y = prop, color = Julia)) +
-  geom_point() +
-  labs(title = "Proportion of names that start with JUL by year", y = "Proportion of Names")
+Julplot2018 <- totalnames %>% filter(str_detect(name, "^Jul")) %>% group_by(year) %>% filter(year >= 2000 & year <= 2018) %>% summarise(sumprop = sum(prop))
+Julia1plot <- Julia1 %>% group_by(year) %>% filter(year >= 2000 & year <= 2018) %>% summarise(sumprop = sum(prop))
+
+ggplot(mapping = aes(x = year, y = sumprop)) +
+  geom_point(data = Julplot2018, color = "blue") +
+  geom_point(data = Julia1plot, color = "red") +
+  labs(title = "Proportion of names that start with JUL by year from 2000-2018", y = "Proportion of Names", subtitle = "Blue is names that start with Jul, Red is Julia (or an alternate spelling)")
+
+  Julplot8200 <- totalnames %>% filter(str_detect(name, "^Jul")) %>% group_by(year) %>% filter(year >= 1982 & year <= 2000) %>% summarise(sumprop = sum(prop))
+Julia1plot <- Julia1 %>% group_by(year) %>% filter(year >= 1982 & year <= 2000) %>% summarise(sumprop = sum(prop))
+
+ggplot(mapping = aes(x = year, y = sumprop)) +
+  geom_point(data = Julplot8200, color = "blue") +
+  geom_point(data = Julia1plot, color = "red") +
+  labs(title = "Proportion of names that start with JUL by year from 1982-2000", y = "Proportion of Names", subtitle = "Blue is names that start with Jul, Red is Julia(or an alternate spelling)")
 ```
 
 ***Regular expression***
-I used "^J[eu]+[ew]*l[iey]+a$" however, for the graph I only used names that started with Jul. 
+I used "^J[eu]+[ew]*l[iey]+a$"  because I thought it would encompass all the different spellings of Julia.
 
 ***Name now Compared to when I was Born***
 
@@ -296,18 +322,43 @@ While Andres has never been a common name, for much of the 20th century, it was 
 ## Julia Foley 
 
 
-
 ***Change in Popularity from 2000 to 2018*** 
 
-In 2000, the proportion of people named Julia (or some alternate spelling) was .00443067. In 2018, the proportion of people named Julia (or some alternate spelling) was .093625. Therefore, the change in proportion from 2000 to 2018 was -.0891945. 
+##### Actual Change in Proportion 
+
+In 2000, the proportion of people named Julia was 0.00439808. In 2018, the proportion of people named Julia was 0.09346903. Therefore, the proportion of people named Julia increased 8.91% from 2000 to 2018.
+
+##### Relative Change in Proportion 
+
+In 2000, the proportion of people named Julia (or some alternate spelling) was .00443067. In 2018, the proportion of people named Julia (or some alternate spelling) was .093625. Therefore, the proportion of people named Julia increased 8.92% from 2000 to 2018. 
 
 ***Change in Popularity from 1982 to 2000***
 
-In 1982, the proportion of people named Julia (or some alternate spelling) was .0019455. In 2000, the proportion of people named Julia (or some alternate spelling) was .00443067. Therefore, the change in proportion from 1982 to 2000 was -.00248514. 
+##### Actual Change in Proportion 
 
-***Relative Change of The Name***
-Julia had a	0.09510702 of all the names between 2000 and 2018. 
+In 1982, the proportion of people named Julia was 0.00194222. In 2000, the proportion of people named Julia was 0.00439808. Therefore, the proportion of people named Julia increased .246% from 1982 to 2000. 
 
+##### Relative Change in Proportion 
+
+In 1982, the proportion of people named Julia (or some alternate spelling) was .0019455. In 2000, the proportion of people named Julia (or some alternate spelling) was .00443067. Therefore, the proportion of people named Julia increased .249% from 1982 to 2000. 
+
+**Plots** 
+
+```{r}
+Julplot2018a <- Julplot2018 %>% mutate(Year = year == "2000" | year == "2018")
+
+ggplot(data = Julplot2018a, mapping = aes(x = sumprop, fill = Year)) +
+  geom_histogram() +
+  labs(title = "Proportion of people named Julia (or an alternate spelling) by year from 2000-2018", y = "Number of Years with Proportion", x = "The sum of the proportion of people named Julia(or an alternate spelling)", subtitle = "Blue is 2000 and 2018, Red is all other names")
+```
+
+```{r}
+Julplot8200a <- Julplot8200 %>% mutate(Year = year == "1982" | year == "2000")
+
+ggplot(data = Julplot8200a, mapping = aes(x = sumprop, fill = Year)) +
+  geom_histogram() +
+  labs(title = "Proportion of people named Julia (or an alternate spelling) by year from 1982-2000", y = "Number of Years with Proportion", x = "The sum of the proportion of people named Julia(or an alternate spelling)", subtitle = "Blue is 1982 and 2000, Red is all other names")
+```
 
 ## Declan Franklin
 
@@ -421,5 +472,21 @@ We recommend Kevin for a boy and Michelle for a girl.
 
 We recommend this because these are both that are clearly for one gender. Additionally, they are names that do not have automatic nicknames associated with them. Additionally, Kevin and Michelle are both trending however, are not overly trendy. Both of these names are good names because they represent the criteria that the client gave us and their unique enough that not every kid will have these names. 
 
+## Plots for Recommendation 
 
+```{r}
+avgpropmen <- totalnames %>% group_by(year) %>% filter(sex == "M") %>% mutate(average = cummean(prop))
+avgpropwomen <- totalnames %>% group_by(year) %>% filter(sex == "F") %>% mutate(average = cummean(prop))
+propkeith <- totalnames %>% filter(name == "Keith")
+propmichelle <- totalnames %>% filter(name == "Michelle") 
+ggplot(mapping = aes(x = year, y = prop)) + 
+  geom_point(data = avgpropmen, color = "blue") +
+  geom_point(data = propkeith, color = "red")
+```
+
+```{r}
+ggplot(mapping = aes(x = year, y = prop)) + 
+  geom_point(data = avgpropwomen, color = "blue") +
+  geom_point(data = propmichelle, color = "red")
+```
 
