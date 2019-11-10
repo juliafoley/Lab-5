@@ -577,3 +577,7 @@ I tidied and graphed the data for the Little Mermaid. I also helped to figure ou
 ### Nisia Pinto
 
 I worked on the Ariel dataset and did my individual plot. I compared the years before and after my birth. Organized format.
+
+### Julia Foley
+
+I found the regex for my name. Then, I plotted the change in proportions of my name and names that start with JUL for 1984-2000 and 2000-2018. I then, calculated the proportion change in terms of a percent. I plotted those as histograms. For the team part, I found which two names I would recommend. We chose my suggestions so I then, explained why we chose those names and plotted them on graphs.  
