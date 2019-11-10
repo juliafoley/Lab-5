@@ -255,7 +255,7 @@ ggplot(nis3)+
 ***Regular expression***
 Nisia is a name not found in the dataset.The regular expression I used was ^[N]i+[csz][s]*[h]*[iea]*a$.The first letter I used is N and after I used 'i.' Without an 'i,' it is not a variation of the name Nisia. Additionally, I used the letters c,s,z according to how people pronounce the name Nisia in different situations. I added an extra 's' in cases of Nissa or 'h' in Nisha's case. Lastly, I said that it must include or not 'iea,' but it has to end with an a.
 
-***Name now Compared to when I was Born***
+***When I was born to present:***
 The popularity of my name decreased since the year I was born. Nisia and variations of Nisia are not familiar names.  
 
 ***How Popular is your name compared to other names that start with "Nis"?*** 
@@ -574,3 +574,6 @@ I found the tidyed data online and was able to help explain the different plots 
 
 I tidied and graphed the data for the Little Mermaid. I also helped to figure out how to set up the data frame to best graph our individual names over time. I calculated the proportions for the additional 2018 data. I also did all of my individual parts and helped to format the lab.
 
+### Nisia Pinto
+
+I worked on the Ariel dataset and did my individual plot. I compared the years before and after my birth. Organized format.
