@@ -31,8 +31,115 @@ totalnames <- full_join(babynames,yob2018)
 
 
 ```
+# Individual Plot of your Name's Popularity 
 
-## little mermaid stuff
+## Andres Acevedo 
+
+```{r}
+variant_count <- popnames %>% 
+  filter(str_detect(name, pattern = "^And")) %>% 
+  group_by(year) %>% summarize(variants = n(), sum(count))
+
+test_join <- popnames %>% group_by(year) %>% summarize(total = sum(count))
+
+test_full_join <- variant_count %>% full_join(test_join) %>% 
+mutate(prop = `sum(count)`/total)
+
+andres <- popnames %>% filter(str_detect(name, pattern = "^A[in|n]d[re]..$")) %>% 
+  group_by(year) %>% summarize(count = sum(count)) %>% 
+  full_join(test_join) %>% mutate(prop = count/total)
+
+ggplot(test_full_join) + 
+  geom_line(aes(x = year, y = prop), col = "steelblue") + 
+  geom_line(data = andres, aes(x = year, y = prop), col = 'red') +
+  ggtitle("Time series of Firsth Three Letters (Blue) and Regex (Red) Over Time") + 
+  xlab("Year") + ylab("Proportion") + theme_minimal()
+```
+***Regular expression***
+The regular expression I used was ^A[in|n]d[re]..$, all of the common variations of my name started with either An or Ain with d always following the first letters. The next letter was always either r or e. Common variatons of my name can have additional letters at the end such as eas. 
+
+***Name now Compared to when I was Born***
+My name has decreased in popularity since I was born. You can see the exact difference in the "Your names" section of this lab. For the most part, the popularity of my name had been increasing since 1880 but began to decline around 1984. 
+
+***How Popular is your name compared to other names that start with "And"?*** 
+Based on my plot, names starting with 'And' are more popular than variations of my name 'Andres' this would make sense as there are many names starting with 'And' that are not variations of Andres. It would make sense that the use of a more strict regular expression would lead to a dataframe with fewer names and therefore a smaller proportion of total names in a given year. 
+
+## Julia Foley
+
+```{r}
+Julia1 <- totalnames %>% filter(str_detect(name, "^J[eu]+[ew]*l[iey]+a$"))
+Julia2000 <- Julia1 %>% filter(year %in% 2000) %>% group_by(year) %>% summarise(prop_A = sum(prop)) # .00443
+Julia2018 <- yob2018 %>% filter(str_detect(name, "^J[eu]+[ew]*l[iey]+a$"))
+Juliaprop <- 2999/32032 #.09363
+Julia1982 <- Julia1 %>% filter(year %in% 1982) %>% group_by(year) %>% summarise(prop_A = sum(prop)) #.0019455
+Jul0018 <- 	0.00443067 - Juliaprop
+Jul8200 <- 0.00194553 -	0.00443067 
+Juliarelative <- Julia1 %>% filter(year > 2000) %>% summarise(sum(prop))
+totalrelative <- babynames %>% filter(year > 2000) %>% summarise(sum(prop))
+relative <- Juliarelative / totalrelative
+relative0018 <- relative + Juliaprop
+
+```
+
+```{r}
+Julplot <- totalnames %>% filter(str_detect(name, "^Jul")) %>% group_by(year) %>% mutate(Julia = str_detect(name, "^Jul[iey]+a$")) %>% filter(year > 2000 & year < 2018)
+ggplot(data = Julplot, mapping = aes(x = year, y = prop, color = Julia)) +
+  geom_point() +
+  labs(title = "Proportion of names that start with JUL by year from 2000-2018", y = "Proportion of Names")
+```
+
+```{r}
+Julplot8200 <- totalnames %>% filter(str_detect(name, "^Jul")) %>% group_by(year) %>% mutate(Julia = str_detect(name, "^Jul[iey]+a$")) %>% filter(year > 1982 & year < 2000)
+ggplot(data = Julplot8200, mapping = aes(x = year, y = prop, color = Julia)) +
+  geom_point() +
+  labs(title = "Proportion of names that start with JUL by year", y = "Proportion of Names")
+```
+
+***Regular expression***
+I used "^J[eu]+[ew]*l[iey]+a$" however, for the graph I only used names that started with Jul. 
+
+***Name now Compared to when I was Born***
+
+My name is less popular now than it was when I was born. One reason for this is that Romeo and Juliet came out in 1996, four years before I was born. Julia has been a popular name for a while however, was more popular in the late 19th century and early 20th century than it is now. 
+
+***How Popular is your name compared to other names that start with "Jul"?*** 
+
+Julia is relatively popular compared to other names starting with Jul however, Julie was significantly more popular in the 1950s to the 1980s than Julia was. Additionally, today, Julian is more popular than Julia. Overall, Julia is relatively popular because there has only been two names, starting with Jul, that were more popular than Julia.  
+
+## Declan Franklin
+
+## Thomas Neal 
+
+
+```{r}
+
+
+
+Thomas <- totalnames %>% filter(str_detect(name,"^[T][h]*omas$")) %>% filter(sex=="M") %>% group_by(year) %>% summarise(Thomas=sum(n))
+
+
+
+Tho <- totalnames %>% group_by(year) %>%  filter(str_detect(name, "^Tho") | str_detect(name,"^Tom")) %>% filter(sex=="M") %>% summarise(Total=sum(n))
+
+
+comb<- left_join(Thomas,Tho)
+
+
+comb
+
+ggplot(comb) + geom_line(mapping = aes(x=year,y=Total,color="red")) + geom_line(mapping = aes(x=year,y=Thomas,color="blue")) + labs(title= "Popularity of Thomas/Tomas vs all names starting with Tho/Tom" , x="Year", y="Total babies"  ) +scale_color_discrete(name="Key", labels=c("Thomas/Tomas","Tho/Tom"))
+                              
+ggplot(comb) + geom_col(mapping = aes(x=year,y=Total,fill="red")) + geom_col(mapping = aes(x=year,y=Thomas,fill="blue")) + labs(title= "Popularity of Thomas/Tomas vs all names starting with Tho/Tom" , x="Year", y="Total babies"  ) +scale_fill_discrete(name="Key", labels=c("Thomas/Tomas","Tho/Tom"))
+
+ggplot(comb) + geom_point(mapping = aes(x=year,y=Total,color="red")) + geom_point(mapping = aes(x=year,y=Thomas,color="blue")) + labs(title= "Popularity of Thomas/Tomas vs all names starting with Tho/Tom" , x="Year", y="Total babies"  ) +scale_color_discrete(name="Key", labels=c("Thomas/Tomas","Tho/Tom"))
+
+```
+
+
+## Nisia Pinto
+
+# The Little Mermaid Effect 
+
 
 
 ```{r}
@@ -70,41 +177,106 @@ compair
 
 ```
 
+# Your Names 
+
+## Andres Acevedo
 
 
 
+***Change in Popularity from 1996 to  2018***
+
+The name Andres was actually growing in popularity throughout much of the 20th century. This could be explained by the increase in immigration from Spain and Central America. The popularity of my name peaked around 1984 and has been declining ever since. The actual change in proportion from 1996 to 2018 was 0.00339 - 0.00923 = -0.00584
+
+***Change in Population from 1974 to 1996***
+
+While Andres has never been a common name, for much of the 20th century, it was on the rise in terms of it's popularity. This continued until around 1984 and has been on the decline ever since. The actual change in proportion from 1974 to 1996 was 0.00923 - 0.00669 = 0.00254. These changes are small and I don't believe they could be categorized as significant.
+
+***Relative Change of The Name***
+
+
+## Julia Foley 
 
 
 
+***Change in Popularity from 2000 to 2018*** 
 
-##Individule Plots
+In 2000, the proportion of people named Julia (or some alternate spelling) was .00443067. In 2018, the proportion of people named Julia (or some alternate spelling) was .093625. Therefore, the change in proportion from 2000 to 2018 was -.0891945. 
+
+***Change in Popularity from 1982 to 2000***
+
+In 1982, the proportion of people named Julia (or some alternate spelling) was .0019455. In 2000, the proportion of people named Julia (or some alternate spelling) was .00443067. Therefore, the change in proportion from 1982 to 2000 was -.00248514. 
+
+***Relative Change of The Name***
+Julia had a	0.09510702 of all the names between 2000 and 2018. 
 
 
-**Thomas Neal**
+## Declan Franklin
 
+## Thomas Neal 
+
+## Nisia Pinto
+
+## Team 
+
+# Name Recommendation 
 ```{r}
+yrname <- babynames %>% group_by(name) %>% count(name)
+yr2017 <- babynames %>% filter(year == "2017")
+yr2016 <- babynames %>% filter(year == "2016")
+yr2015 <- babynames %>% filter(year == "2015")
+yr2014 <- babynames %>% filter(year == "2014")
+yr2013 <- babynames %>% filter(year == "2013")
 
 
-
-Thomas <- totalnames %>% filter(str_detect(name,"^[T][h]*omas$")) %>% filter(sex=="M") %>% group_by(year) %>% summarise(Thomas=sum(n))
-
-
-
-Tho <- totalnames %>% group_by(year) %>%  filter(str_detect(name, "^Tho") | str_detect(name,"^Tom")) %>% filter(sex=="M") %>% summarise(Total=sum(n))
-
-
-comb<- left_join(Thomas,Tho)
-
-
-comb
-
-ggplot(comb) + geom_line(mapping = aes(x=year,y=Total,color="red")) + geom_line(mapping = aes(x=year,y=Thomas,color="blue")) + labs(title= "Popularity of Thomas/Tomas vs all names starting with Tho/Tom" , x="Year", y="Total babies"  ) +scale_color_discrete(name="Key", labels=c("Thomas/Tomas","Tho/Tom"))
-                              
-ggplot(comb) + geom_col(mapping = aes(x=year,y=Total,fill="red")) + geom_col(mapping = aes(x=year,y=Thomas,fill="blue")) + labs(title= "Popularity of Thomas/Tomas vs all names starting with Tho/Tom" , x="Year", y="Total babies"  ) +scale_fill_discrete(name="Key", labels=c("Thomas/Tomas","Tho/Tom"))
-
-ggplot(comb) + geom_point(mapping = aes(x=year,y=Total,color="red")) + geom_point(mapping = aes(x=year,y=Thomas,color="blue")) + labs(title= "Popularity of Thomas/Tomas vs all names starting with Tho/Tom" , x="Year", y="Total babies"  ) +scale_color_discrete(name="Key", labels=c("Thomas/Tomas","Tho/Tom"))
+Lee1 <- yr2017 %>% filter(name == "Lee")
+yr20181 <- yob2018 %>% arrange(n) %>% head(31933)
+common2018 <- yr20181 %>% count(name)
+common22018 <- common2018 %>% filter(n == "2")
+common32018 <- common22018 %>% left_join(yr20181, by = "name") 
+common42018 <- common32018 %>% group_by(name) %>% summarise(nsum = sum(n.y))
+common52018 <- common32018 %>% filter(gender == "M") %>% select(name, n.y)
+common62018 <- common42018 %>% left_join(common52018, by = "name") %>% mutate(per = n.y/nsum) 
+common72018 <- common62018 %>% filter(per < .75 & per > .25)
+common82018 <- yr20181 %>% anti_join(common72018, by = "name")
 
 ```
+
+```{r}
+trend1 <- common82018 %>% left_join(babynames, by = "name") %>% filter(!is.na(n))
+trend2 <- trend1 %>% group_by(name) %>% summarise(meantot = mean(prop))
+trend1716 <- trend1 %>% filter(year == "2016" | year == "2017") %>% group_by(name) %>% summarise(mean17 = mean(prop))
+trend1516 <- trend1 %>% filter(year == "2016" | year == "2015") %>% group_by(name) %>% summarise(mean16 = mean(prop))
+trend3 <- trend1716 %>% left_join(trend2, by = "name") %>% mutate(trend = mean17/meantot)
+trend4 <- trend1716 %>% left_join(trend1516, by = "name") %>% mutate(trend = mean16/mean17) %>% filter(trend > 1)
+trend1514 <- trend1 %>% filter(year == "2014" | year == "2015") %>% group_by(name) %>% summarise(mean15 = mean(prop))
+trend5 <- trend4 %>% left_join(trend1514, by = "name") %>% mutate(trend = mean15/mean16) %>% filter(!is.na(trend)) %>% filter(trend > 1)
+trend1314 <- trend1 %>% filter(year == "2014" | year == "2013") %>% group_by(name) %>% summarise(mean14 = mean(prop))
+trend6 <- trend5 %>% left_join(trend1314, by = "name") %>% mutate(trend = mean14/mean15) %>% filter(!is.na(trend)) %>% filter(trend > 1)
+trend1312 <- trend1 %>% filter(year == "2012" | year == "2013") %>% group_by(name) %>% summarise(mean13 = mean(prop))
+trend7 <- trend6 %>% left_join(trend1312, by = "name") %>% mutate(trend = mean13/mean14) %>% filter(!is.na(trend)) %>% filter(trend > 1) 
+trend8 <- trend7 %>% select(name)
+```
+
+```{r}
+nick1 <- trend8 %>% left_join(yob2018, by = "name") 
+nick2 <- nick1 %>% filter(gender == "M")
+nick3 <- nick1 %>% filter(gender == "F")
+nick4 <- nick2 %>% summarise(mean(num))
+nick5 <- nick3 %>% summarise(mean(num))
+nick8 <- nick2 %>% filter(num > 419)
+nick9 <- nick3 %>% filter(num > 282)
+nick8 <- nick8 %>% arrange(desc(num)) %>% head(50)
+nick9 <- nick9 %>% arrange(desc(num)) %>% head(50)
+finalgroup <- nick8 %>% left_join(trend3) %>% arrange(trend)
+finalgroup1 <- nick9 %>% left_join(trend3) %>% arrange(trend)
+```
+## Recommendation 
+
+We recommend Kevin for a boy and Michelle for a girl.
+
+## Why We Recommended those Names
+
+We recommend this because these are both that are clearly for one gender. Additionally, they are names that do not have automatic nicknames associated with them. Additionally, Kevin and Michelle are both trending however, are not overly trendy. Both of these names are good names because they represent the criteria that the client gave us and their unique enough that not every kid will have these names. 
 
 
 
