@@ -35,7 +35,7 @@ totalnames <- full_join(babynames,yob2018)
 
 ## Andres Acevedo 
 
-```{r}
+```{r,echo=FALSE , warning=FALSE, message=FALSE}
 variant_count <- popnames %>% 
   filter(str_detect(name, pattern = "^And")) %>% 
   group_by(year) %>% summarize(variants = n(), sum(count))
@@ -66,7 +66,7 @@ Based on my plot, names starting with 'And' are more popular than variations of 
 
 ## Julia Foley
 
-```{r}
+```{r,echo=FALSE , warning=FALSE, message=FALSE}
 Julia1 <- totalnames %>% filter(str_detect(name, "^J[eu]+[ew]*l[iey]+a$"))
 Julia2000 <- Julia1 %>% filter(year %in% 2000) %>% group_by(year) %>% summarise(prop_A = sum(prop)) # .00443
 Julia2018 <- yob2018 %>% filter(str_detect(name, "^J[eu]+[ew]*l[iey]+a$"))
@@ -81,14 +81,14 @@ relative0018 <- relative + Juliaprop
 
 ```
 
-```{r}
+```{r,echo=FALSE , warning=FALSE, message=FALSE}
 Julplot <- totalnames %>% filter(str_detect(name, "^Jul")) %>% group_by(year) %>% mutate(Julia = str_detect(name, "^Jul[iey]+a$")) %>% filter(year > 2000 & year < 2018)
 ggplot(data = Julplot, mapping = aes(x = year, y = prop, color = Julia)) +
   geom_point() +
   labs(title = "Proportion of names that start with JUL by year from 2000-2018", y = "Proportion of Names")
 ```
 
-```{r}
+```{r,echo=FALSE , warning=FALSE, message=FALSE}
 Julplot8200 <- totalnames %>% filter(str_detect(name, "^Jul")) %>% group_by(year) %>% mutate(Julia = str_detect(name, "^Jul[iey]+a$")) %>% filter(year > 1982 & year < 2000)
 ggplot(data = Julplot8200, mapping = aes(x = year, y = prop, color = Julia)) +
   geom_point() +
@@ -241,18 +241,18 @@ The popularity of my name decreased since the year I was born. Nisia and variati
 
 
 
-```{r}
+```{r,echo=FALSE , warning=FALSE, message=FALSE}
 
 arial <- totalnames  %>% filter(str_detect(name, "^A[r]+[iyea][ea]l")) %>% filter(year %in% list(1973, 1988, 1990)) %>% filter(sex=="F") %>% group_by(year) %>% summarise(Unique = n())
 arial
 ```
 
-```{r}
+```{r,echo=FALSE , warning=FALSE, message=FALSE}
 rachel <- totalnames %>% filter(str_detect(name, "^R[ae][aey]*[sc]h[aey]+[l]+e?")) %>% filter(year %in% list(1973, 1988, 1990)) %>% filter(sex=="F") %>% group_by(year) #%>% summarise(Unique = n())
 rachel
 ```
 
-```{r}
+```{r,echo=FALSE , warning=FALSE, message=FALSE}
 arialAllYears <- totalnames  %>% filter(str_detect(name, "^A[r]+[iyea][ea]l")) %>%filter(sex=="F") %>% group_by(year) %>% summarise(Total=sum(n))
 arialAllYears
 ggplot(arialAllYears) + geom_line(mapping=aes(x=year,y=Total)) + geom_vline(xintercept =1989, color="red") + labs(title = "Babys born with some form of the name Ariel", x="Year", y="Babies born with a variation of Ariel", caption = "Red line= Release of the Little Mermaid movie")
@@ -260,7 +260,7 @@ ggplot(arialAllYears) + geom_line(mapping=aes(x=year,y=Total)) + geom_vline(xint
 
 
 
-```{r}
+```{r,echo=FALSE , warning=FALSE, message=FALSE}
 
 vowelnames <- totalnames %>% filter(str_detect(name, "^[AEIOU]"),year>=1988 & year <=1990, sex=="F") %>% group_by(year) %>% summarise(otherprop=sum(prop))
 
@@ -362,7 +362,7 @@ ggplot(nisia5,aes(prop))+
 ## Team 
 
 # Name Recommendation 
-```{r}
+```{r,echo=FALSE , warning=FALSE, message=FALSE}
 yrname <- babynames %>% group_by(name) %>% count(name)
 yr2017 <- babynames %>% filter(year == "2017")
 yr2016 <- babynames %>% filter(year == "2016")
@@ -384,7 +384,7 @@ common82018 <- yr20181 %>% anti_join(common72018, by = "name")
 
 ```
 
-```{r}
+```{r,echo=FALSE , warning=FALSE, message=FALSE}
 trend1 <- common82018 %>% left_join(babynames, by = "name") %>% filter(!is.na(n))
 trend2 <- trend1 %>% group_by(name) %>% summarise(meantot = mean(prop))
 trend1716 <- trend1 %>% filter(year == "2016" | year == "2017") %>% group_by(name) %>% summarise(mean17 = mean(prop))
@@ -400,7 +400,7 @@ trend7 <- trend6 %>% left_join(trend1312, by = "name") %>% mutate(trend = mean13
 trend8 <- trend7 %>% select(name)
 ```
 
-```{r}
+```{r,echo=FALSE , warning=FALSE, message=FALSE}
 nick1 <- trend8 %>% left_join(yob2018, by = "name") 
 nick2 <- nick1 %>% filter(gender == "M")
 nick3 <- nick1 %>% filter(gender == "F")
