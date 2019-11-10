@@ -39,12 +39,24 @@ test_join <- popnames %>% group_by(year) %>% summarize(total = sum(count))
 test_full_join <- variant_count %>% full_join(test_join) %>% 
 mutate(prop = `sum(count)`/total)
 
+andres <- popnames %>% filter(str_detect(name, pattern = "^A[in|n]d[re]..$")) %>% 
+  group_by(year) %>% summarize(count = sum(count)) %>% 
+  full_join(test_join) %>% mutate(prop = count/total)
+
 ggplot(test_full_join) + 
   geom_line(aes(x = year, y = prop), col = "steelblue") + 
   geom_line(data = andres, aes(x = year, y = prop), col = 'red') +
   ggtitle("Time series of Firsth Three Letters (Blue) and Regex (Red) Over Time") + 
   xlab("Year") + ylab("Proportion") + theme_minimal()
 ```
+***Regular expression***
+The regular expression I used was ^A[in|n]d[re]..$, all of the common variations of my name started with either An or Ain with d always following the first letters. The next letter was always either r or e. Common variatons of my name can have additional letters at the end such as eas. 
+
+***Name now Compared to when I was Born***
+My name has decreased in popularity since I was born. You can see the exact difference in the "Your names" section of this lab. For the most part, the popularity of my name had been increasing since 1880 but began to decline around 1984. 
+
+***How Popular is your name compared to other names that start with "And"?*** 
+Based on my plot, names starting with 'And' are more popular than variations of my name 'Andres' this would make sense as there are many names starting with 'And' that are not variations of Andres. It would make sense that the use of a more strict regular expression would lead to a dataframe with fewer names and therefore a smaller proportion of total names in a given year. 
 
 ## Julia Foley
 
