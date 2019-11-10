@@ -554,3 +554,12 @@ ggplot(mapping = aes(x = year, y = prop)) +
   geom_point(data = propmichelle, color = "red")
 ```
 
+
+
+
+
+
+
+### Thomas Neal
+
+I tidied and graphed the data for the Little Mermaid. I also helped to figure out how to set up the data frame to best graph our individual names over time. I calculated the proportions for the additional 2018 data. I also did all of my individual parts and helped to format the lab.
