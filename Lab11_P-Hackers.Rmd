@@ -162,7 +162,17 @@ comb<- left_join(Thomas,Tho)
 
 comball <- left_join(Thomasall,Thoall)
 
+Tomprop <- totalnames %>% filter(str_detect(name,"^[T][h]*omas$")) %>% filter( sex=="M") %>% group_by(year) %>% summarise(Thomas=sum(prop))
 
+Thoprop <-  totalnames %>% group_by(year) %>%  filter(str_detect(name, "^Tho") | str_detect(name,"^Tom")) %>% filter(sex=="M") %>% summarise(Total=sum(prop))
+
+combprop <- left_join(Tomprop,Thoprop)
+
+```
+
+
+```{r, echo=FALSE , warning=FALSE, message=FALSE}
+ggplot(combprop) + geom_line(mapping = aes(x=year,y=Total,color="red")) + geom_line(mapping = aes(x=year,y=Thomas,color="blue")) + labs(title= "Popularity of Thomas/Tomas vs all names starting with Tho/Tom (1880-2018)" , x="Year", y="Proportion" ) +scale_color_discrete(name="Key", labels=c("Thomas/Tomas","Tho/Tom")) 
 
 ```
 
