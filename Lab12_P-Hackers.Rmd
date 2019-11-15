@@ -257,7 +257,7 @@ Create a team R Markdown document knitted to html and submitted to OSF. Put your
 
 ### Julia Foley
 
-I helped with the Linear Correlation Permulation Test, the questions of the lab, and the description of the dataset.  
+We got together Wednesday night to work on the lab. We did the labe together however, I helped with the Linear Correlation Permulation Test, the questions of the lab, and the description of the dataset.  
 
 ### Andres Acevedo 
 
