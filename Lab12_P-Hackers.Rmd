@@ -213,6 +213,13 @@ Gdp> Pre and and war
 
 The gapminder data set contains data between 1952 and 2007. The data includes Countries, Continents, Year, Life Expectancy, Population, and GDP per Capita. Within this data, we can analyze data about the relationship within specific countries and the relationship between countries. 
 
+
+# Why these questions are important
+
+1. With Asia having the largest population in the world, and Africa being one of the richest in natural resources it is interesting to compare their life expextancy. Asia has historically dealt with overpopulation and the problems this presents when trying to keep people healthy. Africa has been exploited for its resources and thus has had to trouble maintaining healthy standards for its people. By looking at comparisons in their data we may be able to find a correlation between their struggles.
+
+2. With the space race representing the race between the two economic ideologies of the time, capitalism and communism it is important to see how these two ideas impacted surrounding countries' economies. By comparing the GDPs we can gain a sense of the impact these to contradicting ideas had.
+
 * Explain why your questions are important. One of the questions should be answered with the two-sample mean permutation test, and the other with the correlation permutation test.
 
 
