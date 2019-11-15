@@ -89,6 +89,17 @@ return(perm_mean_diffs)
 ```
 
 ```{r}
+hist2 <-hist(perm_mean(100,mena_ans$lifeExp,5))
+```
+
+```{r}
+question1pen <- quantile(perm_mean(100,mena_ans$lifeExp,5),0.95)
+question1pen
+```
+
+
+
+```{r}
 perm_mean(100,mena_ans$lifeExp,5)
 ```
 
