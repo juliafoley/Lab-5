@@ -257,7 +257,7 @@ We got together Wednesday night to work on the lab. We did the labe together how
 
 ### Andres Acevedo
 
-Unfortunately, I wasn't available to meet with my team to formulate the original questions for this lab. However, while going through the team code, I noticed that one of our dataframes contained no information. This had implications for the veracity of our results. I alerted the team and we then made the selection of Cuba as a proxy nation for Russia before and After the space race. Also, along with the rest of the team, I wrote the first function perm_mean which allows us to calculate the first permutation test. I knitted and submitted the final document.
+Unfortunately, I wasn't available to meet with my team to formulate the original questions for this lab. However, while going through the team code, I noticed that one of our dataframes contained no information. This had implications for the veracity of our results. I wrote the first function perm_mean which allows us to calculate the first permutation test. I knitted together final document.
 
 ### Declan Franklin
 
