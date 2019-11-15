@@ -1,7 +1,7 @@
 ---
-title: "Lab12_P-Hackers"
-author: "Declan Franklin"
-date: "11/12/2019"
+title: "P-HackersLab12"
+author: "Team P-Hackers"
+date: "11/14/2019"
 output: html_document
 ---
 
@@ -29,18 +29,13 @@ We mix up the group labels $A$ and $B$ over our sampled data many times. We comp
 You will implement the following function, perm_mean, to create 1000 iterations of the two-sample permuation test. Fill in the function-skeleton to implement the function.
 
 ```{r}
-mena_ans <- gapminder %>%
+mena_ans <- gapminder_unfiltered %>%
   filter(continent== "Asia" | continent == "Africa") %>%
   select(continent,lifeExp) 
 ```
 
 
-```{r, eval = F}
-
-gpa <- c(3.0,2.6,2.0,3.0,3.4)
-
-
-
+```{r, eval = T}
 perm_mean <- function(perms = 1000, all_values, n_A)  # All values of hist and cmci
 {
   ## Variables ##
@@ -88,21 +83,12 @@ return(perm_mean_diffs)
 }
 ```
 
-```{r}
-hist2 <-hist(perm_mean(100,mena_ans$lifeExp,5))
-```
 
+**Mean Diff Distribution Histogram for Africa vs Asia** 
 ```{r}
 question1pen <- quantile(perm_mean(100,mena_ans$lifeExp,5),0.95)
-question1pen
+hist2 <-hist(perm_mean(100,mena_ans$lifeExp,5))
 ```
-
-
-
-```{r}
-perm_mean(100,mena_ans$lifeExp,5)
-```
-
 
 
 # Linear Correlation Permuation Test
@@ -122,23 +108,23 @@ To test our hypothesis, we shuffle the labels on both variables many times. For 
 Implement the following function, perm_cor, to create 1000 iterations of the correlation permuation test. Fill in the function-skeleton to implement the function.
 
 ```{r,echo=FALSE,message=FALSE}
-americA <- gapminder %>%
-  filter(country== "United States", year > 1952, year < 1977)
+americA <- gapminder_unfiltered %>%
+  filter(country== "United States", year >= 1955, year <= 1957)
 
-cubA <- gapminder %>%
-  filter(country== "Cuba", year > 1952, year < 1977)
+russiA <- gapminder_unfiltered %>%
+  filter(country== "Russia", year >= 1950, year <= 1990)
 
-americAfter <- gapminder %>%
-  filter(country== "United States", year > 1977, year < 2002)
+americAfter <- gapminder_unfiltered %>%
+  filter(country== "United States", year >= 1991, year <= 2002)
 
-cubAfter <- gapminder %>%
-  filter(country== "Cuba", year > 1977, year < 2002)
+russiAfter <- gapminder_unfiltered %>%
+  filter(country== "Russia", year >= 1991, year <= 2002)
 
   
 ```
 
 
-```{r, eval = F}
+```{r, eval = T}
 
 perm_cor <- function(perms = 1000, x, y)
 {
@@ -186,16 +172,16 @@ perm_cor <- function(perms = 1000, x, y)
 
 **The Histogram during the Space Race**
 ```{r,echo=FALSE}
-twohist <- hist(perm_cor(1000,americA$gdpPercap,cubA$gdpPercap),main = "GDP/Capita in America and Cuba during the Cold War", xlab = "Linear Correlation")
+twohist <- hist(perm_cor(1000,americA$gdpPercap,russiA$gdpPercap),main = "GDP/Capita in America and Russia during the Cold War", xlab = "Linear Correlation")
 
 twohist 
 
 ```
 
 **The Percentiles during the Space Race**
-```{r, echo=FALSE, message=FALSE, warning=FASLE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
-twopen <- quantile(perm_cor(1000,americA$gdpPercap,cubA$gdpPercap),0.95) 
+twopen <- quantile(perm_cor(1000,americA$gdpPercap,russiA$gdpPercap),0.95) 
 
 twopen
 ```
@@ -204,29 +190,33 @@ twopen
 ### Decades after the space race
 <p>
 
-#### Reject th null if the perceentile is less then 95%
+#### Reject the null if the percentile is less then 95%
 
 **The Histogram After the Space Race**
 ```{r,echo=FALSE}
-afterhist <- hist(perm_cor(1000,americAfter$gdpPercap,cubAfter$gdpPercap),main = "GDP/Capita in America and Cuba After the Cold War", xlab = "Linear Correlation")
+afterhist <- hist(perm_cor(1000,americAfter$gdpPercap,russiAfter$gdpPercap),main = "GDP/Capita in America and Russia After the Cold War", xlab = "Linear Correlation")
 
 afterhist 
 
 ```
 **The Percentiles After the Space Race**
-```{r, echo=FALSE, message=FALSE, warning=FASLE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
-afterpen <- quantile(perm_cor(1000,americAfter$gdpPercap,cubAfter$gdpPercap),0.95) 
+afterpen <- quantile(perm_cor(1000,americAfter$gdpPercap,russiAfter$gdpPercap),0.95) 
 
 afterpen
 ```
 
 
 
-#### Conclussion 
+#### Conclusion 
 <p>
-In conclusion, during the space race, there was a corrilation betwen GDP/capita. the percentile was at 95.1%, which agrees with our null hypothesis. After the space race, the percentile was well below our null hypothesis, so we can't conclude a corrilation. 
+In conclusion, during the space race, there was a corrilation betwen GDP per-capita. the percentile was 95.1%, which suggests that we should accept our null hypothesis. After the space race, the percentile was well below our null hypothesis, so we can't conclude the variables are corrilated. 
 
+
+# Description of gapminder Dataset.
+
+The gapminder data set contains data between 1952 and 2007. The data includes Countries, Continents, Year, Life Expectancy, Population, and GDP per Capita. Within this data, we can analyze data about the relationship within specific countries and the relationship between countries.
 
 
 # Gapminder Questions
@@ -238,17 +228,6 @@ Your data science team must come up with two specific questions of interest abou
 2. Is there a strong corrilation of gdpPercap in Europe or America during the space race? What about a decade after?
 
 
-Gdp> Pre and and war 
-
-
-
-
-
-# Briefly describe the gapminder dataset.
-
-The gapminder data set contains data between 1952 and 2007. The data includes Countries, Continents, Year, Life Expectancy, Population, and GDP per Capita. Within this data, we can analyze data about the relationship within specific countries and the relationship between countries. 
-
-
 # Why these questions are important
 
 1. With Asia having the largest population in the world, and Africa being one of the richest in natural resources it is interesting to compare their life expextancy. Asia has historically dealt with overpopulation and the problems this presents when trying to keep people healthy. Africa has been exploited for its resources and thus has had to trouble maintaining healthy standards for its people. By looking at comparisons in their data we may be able to find a correlation between their struggles.
@@ -256,34 +235,22 @@ The gapminder data set contains data between 1952 and 2007. The data includes Co
 2. With the space race representing the race between the two economic ideologies of the time, capitalism and communism it is important to see how these two ideas impacted surrounding countries' economies. By comparing the GDPs we can gain a sense of the impact these to contradicting ideas had.
 
 
-
-
-
-
-# Format and Order for Team Lab Report
-
-Create a team R Markdown document knitted to html and submitted to OSF. Put your team name in the filename. Make sure your code works on the updated dataset realeased on Friday.
-
-# What each individual do 
+# Individual Contributions 
 
 ### Julia Foley
 
 We got together Wednesday night to work on the lab. We did the labe together however, I helped with the Linear Correlation Permulation Test, the questions of the lab, and the description of the dataset.  
 
-### Andres Acevedo 
+### Andres Acevedo
 
-<p>
+Unfortunately, I wasn't available to meet with my team to formulate the original questions for this lab. However, while going through the team code, I noticed that one of our dataframes contained no information. This had implications for the veracity of our results. I alerted the team and we then made the selection of Cuba as a proxy nation for Russia before and After the space race. Also, along with the rest of the team, I wrote the first function perm_mean which allows us to calculate the first permutation test. I knitted and submitted the final document.
+
 ### Declan Franklin
-<p>
 
 I was able to work alongside Thomas, Nisia, and Julia to figure out the linear correlation function. After completed said function, I used to say function to answer our second question about the space race.
-
 
 ### Thomas Neal 
 
 ### Nisia Pinto
 
 We met on Wedsnesday to go over the questions in the lab. I helped braistorming the questions and helped in the linear correlation function.
-
-
-
