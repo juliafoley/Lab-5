@@ -12,16 +12,6 @@ library(tidyverse)
 ```
 
 
-
-
-# Permutation Tests
-
-In this lab, you will learn how to perform permutation tests. Taken from Wikipedia, "A permutation test (also called a randomization test, re-randomization test, or an exact test) is a type of statistical significance test in which the distribution of the test statistic under the null hypothesis is obtained by calculating all possible values of the test statistic under rearrangements of the labels on the observed data points." The key idea behind permutation tests is to make a statistical argument about whether the labels matter.
-
-To perform a permutation test: scramble up the labels, resample the data, and calculate a summary of the data. Repeat this process 1000 or more times. Then, plot the 1000 summaries as a histogram and plot the summary of the actual data on the histogram. Decide if the actual data is extreme based on the percentile of the actual summary.
-
-To do all of this, you need to write a function and then runs 1000 or more iterations. You also need to plot histograms and calculate percentiles, which you have practiced.
-
 # Two-Sample Permutation Test
 
 Say we want to know if groups $A$ and $B$ have different means for some variable like age or gdp per capita. We conduct a hypothesis test where the null hypothesis $H_0$ is that the means are the same and the alternative hypothesis $H_1$ that the means are different. 
@@ -208,21 +198,10 @@ The gapminder data set contains data between 1952 and 2007. The data includes Co
 
 2. With the space race representing the race between the two economic ideologies of the time, capitalism and communism it is important to see how these two ideas impacted surrounding countries' economies. By comparing the GDPs we can gain a sense of the impact these to contradicting ideas had.
 
-* Explain why your questions are important. One of the questions should be answered with the two-sample mean permutation test, and the other with the correlation permutation test.
 
 
 
 
-
-* Finish the function skeletons to implement the two-sample permuation test and the correlation permutation test. Run a two-sample mean permutation test. Run a correlation permutation test.
-
-* Create visualizations of the statistical tests.
-
-* Make data-based conclusions about the results. Do you believe there are differences among the groups you are comparing? 
-
-* Generate percentiles, summary statistics (max, min), and probabilites (p-values) to justify your conclusions.
-
-* Summarize each individual's contribution to the lab.
 
 # Format and Order for Team Lab Report
 
