@@ -251,6 +251,8 @@ I was able to work alongside Thomas, Nisia, and Julia to figure out the linear c
 
 ### Thomas Neal 
 
+I helped to graph the data for question 1. I also calculated the percentiles for it. I then helped draw the data-based conclusion to this question. Lastly, I helped format the lab.
+
 ### Nisia Pinto
 
 We met on Wedsnesday to go over the questions in the lab. I helped braistorming the questions and helped in the linear correlation function.
