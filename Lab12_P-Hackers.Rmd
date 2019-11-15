@@ -11,31 +11,36 @@ library(gapminder)
 library(tidyverse)
 ```
 
+# Description of gapminder Dataset.
 
-# Two-Sample Permutation Test
-
-Say we want to know if groups $A$ and $B$ have different means for some variable like age or gdp per capita. We conduct a hypothesis test where the null hypothesis $H_0$ is that the means are the same and the alternative hypothesis $H_1$ that the means are different. 
-
-> **H0:** $\mu_A - \mu_B = 0$  
-**H1:** $\mu_A - \mu_B \neq 0$
-
-To test our hypothesis, we run an experiment in which we take samples (of age, gdp per capita, etc.) of sizes $n_A$ and $n_B$ from populations $A$ and $B$. Then we calculate the sample means of both groups $\bar{X_A}$ and $\bar{X_B}$.
-
-If the null hypothesis is true, $\bar{X_A} - \bar{X_B} \approx 0$.
-
-We mix up the group labels $A$ and $B$ over our sampled data many times. We compute $\bar{X_A} - \bar{X_B}$ fr each iteration and make a histogram of all the iterations. We find the actual $\bar{X_A} - \bar{X_B}$ percentile on the histogram. We reject the null hypothesis in favor of the alternative if the percentile of the actual $\bar{X_A} - \bar{X_B}$ is in the critical region.
+The gapminder data set contains data between 1952 and 2007. The data includes Countries, Continents, Year, Life Expectancy, Population, and GDP per Capita. Within this data, we can analyze data about the relationship within specific countries and the relationship between countries.
 
 
-You will implement the following function, perm_mean, to create 1000 iterations of the two-sample permuation test. Fill in the function-skeleton to implement the function.
+# Gapminder Questions
 
-```{r}
+Your data science team must come up with two specific questions of interest about the gapminder data set (from 'gapminder' library). 
+
+1. Is life expectancy longer in Africa than in Asia? 
+
+2. Is there a strong corrilation of gdpPercap in Europe or America during the space race? What about a decade after?
+
+
+# Why these questions are important
+
+1. With Asia having the largest population in the world, and Africa being one of the richest in natural resources it is interesting to compare their life expextancy. Asia has historically dealt with overpopulation and the problems this presents when trying to keep people healthy. Africa has been exploited for its resources and thus has had to trouble maintaining healthy standards for its people. By looking at comparisons in their data we may be able to find a correlation between their struggles.
+
+2. With the space race representing the race between the two economic ideologies of the time, capitalism and communism it is important to see how these two ideas impacted surrounding countries' economies. By comparing the GDPs we can gain a sense of the impact these to contradicting ideas had.
+
+
+
+```{r,,echo=FALSE,message=FALSE}
 mena_ans <- gapminder_unfiltered %>%
   filter(continent== "Asia" | continent == "Africa") %>%
   select(continent,lifeExp) 
 ```
 
 
-```{r, eval = T}
+```{r, eval = T,echo=FALSE,message=FALSE}
 perm_mean <- function(perms = 1000, all_values, n_A)  # All values of hist and cmci
 {
   ## Variables ##
@@ -65,7 +70,7 @@ perm_mean <- function(perms = 1000, all_values, n_A)  # All values of hist and c
     
     A_bar <- mean(group_A)
     B_bar <- mean(group_B)
-    print(group_A)
+    
    
     
     # Step 4: 
@@ -84,25 +89,6 @@ return(perm_mean_diffs)
 ```
 
 
-**Mean Diff Distribution Histogram for Africa vs Asia** 
-
-
-
-# Linear Correlation Permuation Test
-
-Say we want to figure out if two variables in a dataset are linearly correlated. For example, is a person's age correlated with a person's income?
-
-Recall that the Pearson correlation coefficient measures the strength of the linear relationship $\rho$ between two random variables, $X$ and $Y$. A correlation close to 1 indicates a strong, positive linear relationship. A correlation close to -1 indicates a strong, negative linear relationship. A correlation close to 0 indicates no linear relationship.
-
-Our null hypothesis is that the variables are not correlated. Our alternative hypothesis is that the variables are correlated.
-
-> **H0:** $\rho = 0$  
-**H1:** $\rho \neq 0$
-
-To test our hypothesis, we shuffle the labels on both variables many times. For each iteration, we compute the Pearson linear correlation $\rho$. Make a histogram of all the shuffled correlations. Plot the actual correlation between the variables on the histogram. Reject the null hypothesis if the percentile of the actual correlation is in the critical region.
-
-
-Implement the following function, perm_cor, to create 1000 iterations of the correlation permuation test. Fill in the function-skeleton to implement the function.
 
 ```{r,echo=FALSE,message=FALSE}
 americA <- gapminder_unfiltered %>%
@@ -121,7 +107,7 @@ russiAfter <- gapminder_unfiltered %>%
 ```
 
 
-```{r, eval = T}
+```{r, eval = T,echo=FALSE,message=FALSE}
 
 perm_cor <- function(perms = 1000, x, y)
 {
@@ -165,11 +151,12 @@ perm_cor <- function(perms = 1000, x, y)
 **Histogram of life expediency between Asia and Africa**
 
 ```{r,echo=FALSE,message=FALSE}
-hist2 <-hist(perm_mean(100,mena_ans$lifeExp,5))
+hist2 <-hist(perm_mean(100,mena_ans$lifeExp,5),main = "Distrodution of mean diffrence in life expectancy", xlab = "Linear Correlation")
+hist2
 ```
 **The 95 Percentile for Africa vs Asia**
 
-```{r,echo=FALSE,message=FALSE}
+```{r,echo=FALSE}
 question1pen <- quantile(perm_mean(100,mena_ans$lifeExp,5),0.95)
 question1pen
 ```
@@ -228,26 +215,6 @@ afterpen
 In conclusion, during the space race, there was a corrilation betwen GDP per-capita. the percentile was 48.94%, which suggests that we should accept our null hypothesis. After the space race, the percentile was well below our null hypothesis, so we can't conclude the variables are corrilated. 
 
 
-# Description of gapminder Dataset.
-
-The gapminder data set contains data between 1952 and 2007. The data includes Countries, Continents, Year, Life Expectancy, Population, and GDP per Capita. Within this data, we can analyze data about the relationship within specific countries and the relationship between countries.
-
-
-# Gapminder Questions
-
-Your data science team must come up with two specific questions of interest about the gapminder data set (from 'gapminder' library). 
-
-1.Is life expectancy longer in Africa than in Asia? 
-
-2. Is there a strong corrilation of gdpPercap in Europe or America during the space race? What about a decade after?
-
-
-# Why these questions are important
-
-1. With Asia having the largest population in the world, and Africa being one of the richest in natural resources it is interesting to compare their life expextancy. Asia has historically dealt with overpopulation and the problems this presents when trying to keep people healthy. Africa has been exploited for its resources and thus has had to trouble maintaining healthy standards for its people. By looking at comparisons in their data we may be able to find a correlation between their struggles.
-
-2. With the space race representing the race between the two economic ideologies of the time, capitalism and communism it is important to see how these two ideas impacted surrounding countries' economies. By comparing the GDPs we can gain a sense of the impact these to contradicting ideas had.
-
 
 # Individual Contributions 
 
@@ -264,6 +231,8 @@ Unfortunately, I wasn't available to meet with my team to formulate the original
 I was able to work alongside Thomas, Nisia, and Julia to figure out the linear correlation function. After completed said function, I used to say function to answer our second question about the space race.
 
 ### Thomas Neal 
+
+I helped to graph the data for question 1. I also calculated the percentiles for it. I then helped draw the data-based conclusion to this question. Lastly, I helped format the lab. 
 
 ### Nisia Pinto
 
