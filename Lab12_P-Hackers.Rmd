@@ -85,10 +85,7 @@ return(perm_mean_diffs)
 
 
 **Mean Diff Distribution Histogram for Africa vs Asia** 
-```{r}
-question1pen <- quantile(perm_mean(100,mena_ans$lifeExp,5),0.95)
-hist2 <-hist(perm_mean(100,mena_ans$lifeExp,5))
-```
+
 
 
 # Linear Correlation Permuation Test
@@ -167,13 +164,14 @@ perm_cor <- function(perms = 1000, x, y)
 
 **Histogram of life expediency between Asia and Africa**
 
-```{r, echo=False,message=FALSE,warning=FALSE}
-print(hist2)
+```{r,echo=FALSE,message=FALSE}
+hist2 <-hist(perm_mean(100,mena_ans$lifeExp,5))
 ```
 **The 95 Percentile for Africa vs Asia**
 
-```{r, echo=False,message=FALSE,warning=FALSE}
-print(question1pen)
+```{r,echo=FALSE,message=FALSE}
+question1pen <- quantile(perm_mean(100,mena_ans$lifeExp,5),0.95)
+question1pen
 ```
 
 #### Conclusion To Question 1
