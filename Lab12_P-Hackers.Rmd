@@ -162,7 +162,7 @@ question1pen
 ```
 
 #### Conclusion To Question 1
-We found that the 95th Percentile of mean differences was 0.9328. This suggests that we should accept our null hypothesis and state that we have not proven a statistically significant difference in the life expectancy of Asain countries and African countries.
+We found that the 95th Percentile of mean differences was around (8.8 to 9.3) which is greater than 0.05. This suggests that we should reject our null hypothesis and state that we have proven a statistically significant difference in the life expectancy of Asain countries and African countries.
 
 
 ### 2. Is there a strong corrilation of gdpPercap in Russia and America during the space race? What about decades after?
@@ -212,7 +212,7 @@ afterpen
 
 #### Conclusion to Question 2
 <p>
-In conclusion, during the space race, there was a corrilation betwen GDP per-capita. the percentile was 48.94%, which suggests that we should accept our null hypothesis. After the space race, the percentile was well below our null hypothesis, so we can't conclude the variables are corrilated. 
+In conclusion, during the space race, there was a corrilation betwen GDP per-capita. the percentile was 48.94%, which suggests that we should reject our null hypothesis which states that the variables are uncorrelated. We can conclude the variables are correlated. 
 
 
 
