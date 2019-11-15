@@ -11,20 +11,8 @@ library(gapminder)
 library(tidyverse)
 ```
 
-# Overall Description of Lab 12
 
-**Due: 5:00PM Friday, November 15, 2019 on OSF**  
 
-**Note: Data changes all the time, whether in the form of completely new data, data record updating, or data appending. Regardless, it’s important to write code that is easily adaptabale and executable on a similar, but different, dataset. The dataset you will use for this lab will be released (via email) on Friday before or during class. The dataset will be an update of the gapminder dataset. Your code will need to run on the new dataset. You should write your code to account for this last minute change of the data.**
-
-Each teammate should individually practice answering all of the questions in this lab and creating all of the plots. If you get stuck, ask your teammates for help. Compare your results with your teammates and reconcile any discrepancies. Only a team report should be submitted. There are no individual sections in this report.
-
-In this lab you will practice: 
-
-* calculating percentiles and probabilities
-* writing functions to repeat actions multiple times (iterate)
-* plotting histograms and determining what constitutes an "extreme" value in the distribution
-* computing p-values, determining if an observed change is "significant".
 
 # Permutation Tests
 
