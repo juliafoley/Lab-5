@@ -159,7 +159,20 @@ perm_cor <- function(perms = 1000, x, y)
   return(perm_mean_diffs2)
 }
 ```
+### 1. Is life expencity longer in Africa than in Asia?
 
+#### Accept the the null if the p-value less than .05
+
+**Histogram of life expediency between Asia and Africa**
+
+```{r, echo=False,message=FALSE,warning=FALSE}
+print(hist2)
+```
+**The 95 Percentile for Africa vs Asia**
+
+```{r, echo=False,message=FALSE,warning=FALSE}
+print(question1pen)
+```
 
 
 
