@@ -180,16 +180,18 @@ perm_cor <- function(perms = 1000, x, y)
 ```
 
 
-```{r}
-View(gapminder)
-```
 
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FASLE}
 
-perm_cor(10,americA$gdpPercap,russiA$gdpPercap)
+twoden <- density(perm_cor(1000,americA$gdpPercap,russiA$gdpPercap))
+twopen <- quantile(perm_cor(1000,americA$gdpPercap,russiA$gdpPercap),0.95) 
+twohist <- hist(perm_cor(1000,americA$gdpPercap,russiA$gdpPercap),main = "GDP/Capita in America and Russia during the Cold War", xlab = "Linear Correlation")
 
 
+twoden
+twohist
+twopen
 ```
 
 # Gapminder Questions
