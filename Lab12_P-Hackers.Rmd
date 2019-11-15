@@ -110,15 +110,21 @@ To test our hypothesis, we shuffle the labels on both variables many times. For 
 
 Implement the following function, perm_cor, to create 1000 iterations of the correlation permuation test. Fill in the function-skeleton to implement the function.
 
-```{r}
+```{r,echo=FALSE,message=FALSE}
 americA <- gapminder %>%
   filter(country== "United States", year > 1952, year < 1977)
 
-russiA <- gapminder %>%
-  filter(country== "United States", year > 1952, year < 1977)
+cubA <- gapminder %>%
+  filter(country== "Cuba", year > 1952, year < 1977)
+
+americAfter <- gapminder %>%
+  filter(country== "United States", year > 1977, year < 2002)
+
+cubAfter <- gapminder %>%
+  filter(country== "Cuba", year > 1977, year < 2002)
+
   
 ```
-
 
 
 ```{r, eval = F}
@@ -160,17 +166,57 @@ perm_cor <- function(perms = 1000, x, y)
 
 
 
+### 2. Is there a strong corrilation of gdpPercap in Cuba or America during the space race? What about decades after?
+
+<p>
+
+#### Reject the null if the percentile is less then 95%
+
+
+**The Histogram during the Space Race**
+```{r,echo=FALSE}
+twohist <- hist(perm_cor(1000,americA$gdpPercap,cubA$gdpPercap),main = "GDP/Capita in America and Cuba during the Cold War", xlab = "Linear Correlation")
+
+twohist 
+
+```
+
+**The Percentiles during the Space Race**
 ```{r, echo=FALSE, message=FALSE, warning=FASLE}
 
-twoden <- density(perm_cor(1000,americA$gdpPercap,russiA$gdpPercap))
-twopen <- quantile(perm_cor(1000,americA$gdpPercap,russiA$gdpPercap),0.95) 
-twohist <- hist(perm_cor(1000,americA$gdpPercap,russiA$gdpPercap),main = "GDP/Capita in America and Russia during the Cold War", xlab = "Linear Correlation")
+twopen <- quantile(perm_cor(1000,americA$gdpPercap,cubA$gdpPercap),0.95) 
 
-
-twoden
-twohist
 twopen
 ```
+
+
+### Decades after the space race
+<p>
+
+#### Reject th null if the perceentile is less then 95%
+
+**The Histogram After the Space Race**
+```{r,echo=FALSE}
+afterhist <- hist(perm_cor(1000,americAfter$gdpPercap,cubAfter$gdpPercap),main = "GDP/Capita in America and Cuba After the Cold War", xlab = "Linear Correlation")
+
+afterhist 
+
+```
+**The Percentiles After the Space Race**
+```{r, echo=FALSE, message=FALSE, warning=FASLE}
+
+afterpen <- quantile(perm_cor(1000,americAfter$gdpPercap,cubAfter$gdpPercap),0.95) 
+
+afterpen
+```
+
+
+
+#### Conclussion 
+<p>
+In conclusion, during the space race, there was a corrilation betwen GDP/capita. the percentile was at 95.1%, which agrees with our null hypothesis. After the space race, the percentile was well below our null hypothesis, so we can't conclude a corrilation. 
+
+
 
 # Gapminder Questions
 
