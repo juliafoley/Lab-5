@@ -28,7 +28,7 @@ We mix up the group labels $A$ and $B$ over our sampled data many times. We comp
 
 You will implement the following function, perm_mean, to create 1000 iterations of the two-sample permuation test. Fill in the function-skeleton to implement the function.
 
-```{r, echo=False,message=FALSE,warning=FALSE}
+```{r}
 mena_ans <- gapminder_unfiltered %>%
   filter(continent== "Asia" | continent == "Africa") %>%
   select(continent,lifeExp) 
@@ -85,7 +85,7 @@ return(perm_mean_diffs)
 
 
 **Mean Diff Distribution Histogram for Africa vs Asia** 
-```{r, echo=False,message=FALSE,warning=FALSE}
+```{r}
 question1pen <- quantile(perm_mean(100,mena_ans$lifeExp,5),0.95)
 hist2 <-hist(perm_mean(100,mena_ans$lifeExp,5))
 ```
@@ -159,6 +159,8 @@ perm_cor <- function(perms = 1000, x, y)
   return(perm_mean_diffs2)
 }
 ```
+
+
 ### 1. Is life expencity longer in Africa than in Asia?
 
 #### Accept the the null if the p-value less than .05
@@ -174,9 +176,11 @@ print(hist2)
 print(question1pen)
 ```
 
+#### Conclusion To Question 1
+We found that the 95th Percentile of mean differences was 0.9328. This suggests that we should accept our null hypothesis and state that we have not proven a statistically significant difference in the life expectancy of Asain countries and African countries.
 
 
-### 2. Is there a strong corrilation of gdpPercap in Cuba or America during the space race? What about decades after?
+### 2. Is there a strong corrilation of gdpPercap in Russia and America during the space race? What about decades after?
 
 <p>
 
@@ -184,7 +188,7 @@ print(question1pen)
 
 
 **The Histogram during the Space Race**
-```{r, echo=False,message=FALSE,warning=FALSE}
+```{r,echo=FALSE}
 twohist <- hist(perm_cor(1000,americA$gdpPercap,russiA$gdpPercap),main = "GDP/Capita in America and Russia during the Cold War", xlab = "Linear Correlation")
 
 twohist 
@@ -199,14 +203,13 @@ twopen <- quantile(perm_cor(1000,americA$gdpPercap,russiA$gdpPercap),0.95)
 twopen
 ```
 
-
 ### Decades after the space race
 <p>
 
 #### Reject the null if the percentile is less then 95%
 
 **The Histogram After the Space Race**
-```{r, echo=False,message=FALSE,warning=FALSE}
+```{r,echo=FALSE}
 afterhist <- hist(perm_cor(1000,americAfter$gdpPercap,russiAfter$gdpPercap),main = "GDP/Capita in America and Russia After the Cold War", xlab = "Linear Correlation")
 
 afterhist 
@@ -217,14 +220,14 @@ afterhist
 
 afterpen <- quantile(perm_cor(1000,americAfter$gdpPercap,russiAfter$gdpPercap),0.95) 
 
-afterpen
+afterpen 
 ```
 
 
 
-#### Conclusion 
+#### Conclusion to Question 2
 <p>
-In conclusion, during the space race, there was a corrilation betwen GDP per-capita. the percentile was 95.1%, which suggests that we should accept our null hypothesis. After the space race, the percentile was well below our null hypothesis, so we can't conclude the variables are corrilated. 
+In conclusion, during the space race, there was a corrilation betwen GDP per-capita. the percentile was 48.94%, which suggests that we should accept our null hypothesis. After the space race, the percentile was well below our null hypothesis, so we can't conclude the variables are corrilated. 
 
 
 # Description of gapminder Dataset.
@@ -263,8 +266,6 @@ Unfortunately, I wasn't available to meet with my team to formulate the original
 I was able to work alongside Thomas, Nisia, and Julia to figure out the linear correlation function. After completed said function, I used to say function to answer our second question about the space race.
 
 ### Thomas Neal 
-
-I helped to graph the data for question 1. I also calculated the percentiles for it. I then helped draw the data-based conclusion to this question. Lastly, I helped format the lab.
 
 ### Nisia Pinto
 
