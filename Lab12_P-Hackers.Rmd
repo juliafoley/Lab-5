@@ -28,7 +28,7 @@ We mix up the group labels $A$ and $B$ over our sampled data many times. We comp
 
 You will implement the following function, perm_mean, to create 1000 iterations of the two-sample permuation test. Fill in the function-skeleton to implement the function.
 
-```{r}
+```{r, echo=False,message=FALSE,warning=FALSE}
 mena_ans <- gapminder_unfiltered %>%
   filter(continent== "Asia" | continent == "Africa") %>%
   select(continent,lifeExp) 
@@ -85,7 +85,7 @@ return(perm_mean_diffs)
 
 
 **Mean Diff Distribution Histogram for Africa vs Asia** 
-```{r}
+```{r, echo=False,message=FALSE,warning=FALSE}
 question1pen <- quantile(perm_mean(100,mena_ans$lifeExp,5),0.95)
 hist2 <-hist(perm_mean(100,mena_ans$lifeExp,5))
 ```
@@ -171,7 +171,7 @@ perm_cor <- function(perms = 1000, x, y)
 
 
 **The Histogram during the Space Race**
-```{r,echo=FALSE}
+```{r, echo=False,message=FALSE,warning=FALSE}
 twohist <- hist(perm_cor(1000,americA$gdpPercap,russiA$gdpPercap),main = "GDP/Capita in America and Russia during the Cold War", xlab = "Linear Correlation")
 
 twohist 
@@ -193,7 +193,7 @@ twopen
 #### Reject the null if the percentile is less then 95%
 
 **The Histogram After the Space Race**
-```{r,echo=FALSE}
+```{r, echo=False,message=FALSE,warning=FALSE}
 afterhist <- hist(perm_cor(1000,americAfter$gdpPercap,russiAfter$gdpPercap),main = "GDP/Capita in America and Russia After the Cold War", xlab = "Linear Correlation")
 
 afterhist 
