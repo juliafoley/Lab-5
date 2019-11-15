@@ -233,6 +233,19 @@ The gapminder data set contains data between 1952 and 2007. The data includes Co
 
 Create a team R Markdown document knitted to html and submitted to OSF. Put your team name in the filename. Make sure your code works on the updated dataset realeased on Friday.
 
+# What each individual do 
+
+### Julia Foley
+
+I helped with the Linear Correlation Permulation Test, the questions of the lab, and the description of the dataset.  
+
+### Andres Acevedo 
+
+### Declan Franklin
+
+### Thomas Neal 
+
+### Nisia Pinto
 
 
 
