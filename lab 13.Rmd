@@ -1,0 +1,293 @@
+---
+title: "Lab 13"
+author: "P-Hackers (Andres Acevedo, Julia Foley, Declan Franklin, Thomas Neal, Nisia Pinto)"
+date: "11/17/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(gapminder)
+earthquake <- read.csv('earthquake_affected_annual_number.csv')
+naturalgas <- read.csv('natural_gas_production_total.csv')
+
+```
+
+# Team 
+
+### Question
+
+### Why Interesting/Important? 
+
+### Describe Dataset/ Preprocessing of the Data
+
+### Summary of Answer to Overall Question
+
+# Individual 
+
+### Andres Acevedo 
+
+##### Data Set and Why 
+
+##### Subquestion
+
+##### Hypothesis
+
+##### Map Function
+
+**What Map Function is doing**
+
+##### Permutation Test 
+
+**Null and Alternative Hypothesis**
+
+**Test Statistic**
+
+**Histogram**
+
+**Percentile of Real Data**
+
+**Conclusion from Permutation test**
+
+##### Conclusion to Question
+
+
+
+### Julia Foley
+
+##### Data Set and Why 
+
+I wanted to anaylze a natural disaster so I brainstormed how natural disasters could relate to energy. I chose to use the dataset about the Natural Gas Production per year and the Number of People affected by Earthquakes per year. I thought that these were interesting because I wanted to see if Natural Gas Production contributes to Earthquakes. I thought there could be a correlation because of fracking. I think these datasets will be interesting to analyze and will produce a correlation. 
+
+##### Subquestion
+
+Is there a correlation between the number of people affected by Earthquakes and the amount of Natural Gas produced in the last 25 years (1983-2008)? 
+
+##### Hypothesis
+
+I believe that there will be a positive correlation between the number of people affected by earthquakes and the amount of natural gas produced. 
+
+##### Map Function
+
+```{r}
+earthquake <- earthquake %>% select(country, X1983, X1984, X1985, X1986, X1987, X1988, X1989, X1990, X1991, X1992, X1993, X1994, X1995, X1996, X1997, X1998, X1999, X2000, X2001, X2002, X2003, X2004, X2005, X2006, X2007, X2008) %>% gather('X1983', 'X1984', 'X1985', 'X1986', 'X1987', 'X1988', 'X1989', 'X1990', 'X1991', 'X1992', 'X1993', 'X1994', 'X1995', 'X1996', 'X1997', 'X1998', 'X1999', 'X2000', 'X2001', 'X2002', 'X2003', 'X2004', 'X2005', 'X2006', 'X2007', 'X2008', key = "year", value = "value") %>% filter(!is.na(value)) %>% rename("Number affected by Earthquake" = value) 
+naturalgas <- naturalgas %>% select(country, X1983, X1984, X1985, X1986, X1987, X1988, X1989, X1990, X1991, X1992, X1993, X1994, X1995, X1996, X1997, X1998, X1999, X2000, X2001, X2002, X2003, X2004, X2005, X2006, X2007, X2008) %>% gather('X1983', 'X1984', 'X1985', 'X1986', 'X1987', 'X1988', 'X1989', 'X1990', 'X1991', 'X1992', 'X1993', 'X1994', 'X1995', 'X1996', 'X1997', 'X1998', 'X1999', 'X2000', 'X2001', 'X2002', 'X2003', 'X2004', 'X2005', 'X2006', 'X2007', 'X2008', key = "year", value = "value") %>% filter(!is.na(value)) %>% rename("Natural Gas Production" = value) 
+
+
+
+
+# there will be a positive correlation between the number affected by earthquakes and the natural gas production 
+
+
+
+
+naturalgas <- naturalgas %>% mutate(year2 = parse_number(str_sub(naturalgas$year, 2, 5)))
+
+earthquake <- earthquake %>% mutate(year2 = parse_number(str_sub(earthquake$year, 2, 5)))
+
+
+gasEarthquake <- earthquake %>% inner_join(naturalgas, by = c("country", "year2"))
+
+```
+
+```{r}
+gasEarthquake2 <- gasEarthquake %>% select('Number affected by Earthquake', 'Natural Gas Production')
+china <- gasEarthquake %>% filter(country == "China") %>% select('Number affected by Earthquake', 'Natural Gas Production')
+Indonesia <- gasEarthquake %>% filter(country == "Indonesia")  %>% select('Number affected by Earthquake', 'Natural Gas Production')
+US <- gasEarthquake %>% filter(country == "United States") %>% select('Number affected by Earthquake', 'Natural Gas Production') 
+Pakistan <- gasEarthquake %>% filter(country == "Pakistan")  %>% select('Number affected by Earthquake', 'Natural Gas Production')
+India <- gasEarthquake %>% filter(country == "India")  %>% select('Number affected by Earthquake', 'Natural Gas Production')
+```
+
+
+```{r}
+map(gasEarthquake2, function(x){mean(x)})
+```
+
+```{r}
+map(china,function(x){mean(x)})
+```
+
+```{r}
+map(Indonesia, function(x){mean(x)})
+```
+
+```{r}
+map(US, function(x){mean(x)})
+```
+
+```{r}
+map(Pakistan,function(x){mean(x)})
+```
+
+```{r}
+map(India, function(x){mean(x)})
+```
+
+
+**What Map Function is doing**
+
+My map function calculates the average number of people affected by earthquakes each year and the average amount of natural gas produced in five countries (China, Indonesia, Columbia, Pakistan, India). I chose these countries because they produce a lot of Natural Gas and are somewhat near the ring of fire. 
+
+
+##### Permutation Test 
+
+**Null and Alternative Hypothesis**
+
+My null hypothesis is cor(A,B) > 0, my alternative hypothesis is cor(A,B) < 0
+
+**Test Statistic**
+
+My test statistic is cor(A, B)
+
+```{r}
+perm_cor <- function(perms = 1000, n_earth, n_gas)
+{
+  # perms: number of permutations
+  # n_gas (int): number of gas production
+  # n_earth (int): number of earthquakes 
+  ###############
+  
+    perm_mean_diffs2 <- numeric(perms)
+  
+  
+  
+  # Loop throught number of permutations
+  for (i in c(1:perms))
+  {
+    # Step 2:
+    # Randomly mix up the values in the vector "y"
+    
+     rand_order_y <- sample(n_gas)
+     
+    
+    # Step 3:
+    # Compute the correlation between x and the randomly mixed
+    # up y-vector. Store this value in the vector from step 1.
+    
+     perm_cor_mixed <- cor(n_earth, rand_order_y, method = c("pearson"))
+    perm_mean_diffs2[i] <- perm_cor_mixed
+    
+  }
+  
+  # Step 4:
+  # Return new updated vector, created in step 1
+  return(perm_mean_diffs2)
+}
+
+
+```
+
+```{r}
+perm_cor(10, gasEarthquake$`Number affected by Earthquake`, gasEarthquake$`Natural Gas Production`)
+
+```
+
+**Histogram**
+
+```{r}
+Juliahist <- hist(perm_cor(1000, gasEarthquake$`Number affected by Earthquake`, gasEarthquake$`Natural Gas Production`), main = "Number affected by Earthquakes Compared to Natural Gas Production", xlab = "Linear Correlation")
+
+Juliahist
+```
+
+
+**Percentile of Real Data**
+
+```{r}
+Juliapercent <- quantile(perm_cor(1000, gasEarthquake$`Number affected by Earthquake`, gasEarthquake$`Natural Gas Production`))
+
+Juliapercent
+```
+
+
+**Conclusion from Permutation test**
+
+The permutation test shows that there is little to no correlation between the number of people affected by natural gas and natural gas production. However, the majority of camparisons do have a slight negative correlation which is different than I originally believed. My permutation test showed that in the 50th percentile, there was a -.029 correlation between the number of people affected by earthquakes and the amount of natural gas produced. This is a very small correlation so it is too negligible to say there is a correlation. Additionally, the percentiles show that the correlation switches from negative to positive which means there can not be a consistent correlation. 
+
+##### Conclusion to Question
+
+My original hypothesis was incorrect. There is no correlation between the number of people affected and the amount of natural gas produced. My data shows that though some companies that produce large amounts of gas have higher than average numbers of people being affected by earthquakes (China and India), overall, there is little correlation between the two. Overall, by testing the means and correlations between the number of people affected by earthquakes and the amount of natural gas produced, we can conclude that there is no correlation. This means that my hypothesis was false. Eventhough there was no correlation between the number of people affected by earthquakes and the amount of natural gas produced, there may be a correlation between the number of earthquakes and the amount of natural gas produced however, we do not have that data within the gapminder dataset. 
+
+
+### Declan Franklin
+
+##### Subquestion
+
+##### Hypothesis
+
+##### Map Function
+
+**What Map Function is doing**
+
+##### Permutation Test 
+
+**Null and Alternative Hypothesis**
+
+**Test Statistic**
+
+**Histogram**
+
+**Percentile of Real Data**
+
+**Conclusion from Permutation test**
+
+##### Conclusion to Question
+
+
+
+### Thomas Neal 
+
+##### Data Set and Why 
+
+##### Hypothesis
+
+##### Subquestion
+
+##### Map Function
+
+**What Map Function is doing**
+
+##### Permutation Test 
+
+**Null and Alternative Hypothesis**
+
+**Test Statistic**
+
+**Histogram**
+
+**Percentile of Real Data**
+
+**Conclusion from Permutation test**
+
+##### Conclusion to Question
+
+
+
+### Nisia Pinto
+
+##### Data Set and Why 
+
+##### Hypothesis
+
+##### Subquestion
+
+##### Map Function
+
+**What Map Function is doing**
+
+##### Permutation Test 
+
+**Null and Alternative Hypothesis**
+
+**Test Statistic**
+
+**Histogram**
+
+**Percentile of Real Data**
+
+**Conclusion from Permutation test**
+
+##### Conclusion to Question
+
