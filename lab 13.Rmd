@@ -487,29 +487,131 @@ With the real mean difference falling in the  99.1% percentile we reject the nul
 
 The amount of babies per mother is not the same between the 1960s and the 2000s. In the 1960s the average mother was having almost exactly one more child than in the 2000s.
 
+
 ### Nisia Pinto
 
-##### Data Set and Why 
+```{r,echo=FALSE, warning=FALSE,results=FALSE,results=FALSE,message=FALSE}
+library(tidyverse)
+library(tidyr)
+library(gapminder)
+library(dplyr)
+```
 
+##### Data Set and Why
+
+Environmental:planted_forest_area_ha and Energy:coal_consumption_total. I chose this data because I wanted to analyze if the world is becoming a significantly more conscious place regarding reforestation and coal consumption. I would like to know if we are decreasing carbon footprints and relying less on coal.
+
+```{r,echo=FALSE,warning=FALSE}
+coal <- read.csv('coal_consumption_total.csv')
+forest<- read.csv('planted_forest_area_ha.csv')
+```
+
+```{r,echo=FALSE,warning=FALSE,results=FALSE}
+coal1<- coal %>% select(country, X1965, X1966, X1967, X1968, X1969, X1970, X1971, X1972, X1973, X1974,X1975, X1976, X1977, X1978, X1979, X1980, X1981, X1982,X1983, X1984, X1985, X1986, X1987, X1988, X1989, X1990, X1991, X1992, X1993, X1994, X1995, X1996, X1997, X1998, X1999, X2000, X2001, X2002, X2003, X2004, X2005, X2006, X2007, X2008) %>% gather('X1965', 'X1966', 'X1967', 'X1968', 'X1969', 'X1970', 'X1971', 'X1972', 'X1973', 'X1974','X1975', 'X1976', 'X1977', 'X1978', 'X1979', 'X1980', 'X1981', 'X1982','X1983', 'X1984', 'X1985', 'X1986', 'X1987', 'X1988', 'X1989', 'X1990', 'X1991', 'X1992', 'X1993', 'X1994', 'X1995', 'X1996', 'X1997', 'X1998', 'X1999', 'X2000', 'X2001', 'X2002', 'X2003', 'X2004', 'X2005', 'X2006', 'X2007', 'X2008', key = "year", value = "value") %>% filter(!is.na(value)) %>% rename("Total Coal Emissions" = value) 
+coal1 <- coal1 %>% mutate( Year= parse_number(str_sub(coal1$year, 2, 5)))
+coal1<-coal1 %>% select('country','Year','Total Coal Emissions')
+coal1<-coal1 %>% filter(Year>=1990) %>% filter(!is.na(`Total Coal Emissions`))
+```
+
+
+```{r,echo=FALSE,warning=FALSE,results=FALSE}
+forest1<- forest %>% select(country, X1990, X1991, X1992, X1993, X1994, X1995, X1996, X1997, X1998, X1999, X2000, X2001, X2002, X2003, X2004, X2005, X2006, X2007, X2008) %>% gather('X1990', 'X1991', 'X1992', 'X1993', 'X1994', 'X1995', 'X1996', 'X1997', 'X1998', 'X1999', 'X2000', 'X2001', 'X2002', 'X2003', 'X2004', 'X2005', 'X2006', 'X2007', 'X2008', key = "year", value = "value") %>% filter(!is.na(value)) %>% rename("Planted forest area (ha)" = value) 
+forest1 <- forest1 %>% mutate(Year= parse_number(str_sub(forest1$year, 2, 5)))
+forest1<-forest1 %>% select('country','Year','Planted forest area (ha)')
+forest1<-forest1 %>% filter(Year>=1990) %>% filter(!is.na(`Planted forest area (ha)`))
+```
+
+```{r,echo=FALSE,warning=FALSE,results=FALSE,message=FALSE}
+ndata<-full_join(forest1,coal1) %>% filter(!is.na(`Planted forest area (ha)`)) %>% filter(!is.na(`Total Coal Emissions`))
+ndata1<-full_join(ndata,gapminder) %>% select(country,continent,`Planted forest area (ha)`,`Total Coal Emissions`) %>% filter(!is.na(`Planted forest area (ha)`)) %>% filter(!is.na(`Total Coal Emissions`))
+asias<-ndata1 %>% filter(continent=='Asia')
+asias<-asias %>% select(`Planted forest area (ha)`,`Total Coal Emissions`)
+americas<-ndata1 %>% filter(continent=='Americas')
+americas<-americas %>% select(`Planted forest area (ha)`,`Total Coal Emissions`)
+africas<-ndata1 %>% filter(continent=='Africa')
+africas<-africas %>% select(`Planted forest area (ha)`,`Total Coal Emissions`)
+europes<-ndata1 %>% filter(continent=='Europe')
+europes<-europes %>% select(`Planted forest area (ha)`,`Total Coal Emissions`)
+```
 ##### Hypothesis
+
+There is a negative correlation between the planted forest area and coal consumption in the world. There is an increase in planted areas and a decrease in coal consumption.
 
 ##### Subquestion
 
-##### Map Function
+Is there a correlation between the two Planted Fores Area and Coal Consumption from 1990 to 2008?
 
+##### Map Function
+ 
+```{r,echo=TRUE,warning=FALSE,results=FALSE}
+map(asias,function(x){sd(x)})
+map(africas,function(x){sd(x)})
+map(europes,function(x){sd(x)})
+map(americas,function(x){sd(x)})
+```
 **What Map Function is doing**
+
+This map function calculates the standard deviation of Planted forest Area and Total Coal Consumption from the mean from 1990 to 2008. This map function takes each element in the sample and returns the standard deviation.
 
 ##### Permutation Test 
 
 **Null and Alternative Hypothesis**
 
+Null hyphothesis is (mean(coal consumption)-mean(planted forest area))equals to zero.
+
+Alternative hypothesis: (mean(coal consumption)-mean(planted forest area)) differen than zero.
+
 **Test Statistic**
+
+We were able to verify that there is a high positive correlation of 0.9327708 between the two datasets.
+ 
+
+```{r,echo=FALSE,warning=FALSE,results=FALSE}
+
+perm_cor <- function(perms = 1000, x, y)
+{
+   perm_mean_diffs2 <- numeric(perms)
+  for (i in c(1:perms))
+  {
+    rand_order_y <- sample(y)
+    cor_comp <- cor(x,rand_order_y)
+    perm_mean_diffs2[i] <- cor_comp 
+    
+  }
+  return(perm_mean_diffs2)
+}
+````
+
+```{r,echo=FALSE}
+perm<-perm_cor(1000,ndata1$`Planted forest area (ha)`,ndata1$`Total Coal Emissions`)
+
+```
+
+```{r,echo=FALSE,warning=FALSE,results=FALSE}
+corr<-cor(ndata1$`Total Coal Emissions`,ndata1$`Planted forest area (ha)`) #0.9327708
+a<-meancoal<-map(ndata1 %>% select(`Total Coal Emissions`),function(x){mean(x)})#46729447
+b<-meanforest<-map(ndata1 %>% select(`Planted forest area (ha)`),function(x){mean(x)})#3753876
+diff.means <-abs( mean(ndata1$`Planted forest area (ha)`) - mean(ndata1$`Total Coal Emissions`))/(46729447+3753876)
+mean=diff.means/1000 #0.0008512825
+
+```
 
 **Histogram**
 
-**Percentile of Real Data**
+```{r,echo=FALSE,message=FALSE,warning=FALSE}
+ggplot() + geom_histogram(mapping = aes(x = perm), col = 'black', fill = 'lightyellow') + geom_vline(xintercept = mean, col = 'red' )+theme_bw()+ggtitle('Permutation Test')
+```
+
+**Percentile of Data**
+
+```{r,echo=FALSE,message=FALSE,results=TRUE}
+quantile(perm)
+```
 
 **Conclusion from Permutation test**
 
+With this permutation test, we will reject the null hypothesis, but we do not know if we should accept the alternative hypothesis. There is a difference in the means between the two datasets.
+
 ##### Conclusion to Question
 
+There is a high correlation between the two datasets we analyzed. However, it is not negative; it is positive. Potentially, this could mean that they both decrease, or they both increase. As a consequence, my hypothesis is wrong, and both datasets are proportional.
