@@ -26,31 +26,95 @@ naturalgas <- read.csv('natural_gas_production_total.csv')
 
 # Individual 
 
-### Andres Acevedo 
+### Andres Acevedo
+
+```{r, warning = FALSE, echo = FALSE}
+energy_use <- read_csv("energy_use_per_person.csv")
+
+
+energy <- energy_use %>% filter(country == "United States") %>% as_tibble()
+
+
+year <- c(1990:2008)
+energy_values <- c(7670, 7630,	7680,	7710,	7760,	7760,	7840,	7830,	7800,	7920,	8060,	7830,	7840,	7790,	7880, 7850,	7700,	7760,	7490)
+
+energy_USA <- tibble(year, energy_values)
+
+
+forest <- read_csv("forest_coverage_percent.csv")
+forest <- forest %>% filter(country == "United States")
+
+year <- c(1990:2008)
+forest_values <- c(33,	33,	33,	33.1,	33.1,	33.1,	33.1,	33.1,	33.1,	33.1,	33.1,	33.2,	33.2,	33.2,	33.2,	33.3,	33.4,	33.4,	33.6)
+
+forest_coverage <- tibble(year, forest_values)
+
+
+
+quantile(perm_cor(1000, energy_USA$energy_values, forest_coverage$forest_values), 0.95)
+
+correlation_data <- tibble(data)
+average_corr <- map(correlation_data, mmean)
+```
 
 ##### Data Set and Why 
+I chose to use 2 datasets. The first containing data on the amount of power used by each person in the United States. The second containing the percentage of the United States covered in forest in a given year. I wanted to see if I could find a statistically significant correlation between these two variables.
 
 ##### Subquestion
+Does the amount of electricity we use really have a direct affect on the amount of forest left in the United States or is it merely a coincidence that these trends occured together. What does cause loss of forest land? What could be directly linked to it? 
 
 ##### Hypothesis
+There Will be no statistically significant link between the energy used per person and the percent of the United States covered in forest. This could cause loss of forest indirectly. Weather conditions have a more direct impact like causing forest fires.
+
+##### Permutation Test
+```{r, warning = FALSE, echo = FALSE}
+data <- perm_cor(1000, energy_USA$energy_values, forest_coverage$forest_values)
+```
 
 ##### Map Function
+```{r, warnng = FALSE, echo = FALSE}
+
+correlation_data <- tibble(data)
+
+average_corr <- map(correlation_data, mean)
+average_corr
+```
 
 **What Map Function is doing**
+After making a tibble out of the list of 1000 correlations, I found their mean using the map function with the mean function as an argument. This helped me to see that it's most common to get almost no correlation between these variables.
 
-##### Permutation Test 
+##### Permutation Test
+```{r, warning = FALSE, echo = FALSE}
+data <- perm_cor(1000, energy_USA$energy_values, forest_coverage$forest_values)
+```
+
 
 **Null and Alternative Hypothesis**
 
+Null Hypothesis: there is no correlation between energy use per person and the percentage of the United States covered in forest.
+
+Alternative Hypothesis: there is a correlation between energy use per person and the percentage of the United States covered in forest. 
+
 **Test Statistic**
+```{r, warning = FALSE, echo = FALSE}
+corr <- cor(energy_USA$energy_values, forest_coverage$forest_values)
+```
+The correlation coefficient was -.2973998
+
 
 **Histogram**
+```{r, warning = FALE, echo = FALSE}
+ggplot() + geom_histogram(mapping = aes(x = data), col = 'steelblue', fill = 'black') + geom_vline(xintercept = corr, col = 'red' ) + geom_vline(xintercept = .4026999, col = 'green') + ggtitle("Distribution of Correlation Coefficient Permutations") + xlab('Correlation Coefficient(Red = 95th Percentile, Green = Test Stat)') + ylab('Count')
+
+```
 
 **Percentile of Real Data**
+sum(data < -.2973998)/1000
 
-**Conclusion from Permutation test**
 
-##### Conclusion to Question
+**Conclusion to Test and Question**
+
+Since 9.2% of all of the correlations I took are less than my test statistic, this shows that this isn't that unlikely of an outcome from a random test. Which is what our permutation test was. The mean correlation of all of my data was .00297816  which is very close to zero. I accept my null hypothesis that are there is no significant correlation between the power usage per person and the percent of U.S. land covered in forests. This could be for many reasons other than just the amount of power people use. But more with other conditions like dryness and high temperatures or even logging because of the increased demand for housing as the population increases and development continues.
 
 
 
