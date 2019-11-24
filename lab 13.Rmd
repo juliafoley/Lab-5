@@ -142,7 +142,7 @@ ggplot() + geom_histogram(mapping = aes(x = data), col = 'steelblue', fill = 'bl
 ```
 
 **Percentile of Real Data**
-```{r}
+```{r, warning = FALSE, echo = FALSE}
 sum(data < -.2973998)/1000
 ```
 
