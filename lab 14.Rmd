@@ -1,0 +1,105 @@
+---
+title: "Lab 14 P-Hackers"
+author: "Julia Foley"
+date: "12/2/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(modelr)
+library(purrr)
+```
+
+# Team 
+
+## Main Question
+
+## Why Important? 
+
+## Why those Reasons are Important?
+
+## Conclusion 
+
+## Plot
+
+## Summary of New Tools Applied
+
+
+
+# Individual 
+
+## Andres Acevedo 
+
+### Sub Question
+
+### Why Important/Interesting? 
+
+### Summary of New Tools Applied
+
+### Answer/Conclusion
+
+### How does it Relate to Overall Question? 
+
+## Julia Foley 
+
+### Sub Question
+
+### Why Important/Interesting? 
+
+### Summary of New Tools Applied
+
+### Answer/Conclusion
+
+### How does it Relate to Overall Question? 
+
+## Declan Franklin 
+
+### Sub Question
+
+### Why Important/Interesting? 
+
+### Summary of New Tools Applied
+
+### Answer/Conclusion
+
+### How does it Relate to Overall Question? 
+
+## Thomas Neal
+
+### Sub Question
+
+### Why Important/Interesting? 
+
+### Summary of New Tools Applied
+
+### Answer/Conclusion
+
+### How does it Relate to Overall Question? 
+
+## Nisia Pinto 
+
+### Sub Question
+
+### Why Important/Interesting? 
+
+### Summary of New Tools Applied
+
+### Answer/Conclusion
+
+### How does it Relate to Overall Question? 
+
+
+
+# Who Did What
+
+## Andres Acevedo 
+
+## Julia Foley 
+
+## Declan Franklin 
+
+## Thomas Neal
+
+## Nisia Pinto 
