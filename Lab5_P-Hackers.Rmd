@@ -1,0 +1,385 @@
+---
+title: "P-Hackers"
+author: "Julia Foley, Declan Franklin, Thomas Neal, Nisia Pinto, Andres Acevedo"
+date: "9/24/2019"
+output: html_document
+---
+
+````{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+milk <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-01-29/state_milk_production.csv")
+head(milk)
+milk <-
+  milk %>%
+  mutate(milk_million = milk_produced / 1000000)
+```
+
+```{r, echo=FALSE}
+milk2000 <- milk %>%
+  filter(year == 2000)
+```
+# Individual
+
+## Thomas Neal
+
+**Distribution of Yearly Milk Production from 1998**
+
+```{r, echo=FALSE}
+BirthMilk <- milk %>%
+  filter(year == 1998)
+
+ggplot(data = BirthMilk, aes(x = milk_million)) +
+  geom_histogram(color='white') + 
+  ggtitle('Distribution estimate of milk produced in 1998 by state') +
+  ylab('Count of States producing x-amount of milk') +
+  xlab('Million of pounds of milk produced') +
+  theme_dark()
+  
+  
+```
+
+**Average Million Pounds of Milk Produced Across All States In 1998**
+
+```{r, echo=FALSE}
+avestate <- BirthMilk %>%
+  summarise("Mean Milk"= mean(milk_million)) 
+print(avestate)
+```
+
+**Median Million Pounds of Milk Produced Across All States In 1998**
+
+```{r, echo=FALSE}
+medstate <- BirthMilk %>%
+  summarise("Median Milk"= median(milk_million))
+print(medstate)
+
+```
+
+**State that broduced the most milk in 1998**
+
+```{r, echo=FALSE}
+maxmilk <- BirthMilk %>% group_by(state) %>% arrange(desc(milk_million)) %>% select(state,milk_million) %>% as_tibble()
+head(maxmilk, n=1)
+```
+
+**State that broduced the least milk in 1998**
+
+```{r, echo=FALSE}
+minmilk <- BirthMilk %>%
+  group_by(state) %>% arrange(milk_million) %>% select(state,milk_million) %>%
+  as_tibble()
+head(minmilk, n=1)
+```
+
+## Declan Franklin 
+
+<p>&nbsp;</p>
+
+**The Data shown below is the Production of Milk for each state in the 1998** 
+<p>&nbsp;</p>
+
+```{r, warning=FALSE, message=FALSE, echo=TRUE}
+milk %>%
+    filter(year == 1998 & milk_produced ) %>%
+  mutate(milk_million = milk_produced / 1000000) %>%
+  arrange(desc(milk_million)) %>%
+  rename( 'Milk_Produced_in_Millions_of_Ibs' = 'milk_million') %>%
+  select( -milk_produced) 
+
+    
+```
+<p>&nbsp;</p>
+
+```{r, warning=FALSE, message=FALSE, echo=TRUE}
+mybyr98 <-
+  milk %>%
+  mutate(milk_million = milk_produced / 1000000)
+
+ggplot(data=milk, mapping = aes(x=milk_million)) +
+  geom_histogram( fill = "blue", bins= 30) +
+  labs(x = "Milk Produced by Pounds", y = "Number of States", title = "Milk Production by the States") +
+  scale_y_continuous(labels =c("0"="0", "200"="10","400"="20","600"="30","800"="40")) +
+  theme_dark()
+
+```
+
+
+<p>&nbsp;</p>
+**Below displays the average ammount of milk produced in 1998:**
+
+
+```{r}
+milk %>%
+summarize(mean(milk_million)) %>%
+  rename('Average_Amount_Of_Milk_Produced(Mill/Ibs)_in_1998' = 'mean(milk_million)')
+```
+<p>&nbsp;</p>
+**Below displays the median of milk produced in 1998:**
+
+```{r,warning=FALSE, message=FALSE, echo=TRUE}
+milk %>%
+summarize(median(milk_million)) %>%
+  rename('Median_Of_Milk_Produced(Mill/Ibs)_in_1998' = 'median(milk_million)')
+```
+
+<p>&nbsp;</p>
+
+### Summary: 
+<p>&nbsp;</p>
+My Data concludes that California, Wisconsin, New York, and PA are the only states to make over a million Ibs of milk in 1998. All the other states were below 1 million. This data is displayed in the matrix and visualized with the Histogram. The Data also concludes that in 1998, California produced the most milk, 27620 Mill-Ibs; and Alaska, 14 Mill-Ibs, produced the least amount.
+
+<p>&nbsp;</p>
+
+
+
+```{r echo=FALSE }
+
+# Extract the data for 1970 only
+milk1970 <- milk %>%
+  filter(year == 1970)
+```
+
+## Nisia Pinto
+
+**Distribution of Yearly Milk Production from 1995**
+```{r echo=FALSE}
+milk1995 <- milk %>%
+  filter(year == 1995)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE }
+ggplot(data = milk1995, aes(x = milk_million)) +
+  geom_histogram(bins = 15, fill = 'orange') + ggtitle('Distribution of Milk Produced in 1995 by State') + 
+  xlab('Milk production in Mill. of pounds') + 
+  ylab('Number of States') 
+```
+**Summary of Data from 1995**
+```{r, echo=FALSE}
+group_by(milk1995, state) %>%
+  summarise(milk_million)
+```
+
+```{r, echo=FALSE}
+summarise(milk1995, mean(milk_million)) 
+```
+
+```{r, echo=FALSE}
+summarise(milk1995, median(milk_million))
+```
+
+```{r echo=FALSE, results=FALSE }
+summarise(milk1995, max(milk_million))
+```
+```{r echo=FALSE, results=FALSE}
+summarise(milk1995, min(milk_million))
+```
+```{r echo=FALSE}
+milkmin <- milk1995 %>%
+  filter(milk_million %in% c('12')) %>%
+  select(state, milk_million)
+milkmin
+```
+```{r echo=FALSE}
+milkmax <- milk1995 %>%
+  filter(milk_million %in% c('25327')) %>%
+  select(state, milk_million)
+milkmax
+```
+
+**Findings**
+
+The data for 1995 milk production in each state, show us that. The maximum ampount of milk was produced in California 25327 Million lbs of milk. The least amount of milk was produced in Alaska about 12 Million lbs. The average mil produced was 3105.86	Million lbs of milk and a median of 1512 Million lbs. 
+
+
+
+
+
+
+
+
+## Andres
+
+**Distribution of Yearly Milk Production from 1996**
+```{r, echo=FALSE}
+milk_1996 <- milk %>%
+  filter(year == 1996)
+```
+
+
+```{r, echo=FALSE}
+ggplot(data = milk_1996, aes(x = milk_million)) +
+  geom_histogram(bins = 15, fill = 'red') + 
+  ggtitle('Distribution of Milk Produced in 1996 by State') + 
+  xlab('Lbs in Millions') + 
+  ylab('Number of States') 
+```
+
+**Summary of Data from 1996**
+
+```{r, echo =FALSE}
+group_by(milk_1996, state) %>%
+  summarise(milk_million)
+```
+
+```{r, echo =FALSE}
+summarise(milk_1996, mean(milk_million))
+```
+
+```{r, echo=FALSE}
+summarise(milk_1996, median(milk_million))
+```
+
+## Julia Foley
+
+**Distribution of the Yearly Milk Production from 2000**
+
+```{r, echo=FALSE}
+ggplot(data = milk2000, aes(x = milk_million)) +
+  geom_histogram(bins = 20) + 
+  labs(x = "Yearly Milk Production in Millions of Pounds",y = "Number of States", title = "Distribution of Yearly Milk Production from 2000")
+```
+
+**Summary of Data from 2000**
+
+```{r, echo=FALSE}
+group_by(milk2000, state) %>%
+  summarise(milk_million)
+```
+
+
+```{r, echo=FALSE}
+summarise(milk2000, mean(milk_million)) 
+```
+
+```{r, echo=FALSE}
+summarise(milk2000, median(milk_million))
+```
+
+**Findings**
+
+The data shows that most states produced less than 10 billion pounds of milk in 2000. However, there are a few states that produced more than 10 billion pounds of milk in 2000. 3347.84 million pounds of milk was the average(mean) millions of pounds of milk produced in 2000. The median of millions of pounds of milk produced in 2000 was 1453.5 million pounds of milk. Additionally, California produced the most milk in 2000 with 32.245 billion pounds of milk produced. Alaska, on the other hand, produced the least amount of milk in 2000 with 13 million pounds of milk produced. 
+
+**Average Milk Produced by Each State per Year since 1970**
+
+```{r, echo=FALSE}
+group_by(milk, state) %>%
+  summarise(mean(milk_million))
+```
+
+The data above shows the average amount of milk (in millions of pounds) each state produced per year. The average is taken from the data between the years 1970 and 2017. 
+
+**Median Milk Produced by Each state per Year since 1970**
+
+```{r, echo=FALSE}
+group_by(milk, state) %>%
+  summarise(median(milk_million))
+```
+
+The data above shows the median amount of milk (in millions of pounds) each state produced per year. The median is taken from the data between the years 1970 and 2017.
+
+**Total Number of Milk Produced by Each State since 1970**
+
+```{r, echo=FALSE}
+group_by(milk, state) %>%
+  summarise(sum(milk_million)) 
+```
+
+**State that Produced the Most Amount of milk**
+
+California produced the most milk with 1219691 million pounds of milk produced since 1970. 
+
+**State that Produced the Least Amount of Milk**
+
+Alaska produced the least milk with 675 million pounds of milk produced since 1970.
+
+# Team 
+
+**Milk Produced in Colorado, Connecticut, Maryland, Vermont, and Washington**
+
+```{r, echo=FALSE}
+milksub <- milk %>%
+  filter(state %in% c('Colorado','Connecticut','Maryland','Vermont','Washington')) %>%
+  select(state, year, milk_million)
+```
+
+```{r, echo=FALSE}
+average <- milksub %>% 
+  summarise(mean(milk_million)) 
+```
+
+```{r, echo=FALSE}
+ggplot(data = milksub) +
+  geom_jitter(aes(x = year, y = milk_million, color = state)) +
+  ggtitle('Pounds of Milk Produced Over Time by State') +
+  xlab('Year') +
+  ylab('Milk Produced (Million lb)')
+```
+
+```{r, echo=FALSE}
+ggplot(data = milksub) +
+  geom_jitter(aes(x = year, y = milk_million, color = state)) +
+  ggtitle('Pounds of Milk Produced Over Time by State') +
+  xlab('Year') +
+  ylab('Milk Produced (Million lb)') +
+  geom_smooth(method = lm, se=FALSE, aes(x = year, y = milk_million))
+```
+
+The blue line that appears in the second plot represents the average milk produced each each year for all the states. 
+
+**The Year when the Most Milk was Produced**
+
+```{r, echo=FALSE}
+group_by(milk, year) %>%
+  summarise(sum(milk_million))
+```
+
+In 2017, the most amount of milk was produced. 
+
+**The Year when the Least Milk was Produced**
+
+In 1970, the least amount of milk was produced. 
+
+
+
+**In 2017, the 5 States that Produced the Most Milk**
+```{r, echo=FALSE}
+milk2017 <- milk %>% filter(year==2017)
+
+topfive <- milk2017 %>% group_by(state) %>% arrange(desc(milk_million)) %>% select(state, milk_million) %>% as_tibble()
+
+head(topfive, n=5)
+
+```
+
+**In 2017, the 5 States that Produced the Least Milk**
+
+```{r, echo=FALSE}
+bottomfive <- milk2017 %>% group_by(state) %>% arrange(milk_million) %>% select(state,milk_million)  %>% as_tibble()
+head(bottomfive, n=5)
+```
+
+
+**What was most helpful in Learning about this Data**
+
+##### Thomas:
+
+The most useful thing I learned from this lab is how to use piping and when to stop using it. I spent a lot of time over piping my variables and it was leaving me with weird data. I now know how to use the different sorting and filtering commands.
+
+#### Andres:
+
+Figuring out how to access datasets that didn't come loaded into R-studio will prepare me for future projects in which most, if not all data will have to be imported into my software from an outside location. I also appreciated the opportunity to apply what I learned about dplyr functions in a group lab setting to attain relevant insights. 
+
+##### Declan:
+
+Through exploring this data, we learned about piping and how to incorporate it into our studies. Additionally, I learned how to pull in raw data directly from github , rather than having to download the data online and using a read.csv. The read.cvs is okay, but it’s not ideal for sharing code/data.
+
+
+**Ethics of Data Analysis**
+
+##### Who Benefits/Suffers
+
+Some states( California, Wisconsin, Idaho),  produce dairy products at a significantly higher rate than do others. The exportation of dairy products is an environmental issue that could be mitigated by an increase in local dairy production. This could be a boon to states looking to increase their supply of dairy products as well as reduce the environmental impact associated with shipping it. This, however, could decrease the demand for California and Wisconsin dairy products which would be a burden to workers inside of those industries. 
+
+
