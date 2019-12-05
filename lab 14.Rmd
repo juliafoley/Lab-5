@@ -1,0 +1,219 @@
+---
+title: "Lab 14 P-Hackers"
+author: "Julia Foley"
+date: "12/2/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(modelr)
+library(purrr)
+options(na.action = na.warn)
+
+milk <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-01-29/state_milk_production.csv")
+head(milk)
+milk <-
+  milk %>%
+  mutate(milk_million = milk_produced / 1000000)
+```
+
+# Team 
+
+
+## Main Question
+
+How does the amount of milk produced in million pounds change each year in Colorado, Connecticut, Maryland, Vermont, and Washington?  
+
+## Why Important? 
+
+
+
+## Why those Reasons are Important?
+
+
+
+## Plot
+
+**Old Plot**
+```{r, echo=FALSE}
+milksub <- milk %>%
+  filter(state %in% c('Colorado','Connecticut','Maryland','Vermont','Washington')) %>%
+  select(state, year, milk_million)
+```
+
+```{r, echo=FALSE}
+ggplot(data = milksub) +
+  geom_jitter(aes(x = year, y = milk_million, color = state)) +
+  ggtitle('Pounds of Milk Produced Each Year by State') +
+  xlab('Year') +
+  ylab('Milk Produced (Million lb)') +
+  geom_smooth(method = lm, se=FALSE, aes(x = year, y = milk_million))
+```
+
+
+**New Plot**
+
+```{r}
+
+milksub_mod <- lm(milk_million ~ year, data = milksub)
+
+milksubgrid <- milksub %>% data_grid(year)
+
+milksubgrid <- milksubgrid %>% add_predictions(milksub_mod) 
+
+milksub_mod
+```
+
+
+```{r}
+
+ggplot(milksub, aes(year)) +
+  geom_point(aes(y = milk_million, color = state)) +
+  geom_line(aes(y = pred), data = milksubgrid, color = 'blue', size = 1) +
+  ggtitle('Pounds of Milk Produced Each Year by State') +
+  xlab('Year') +
+  ylab('Milk Produced (Million lb)')
+```
+
+```{r}
+milksub2 <- milksub %>% 
+  add_residuals(milksub_mod)
+milksub2
+
+```
+```{r}
+ggplot(milksub2, aes(year, resid, color = state)) +
+  geom_ref_line(h = 0) +
+  geom_point()
+```
+
+
+# Old Graph compared to New Graph 
+
+When we first did this lab, we graphed the five states and a linear line however, we did not have the tools to make a linear model. However, this did not effect the accuracy of our graph. From the two plots above, it can be seen that our previous graph was accurate eventhough we did not have the tools to find the equation for the line. 
+
+## Conclusion 
+
+We studied the amount of milk produced in Colorado, Connecticut, Maryland, Vermont, and Washington over time and how the amount of milk produced was changed over time. The amount of milk produced per year is increasing. The equation of the amount of milke per year in Colorado, Connecticut, Maryland, Vermont, and Washington is Milk Produced in Million Pounds = 31.84(Year) - 61356.67. This gives us the predicted amount of milk produced in million pounds in a particular year. Additionally, the residuals shows us how far each of the states are from the linear model. As shown in the plot above, Vermont is the closest to the linear model and has the smallest residuals therefore, the linear model will be the most accurate for Vermont. Since Washington is the farthest from the linear model and has the highest residuals, the linear model will be the least accurate for Washington. 
+
+
+## Summary of New Tools Applied
+
+First, we created a linear model using lm(milk_million ~ year, data = milksub). Then, we created a grid using data_grid(year). Next, we added predictions using add_predictions(milksub_mod). Then, we graphed the predictions and the data on a graph. Next, we added residuals using add_residuals(milksub_mod). Then, we graphed the residuals. Lastly, We wrote our conclusion. 
+
+# Individual 
+
+## Andres Acevedo 
+
+### Sub Question
+
+### Why Important/Interesting? 
+
+### Summary of New Tools Applied
+
+### Answer/Conclusion
+
+### How does it Relate to Overall Question? 
+
+## Julia Foley 
+
+### Sub Question
+
+How does the amount of milk produced in the Mountain region change each year? 
+
+### Why Important/Interesting? 
+
+This question is interesting because we can see whether the amount of milk being produced is increasing or decreasing. With new technology, I would hypothesis that the amount of milk produced each year is increasing. It is interesting to see the trend of milk produced so that we can predict how much milk will be produced if we know the year. Additionally, I chose the mountain region since that is where I live and I thought it would be interesting to study the amount of milk produced in the mountain region per year. 
+
+### Summary of New Tools Applied
+
+```{r}
+mountain <- milk %>% filter(region == "Mountain")
+
+mountain_mod <- lm(milk_million ~ year, data = mountain)
+
+mountaingrid <- mountain %>% data_grid(year)
+
+mountaingrid <- mountaingrid %>% add_predictions(mountain_mod) 
+```
+
+
+```{r}
+
+ggplot(mountain, aes(year)) +
+  geom_point(aes(y = milk_million)) +
+  geom_line(aes(y = pred), data = mountaingrid, color = 'red', size = 1) +
+  labs(y = "Milk Produced in Millions per Year", title = "Milk Produced per Year in the Mountain Region")
+```
+
+```{r}
+mountain_mod
+```
+Originally, we used basic functions such as filter and ggplot in order to see the trends of milk produced however, this time I created a linear model using the techniques we learned in chapters 22-25. I created a linear model using lm(milk_million ~ year, data = mountain), I created a grid using data_grid(year), I added predictions using add_predictions. Then, I plotted my dataset comparing year and milk produced in millions per year. I also added the predicted linear line. Lastly, I found the equation of the linear model line by calling my model. 
+
+### Answer/Conclusion
+
+The amount of milk produced per year in the Mountain region has increased over time. There was significantly less milk produced each year in the Mountain region in 1970 then there was in 2017. These means that we can predict that the amount of milk produced in 2030 will be greater than the amount of milk produced in 2017. The equation: milk produced in millions = 92.38(year) - 182130.15.  
+
+
+### How does it Relate to Overall Question? 
+
+My question relates to the overall question because it shows how milk is changing in the mountain region. Since Colorado is in the mountain region, I thought it would be interesting to see how the milk produced in the mountain region related to the amount of milk produced in the five states we analyzed in our main question. My question adds comparison and further depth to the main question. 
+
+
+
+## Declan Franklin 
+
+### Sub Question
+
+### Why Important/Interesting? 
+
+### Summary of New Tools Applied
+
+### Answer/Conclusion
+
+### How does it Relate to Overall Question? 
+
+## Thomas Neal
+
+### Sub Question
+
+### Why Important/Interesting? 
+
+### Summary of New Tools Applied
+
+### Answer/Conclusion
+
+### How does it Relate to Overall Question? 
+
+## Nisia Pinto 
+
+### Sub Question
+
+### Why Important/Interesting? 
+
+### Summary of New Tools Applied
+
+### Answer/Conclusion
+
+### How does it Relate to Overall Question? 
+
+
+
+# Who Did What
+
+## Andres Acevedo 
+
+## Julia Foley 
+
+For the individual section, I first filtered the gapminder dataset into just the Mountain Region. I then created a linear model using lm. I then, created a grid using data_grid. I then added predictions using add_predictions. I graphed the points and the predictions line. Lastly, I wrote my conclusion. 
+
+For the team section, I created the outline for the lab. I then, wrote the question. Next, I graphed the old graph. Then, I created the linear model and added predictions. Then, I graphed the new graph. Next, I added residuals and graphed the residuals. I then, analyzed how the old graph related to the new graph and wrote our conclusion. I then, explained what new tools we applied. 
+
+## Declan Franklin 
+
+## Thomas Neal
+
+## Nisia Pinto 
