@@ -12,11 +12,17 @@ library(modelr)
 library(purrr)
 options(na.action = na.warn)
 
+library(readxl)
+library(historydata)
+
+library(splines)
+
 milk <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-01-29/state_milk_production.csv")
 head(milk)
 milk <-
   milk %>%
   mutate(milk_million = milk_produced / 1000000)
+  
 ```
 
 # Team 
@@ -215,9 +221,65 @@ My question relates to the overall question because it shows how milk is changin
 
 ### Sub Question
 
+What is the relationship between a state's population and the amount of milk produced by that state?
+
 ### Why Important/Interesting? 
 
+This is interesting because if we know the relationship we could use a model to predict population based on milk production.
+
 ### Summary of New Tools Applied
+
+I started by adding a data set that contains the population per year per state to the milk production data set. Using this new data frame I created a plot of state population vs milk production for the years 1990, 2000, and 2010. I then created the linear model shown below by finding a line the minimized the residuals. 
+
+
+```{r}
+
+statepop <- historydata::us_state_populations
+
+statepop <- statepop %>% filter(year>1979) %>% select(year,state,population)
+
+
+milkpop <- left_join(statepop,milk)
+
+milkpop <- milkpop  %>% filter(year == 1990 | year==2000 |year==2010)
+milkpop
+
+
+
+```
+
+```{r}
+
+
+milkmod <- lm(milk_produced ~ population, data=milkpop)
+
+grid <- milkpop %>% 
+  data_grid(population, .model = milkmod) %>% 
+  add_predictions(milkmod)
+
+grid
+
+ggplot(data=milkpop) + geom_point(mapping=aes(y=milkpop$milk_produced,x=population)) + geom_line(data = grid, aes(population,pred) ,colour = "red", size = 1) + labs(title="State's Population vs Milk Production", x="State Population", y= "Milk Produced" )
+```
+
+```{r}
+
+mod1 <- lm(milk_produced ~ ns(population, 1), data = milkpop)
+mod2 <- lm(milk_produced ~ ns(population, 2), data = milkpop)
+mod3 <- lm(milk_produced ~ ns(population, 3), data = milkpop)
+mod4 <- lm(milk_produced ~ ns(population, 4), data = milkpop)
+mod5 <- lm(milk_produced ~ ns(population, 5), data = milkpop)
+
+grid <- milkpop %>% 
+  data_grid(population = seq_range(population, n = 50, expand = 0.1)) %>% 
+  gather_predictions(mod2, .pred = "y")
+grid
+
+ggplot(milkpop) + 
+  geom_point(mapping= aes(x=population,y=milk_produced)) +
+  geom_line(data = grid, aes(population,y),colour = "red") + labs(title="State's Population vs Milk Production", x="State Population", y= "Milk Produced" )
+
+```
 
 ### Answer/Conclusion
 
