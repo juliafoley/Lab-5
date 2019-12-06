@@ -296,15 +296,43 @@ This relates to the overall question because we a looking at milk production in 
 
 ### Sub Question
 
+Did the milk production increase linearly from 2005 to 2007?
+Hypothesis: there is an increase in milk production after 2005.
+
 ### Why Important/Interesting? 
+
+In this data set, I will analyze the prediction of milk production across the Pacific from the beginning of the decade to 2017. I choose this range because human consumption changed significantly in the past two decades. I decided to go from 2000 because I wanted to recognize if the patter was the same before 2005. I choose the Pacific because I believe that the consumption of milk will show relative changes in this zone of the United States
 
 ### Summary of New Tools Applied
 
+I applied, the add_predictions() and added a linear model to see how the milk production will change in this Region. I used the map function to find the standard deviation in the selected dataset.
+
+```{r, echo=False}
+milkn<- milk %>%filter(region=='Pacific') %>% 
+group_by(year) %>% summarise(milk_total= sum(milk_million)) %>% filter(year>=2000)
+grid <- milkn%>% 
+  data_grid(year) 
+#grid
+milkn_mod <- lm(milk_total ~ year, data = milkn)
+#coef(milkn_mod)
+grid <- grid %>% 
+  add_predictions(milkn_mod) 
+ggplot(milkn, aes(year)) +
+  geom_point(aes(y = milk_total)) +
+  geom_line(aes(y = pred), data = grid, colour = "orange", size = 1) + ggtitle('Predictions of milk production from 2000 to 2017 in the Pacific') +theme_bw()
+```
+
+```{r,echo=False, results=False}
+map(milkn %>% select(milk_total),function(x){sd(x)})
+```
 ### Answer/Conclusion
+
+I was able to verify that the prediction for milk production in the Pacific increases with a certain level of uncertainty. There is a significant decrease in 2015.Using the map function we can see the standard deviation of the data points in these data set and there is a standard deviation of 3595.4 million of milk in these years. I was able to verify my hypothesis.
 
 ### How does it Relate to Overall Question? 
 
-
+It relates to the overall section because we analyzed states in the Pacific Region.
+Furthermore, was able to analyze the data and see how it will change over the years.
 
 # Who Did What
 
@@ -324,3 +352,5 @@ For the team section, I created the outline for the lab. I then, wrote the quest
 I added some data set to increase the overall questions we could ask. I also helped to format graphs and solved problems revolving around getting the models to fit.
 
 ## Nisia Pinto 
+I was able to verify that the prediction for milk production in the Pacific increases with a certain level of uncertainty. There is a significant decrease in 2015.
+Using the map function we can see the standard deviation of the data points in these data set and there is a standard deviation of 3595.4 million of milk in these years.
