@@ -302,6 +302,7 @@ ggplot(milkpop) +
 # Who Did What
 
 ## Andres Acevedo 
+I used my individual section to create a context through which to interpret our team results. By comparing the regional trends in milk production to the national trend, our team can more deeply explore the significance of our findings. Are they in line with the national trend? How if at tall, do our results deviate from the national trend? In the future, this could allow us to refine our topic further or make it more interesting. 
 
 ## Julia Foley 
 
