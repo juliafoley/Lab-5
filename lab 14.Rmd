@@ -108,14 +108,49 @@ First, we created a linear model using lm(milk_million ~ year, data = milksub). 
 ## Andres Acevedo 
 
 ### Sub Question
+How does the total production of milk change as time goes on? In other words, what is the relationship between time and milk production throughout the United States? 
 
 ### Why Important/Interesting? 
+This question can be used to support the overall team question about how milk production changes in particular regions over time. Are those changes in line with the overall change in milk production nationwide? If not, how are they different? Which regions produce the most milk?
 
 ### Summary of New Tools Applied
+I first used basic dplyr function to group, summariz and arrange my data. That left me with a dataframe containing the year, and the total pounds of milk produced throughout the united states in that year. From there, I created a linear model using the lm() function. I created a grid of evenly spaced datapoints using data_grid() and I added predictions and residuals to my dataframe using add_predictions() and add_residuals(). I then used ggplot to plot my actual datapoints and then my predictions over them. This produced a set of datapoints that fit a line of predictions based on the coefficients a0 and a1 found by my linear model. This would allow me to predict the future production of milk based on my linear model. I then graphed my residuals to see how good of a job my model did in pulling out the linear relationship between year and milk production. 
+
+```{r, echo = FALSE, warning = FALSE}
+milk <-
+  milk %>%
+  mutate(milk_million = milk_produced / 1000000)
+milk <- as_tibble(milk)
+
+milk_total <- milk %>% group_by(year) %>% summarize(milk_prod = sum(milk_million)) 
+
+milk_mod <- lm(milk_prod ~ year, data = milk_total)
+
+grid <- milk_total %>%
+  data_grid(year = seq_range(year, 45)) %>%
+  add_predictions(milk_mod, 'milk_pred')
+
+milk_total <- milk_total %>%
+  add_residuals(milk_mod, 'resid')
+```
+
+```{r, echo = FALSE, warning = FALSE}
+ggplot() + geom_point(data = milk_total,aes(x = year, y = milk_prod), col = 'steelblue') +
+  geom_line(data = grid, aes(x = year, y = milk_pred), col = 'red') + 
+  theme_minimal() + ggtitle('Linear Model of Total Milk Production in the US over Time') + 
+  xlab('Year') + ylab('Real(Points) and Predicted(Line) Values of Milk Production')
+```
+
+```{r, echo = FALSE, warning = FALSE}
+ggplot(milk_total, aes(year,resid)) +
+  geom_point(col = 'steelblue') + theme_minimal() + geom_smooth(se = FALSE) 
+```
 
 ### Answer/Conclusion
+The production of milk has been steadily increasing since the 1970s. My linear model returned an production increase of roughly 2.087 billion pounds of milk per year. This was in line with my thinking which was that as population increases, so too does demand for milk products. However, my reiduals did not look a lot like random noise. This tells me that there may be some relationship hiding in my data that my linear model failed to pull out. With very few variables in the dataset, it's hard to know what that relationship might be. I would need more domain expertise in order to make an informed guess.  
 
 ### How does it Relate to Overall Question? 
+Our overall goal was to explore how the regional milk production changes over time. My individual section allows us to compare thos regional changes to the change in milk production nationally. From there, we can ask some interesing questions. Do any regions defy the national trend? Is milk production increasing everywhere? It gives a context within which we can explore the findings of our team question. 
 
 ## Julia Foley 
 
