@@ -242,7 +242,6 @@ statepop <- statepop %>% filter(year>1979) %>% select(year,state,population)
 milkpop <- left_join(statepop,milk)
 
 milkpop <- milkpop  %>% filter(year == 1990 | year==2000 |year==2010)
-milkpop
 
 
 
@@ -255,12 +254,15 @@ milkmod <- lm(milk_produced ~ population, data=milkpop)
 
 grid <- milkpop %>% 
   data_grid(population, .model = milkmod) %>% 
-  add_predictions(milkmod)
+  add_predictions(milkmod) 
 
-grid
+
 
 ggplot(data=milkpop) + geom_point(mapping=aes(y=milkpop$milk_produced,x=population)) + geom_line(data = grid, aes(population,pred) ,colour = "red", size = 1) + labs(title="State's Population vs Milk Production", x="State Population", y= "Milk Produced" )
 ```
+
+
+As can be seen, this linear model is not a great predictor. So, I decided to use splines to create a model that fits a bit better. I tested several polynomial models ranging from degree 2 to degree 5.  I ended up using a polynomial of degree 2 because if best represented my data without over modeling.
 
 ```{r}
 
@@ -273,17 +275,22 @@ mod5 <- lm(milk_produced ~ ns(population, 5), data = milkpop)
 grid <- milkpop %>% 
   data_grid(population = seq_range(population, n = 50, expand = 0.1)) %>% 
   gather_predictions(mod2, .pred = "y")
-grid
+
 
 ggplot(milkpop) + 
   geom_point(mapping= aes(x=population,y=milk_produced)) +
   geom_line(data = grid, aes(population,y),colour = "red") + labs(title="State's Population vs Milk Production", x="State Population", y= "Milk Produced" )
 
 ```
+This makes my model slightly less interpretable than a linear model, however, it makes it a better predictor.
 
 ### Answer/Conclusion
 
+In conclusion, there is a positive relationship between population and milk production so as population increases we can expect that milk production can also increase.
+
 ### How does it Relate to Overall Question? 
+
+This relates to the overall question because we a looking at milk production in our own states so if we know that our population increase we can assume that milk production will also increase. 
 
 ## Nisia Pinto 
 
@@ -313,5 +320,7 @@ For the team section, I created the outline for the lab. I then, wrote the quest
 ## Declan Franklin 
 
 ## Thomas Neal
+
+I added some data set to increase the overall questions we could ask. I also helped to format graphs and solved problems revolving around getting the models to fit.
 
 ## Nisia Pinto 
