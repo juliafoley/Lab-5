@@ -1,0 +1,134 @@
+---
+title: "Lab 15 Team"
+author: "Julia Foley"
+date: "12/10/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(modelr)
+library(purrr)
+options(na.action = na.warn)
+movies <- read.csv("filmtv_movies - ENG.csv")
+movies <- movies %>% filter(votes > 20) 
+```
+
+
+# Team 
+
+## Question 
+
+average ranking by genre
+
+## Who Domain Expert is
+
+Hired by production company
+
+## Why Questions are Important/Interesting
+
+## What Data We are Using
+
+## Conclusion
+
+## Recommendations 
+
+## Findings
+
+
+# Individual 
+
+## Andres Acevedo
+
+### Subquestion 
+
+### Why Important/Interesting 
+
+### New Tools Used
+
+### Conclusion/Answer
+
+### How Relate to Original Question
+
+### Ethnical Implications 
+
+## Julia Foley
+
+### Subquestion 
+
+### Why Important/Interesting 
+
+### New Tools Used
+
+### Conclusion/Answer
+
+### How Relate to Original Question
+
+### Ethnical Implications 
+
+## Declan Franklin
+
+### Subquestion 
+
+### Why Important/Interesting 
+
+### New Tools Used
+
+### Conclusion/Answer
+
+### How Relate to Original Question
+
+### Ethnical Implications 
+
+## Thomas Neal
+
+### Subquestion 
+
+### Why Important/Interesting 
+
+### New Tools Used
+
+### Conclusion/Answer
+
+### How Relate to Original Question
+
+### Ethnical Implications 
+
+## Nisia Pinto
+
+### Subquestion 
+
+### Why Important/Interesting 
+
+### New Tools Used
+
+### Conclusion/Answer
+
+### How Relate to Original Question
+
+### Ethnical Implications 
+
+# Reflection
+
+## Andres Acevedo 
+
+## Julia Foley
+
+## Declan Franklin
+
+## Thomas Neal
+
+## Nisia Pinto
+
+# What Everyone Did 
+
+## Andres Acevedo 
+
+## Julia Foley
+
+## Declan Franklin
+
+## Thomas Neal
+
+## Nisia Pinto
