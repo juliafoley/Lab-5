@@ -24,7 +24,7 @@ average ranking by genre
 
 ## Who Domain Expert is
 
-Hired by production company
+The P-Hackers have been hired by Netflix to help them maximize the number of awards they receive for their original films. To do this, they want to know which genres of movies have been increasing in popularity in recent years. They hope to reveal a trend that will enable them to make intelligent production decisions that are more in line with modern moviegoers.   
 
 ## Why Questions are Important/Interesting
 
