@@ -20,13 +20,15 @@ movies <- movies %>% filter(votes > 20)
 
 ## Question 
 
-average ranking by genre
+In which genre should Netflix produce a film in order to get the highest ratings? 
 
 ## Who Domain Expert is
 
 The P-Hackers have been hired by Netflix to help them maximize the number of awards they receive for their original films. To do this, they want to know which genres of movies have been increasing in popularity in recent years. They hope to reveal a trend that will enable them to make intelligent production decisions that are more in line with modern moviegoers.   
 
 ## Why Questions are Important/Interesting
+
+This is important because it can help Netflix determine what kind of film they should make. It is interesting to see if one genre has significantly higher rankings than  a different genre. Additionally, it will be interesting to compare genre to rating because the data could change which films are being produced. The question is important because it impacts what type of film is being made and it impacts the film industry in general. Additionally, it is important because if Netflix can produce films with higher rankings, more money will be made off of those films and therefore, Netflix will be more successful. Netflix doesn't want to take down movies that people love or put up movies that people hate because they will lose subscribers so, they must make sure that the films with the highest ratings are on Netflix.
 
 ## What Data We are Using
 
@@ -57,15 +59,65 @@ The P-Hackers have been hired by Netflix to help them maximize the number of awa
 
 ### Subquestion 
 
+What affect does duration have on average rating? 
+
 ### Why Important/Interesting 
+
+This question is interesting because it will be interesting to see if duration affects the average rating. Would people score a movie lower because the film was too long or does duration not affect ratings? I think duration would impact the average ratings and therefore, I am interested to see what the relationship is between average rating and duration. Additionally, it is important because it provides further depth into the overall question. Additionally, it will help the movie producer decide how long of movies they should produce. 
+
+
+```{r}
+
+movies_duration <- movies %>% group_by(genre) %>% summarise(duration = mean(duration)) %>% filter(duration > 75 & duration < 150)
+
+movies_ratings <- movies %>% group_by(genre) %>% summarise(rating = mean(avg_vote))
+
+movies_join <- movies_ratings %>% left_join(movies_duration, by = "genre")
+```
+
+```{r, se = FALSE}
+ggplot(data = movies_join, mapping = aes(x = duration, y = rating, color = genre)) +
+  geom_count() + 
+  ggtitle("Average Duration v. Average Rating by Genre") 
+```
+
+
+```{r}
+movies1 <- movies %>% filter(duration < 250)
+
+movies_mod <- lm(avg_vote ~ duration, data = movies1)
+
+moviesgrid <- movies1 %>% data_grid(duration)
+
+moviesgrid <- moviesgrid %>% add_predictions(movies_mod) 
+
+movies_mod
+```
+
+
+```{r}
+ggplot(movies1, aes(duration)) +
+  geom_point(aes(y = avg_vote)) +
+  geom_line(aes(y = pred), data = moviesgrid, color = 'blue', size = 1) +
+  ggtitle("Average Rating v. Duration") +
+  labs(y = "Average Rating")
+```
 
 ### New Tools Used
 
+I used left_join in order to join the dataset with the average ratings and average duration by genre. Additionally, I used lm to create a linear model. Next, I used data-grid() to create a grid. Then, I added predictions using add_predictions. I used the linear model material that we learned in chapters 22-25. 
+
 ### Conclusion/Answer
+
+There is a positive correlation between duration and average rating. Average rating increases as duration increases given by the equation Average rating = 0.0102(duration) + 5.2461. From the first graph, it appears that History has a long duration and an average rating of about 6.5. Mélo has the highest ratings of just over 7.5 even though it has an average duration of about 115 minutes. There is a small increase in rating as duration increase. It is important to note that the slope is relatively small but, since average rating is on a scale of 1-10 and duration is on a scale of 1-250, it makes sense that the slope would be small. It is hard to conclude that there is a linear relationship when each genre is averaged, however, there is a positive linear relationship between average rating and duration under 250. Overall, the data and linear model show that there is a positive relationship between average rating and duration. 
 
 ### How Relate to Original Question
 
-### Ethnical Implications 
+This relates to the original question because it adds to the depth of knowledge about the relationship between genre and average rating. You can see that certain genres have higher durations and higher scores or lower durations and lower scores. The first graph shows that when the average ratings and duration are averaged by genre, there is no clear linear relationship between average ratings and duration. The graphs show that there is a relationship between duration and average rating which contributes to our overall question because it provides further depth to what causes average rating to increase. Additionally, the first graph provides further depth into the relationship between genre and average rating. 
+
+### Ethical Implications 
+
+My conclusion could affect the duration of movie that is made and the type of movie that is made. Since it is shown that shorter movies have higher ratings, producers may decide to make longer movies so that their ratings will be higher. Additionally, my data shows that if a producer decides to make longer films, they should make a fantasy or war movie since those movies have a higher average rating and a high average duration. My conclusion could affect the types and durations of movies that are being produced. This is good for the producers who want to make more money but, not as good for the writers of short films or for the consumers who really love short films. 
 
 ## Declan Franklin
 
@@ -115,6 +167,8 @@ The P-Hackers have been hired by Netflix to help them maximize the number of awa
 
 ## Julia Foley
 
+For my six months after college goal, originally, I thought I wanted to go to law school but, now, I think I want to do data science. Additionally, my original five-year goal was that I wanted to work for the FBI and while, I do still want to work for the government, I do not think I want to work in the FBI anymore. I'm not really sure what I want to do with my life but, I know I'll figure it out and that data science will be in it. I have learned a lot in this course. I know know the basics of data science and how to work R. I learned a lot about creating and anaylzing graphs. I thought it was really cool that I had the chance to learn about data science. I am excited to continue as a data science major thanks to this course. If I were to give myself advice, I would say that it is okay if you don't know everything, you have a pretty great team that will help you succeed. Additionally, I would say that I should plan out more time to meet with my team in person to work on the lab. Additionally, I would tell myself to keep working through the problems and you'll eventually get it. Lastly, I would tell myself to keep working hard and keep finishing the labs early because it reduces the amount of stress you have on Friday afternoons after lecture. 
+
 ## Declan Franklin
 
 ## Thomas Neal
@@ -126,6 +180,8 @@ The P-Hackers have been hired by Netflix to help them maximize the number of awa
 ## Andres Acevedo 
 
 ## Julia Foley
+
+For my individual, I grouped by genre and then, summarized the mean of average rating and duration. I then, left joined the dataset in order to be able to compare the two averages. Next, I created a linear model and added predictions. Next, I graphed the data points and the linear model on a graph. Lastly, I wrote a conclusion, analyzed how it related to my original question, and its ethical implications. For the team section, I made the outline. I then worked with the rest of my team to figure out what we were studying, what dataset we were using, and who are domain expert was. Then, I wrote the Why Important/Interesting section of the team part. 
 
 ## Declan Franklin
 
