@@ -43,6 +43,26 @@ This is important because it can help Netflix determine what kind of film they s
 
 ## Andres Acevedo
 
+```{r, echo = FALSE, warning = FALSE}
+movies <- movies %>% filter(genre %in% c('Drama', 'Comedy', 'Thriller', 'Documentary', 'Action', 'Horror', 'Adventure', 'Fantasy', 'Animation', 'Western'), year %in% c(1990:2019)) %>% arrange(year)
+
+movie2 <- movies %>% group_by(genre, year) %>% summarize(year_avg = mean(avg_vote))
+
+movie_dist <- movies %>% group_by(genre, year) %>% summarize(count = n())
+
+movie_year <- movies %>% group_by(year) %>% summarize(movie_count = n()) %>% select(year, movie_count)
+
+movie_dist <- full_join(movie_dist, movie_year) %>% mutate(prop = count/movie_count)
+```
+
+```{r, echp = FALSE. warning = FALSE}
+ggplot(movie2, aes(x = year, y = year_avg, col = genre)) + geom_line() + facet_wrap(~genre) + theme_minimal() + theme(axis.text.x=element_text(angle = 45)) + ggtitle('Avg Rating by Genre Since 1990') + xlab('Year') + ylab('Average Rating')
+```
+
+```{r, echo = FALSE, warning = FALSE}
+ggplot(movie_dist, aes(x = year, y = prop, col = genre)) + geom_line() + facet_wrap(~genre) + facet_wrap(~genre) + theme_minimal() + theme(axis.text.x=element_text(angle= 45)) + ggtitle('Genre as a Proportion of Total Films In a Year Since 1990') + xlab('Year') + ylab('Proportion')
+```
+
 ### Subquestion 
 How has the production of different genres of movies changed over time. Is there a clear alltime favorite type of movie for studios to produce? If so, what is it?
 
@@ -56,10 +76,10 @@ I utilized many dplyr functions as well as join functions to get all of the data
 I analyzed the stability of the average rating of certain film genres. Volatility in these numbers over the years would indicate that there are ebbs and flows to the public's desire for different types of films. By looking for high performing genres who's average rating changed little over the described period, I was able to identify Documentary films, Animated Films, and Dramas as the three genres that have the least variability and the highest average ratings from 1990 to 2019. However, based on my data, there is a divergence between the performance of Documentary films and Animated films and the representation of these genres in the overall film pool. My recommendation to Netflix would be to produce more Documentary films and more Animated films. They consistently perform at a higher level than most other genres of film.  I was surprised to find that despite their relatively poor performance, comedies make up the highest percentage of films produced since 1990. 
 
 ### How Relate to Original Question
-As a group, we were interested in seeing which genres of movies perform most highly with audiences.  From this, another question arose naturally. If certain kinds of films perform better with audiences, are movie studios actually focusing their resources on the production of those genres? I wanted to see if there was any divergence between what people want, and what's actually getting made.
+As a group, we were interested in seeing which genres of movies perform most highly with audiences. From this, another question arose naturally. If certain kinds of films perform better with audiences, are movie studios actually focusing their resources on the production of those genres? I wanted to see if there was any divergence between what people want, and what's actually getting made.
 
 ### Ethnical Implications
-It's not always good to give people what they want. States regulate the sale of cigarettes because they're known to be hazardous to the health of the user. If Michael Bay directed all movies, audiences would be missing valuable points of view that other directors could provide. If we recommend that studios put profit and award nominations above all else, we may be asking them to sacrafice the opportunity to tell other stories that may not appeal as strongly to audiences but that benefit society by being made at all.   
+It's not always good to give people what they want. States regulate the sale of cigarettes because they're known to be hazardous to the health of the user. If Michael Bay directed all movies, audiences would be missing valuable points of view that other directors could provide. If we recommend that studios put profit and award nominations above all else, we may be asking them to sacrafice the opportunity to tell other stories that may not appeal as strongly to audiences but that benefit society by being made at all.
 
 ## Julia Foley
 
