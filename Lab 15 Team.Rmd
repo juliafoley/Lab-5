@@ -32,6 +32,12 @@ This is important because it can help Netflix determine what kind of film they s
 
 ## What Data We are Using
 
+This data is a collection of information about films found at https://www.filmtv.it. The 12 columns found in the data are as follows:
+
+```{r,echo=FALSE}
+print(colnames(movies))
+```
+
 ## Conclusion
 
 ## Recommendations 
