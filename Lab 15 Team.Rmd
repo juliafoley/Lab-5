@@ -163,15 +163,62 @@ My conclusion could affect the duration of movie that is made and the type of mo
 
 ### Subquestion 
 
+How has the popularity of different movie genres changed with time? What genres of movies are most rapidly increasing in popularity? 
+
 ### Why Important/Interesting 
 
-### New Tools Used
+By finding what genre is most popular in each year Netflix can determine what types of movies they should license when considering older films. In addition, Netflix will know what type of movies are "trending" when considering projects for their own creation.
+
+### Procedure 
+
+The popularity of a movie is determined by the total amount of votes that the movie has received on FilmTV.it. The reason to look at total votes as "popularity" is because good or bad, the movie left enough of an impression to receive a vote. 
+
+The total votes for each genre each year was then calculated. A linear model was then applied. This is represented as a wrap of total popularity across time for each genre.
+
+ The most rapidly increasing genre in popularity will be seen by the genre with the steepest slope.
+
 
 ### Conclusion/Answer
 
+```{r,echo = FALSE, warning = FALSE}
+topgenres <- filmTV %>% filter(filmTV$country=="United States", votes>=10) %>% select(genre, votes) %>% group_by(genre) %>% summarise(totalvotes= sum(votes)) %>% arrange(desc(totalvotes)) %>% head(12)
+
+
+filmyear <- filmTV %>% filter(filmTV$country=="United States", year<2019, votes>=10, genre %in% c('Comedy','Drama','Fantasy',	'Thriller','Action','Horror'	,'Animation','Adventure','Western','Super-hero','Noir','Biography')) %>% select(-filmtv_id, -duration, -country, -director, -actors, -description, -notes) %>% group_by(year, genre) %>% summarise(totalvotes= sum(votes))
+
+
+
+```
+
+
+
+```{r,echo = FALSE, warning = FALSE}
+popmod <- lm(totalvotes ~ year, data=filmyear)
+
+grid <- filmyear %>% 
+  data_grid(year, genre, .model = popmod) %>% 
+  add_predictions(popmod)
+
+
+
+ggplot(data=filmyear) + geom_point(aes(x=year,y=totalvotes, color=genre)) +stat_smooth(method=lm,aes(x=year,y=totalvotes), se=FALSE, color='black')+facet_wrap(filmyear$genre)  +  theme(axis.text = element_text(angle=45))
+
+
+```
+
+As can be seen the three genres with the highest slope are comedy, action, and drama. These slopes should act as predictors for the genre's popularity as time continues to pass. However, as can be seen, comedy is dropping off in popularity for 2017 and on. Because of this, I would recommend that Netflix focus on producing action or drama movies.
+
+### New Tools Used
+
+I used full_join in creating this data frame. I also used linear models to model the data. 
+
 ### How Relate to Original Question
 
+This can be used as another point of data when considering what type of movie to make if looking to win awards. Often the popularity of a movie plays into whether or not it gets nominited. By knowing what genres are most popular Netflix can increase its chances of making an award-winning movie.
+
 ### Ethnical Implications 
+
+If all movie producers used formulas like this to determine what movies that make the film scene would quickly become stale and unoriginal.
 
 ## Nisia Pinto
 
