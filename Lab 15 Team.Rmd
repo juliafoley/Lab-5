@@ -341,18 +341,82 @@ This can be used as another point of data when considering what type of movie to
 If all movie producers used formulas like this to determine what movies that make the film scene would quickly become stale and unoriginal.
 
 ## Nisia Pinto
+```{r, echo=FALSE,results=FALSE,warning=FALSE}
+moviesv<-movies %>% select(year,genre,duration,avg_vote,votes) %>% filter(genre=='Action'|genre=='Adventure'|genre=='Animation'|genre=='Comedy'|genre=='Documentary'|genre=='Drama'|genre=='Drama'|genre=='Fantasy'|genre=='Horror'|genre=='Thriller'|genre=='Western')
+movie_nvotes<- moviesv %>% group_by(year,genre) %>% summarize(total_nvotes = sum(votes)) 
+movie_rvotes<-moviesv %>% group_by(year,genre) %>% summarize(total_avgrate = mean(avg_vote))
+```
+
+```{r, fig.width=10,echo=FALSE}
+ggplot(data=movie_nvotes,aes(x=year,y=total_nvotes,color=genre))+
+  geom_line(data=movie_nvotes %>% filter(genre=='Comedy'|genre=='Drama'),aes(x=year,y=total_nvotes))+
+  geom_point() + ggtitle('Relationship between Genre and total Average votes')+theme_bw()
+```
+
+
+```{r,fig.width=10,echo=FALSE}
+ggplot(data=movie_rvotes,aes(x=year,y=total_avgrate,color=genre))+
+  geom_point()+
+  geom_line(data=movie_rvotes %>% filter(genre=='Animation'|genre=='Documentary'),aes(x=year,y=total_avgrate))+
+  ggtitle('Relationship between Genre and Number of Votes')+theme_bw()
+```
+
+
+```{r,fig.width=10,echo=FALSE}
+grid <- movie_nvotes %>% filter(genre=='Comedy'|genre=='Drama') %>% 
+  data_grid(year) 
+#grid
+movie_mod <- lm(total_nvotes~ year, data = movie_nvotes %>% filter(genre=='Comedy'|genre=='Drama'))
+#coef(milkn_mod)
+grid <- grid %>% 
+  add_predictions(movie_mod) 
+ggplot(data=movie_nvotes%>% filter(genre=='Comedy'|genre=='Drama'),aes(x=year,y=total_nvotes,color=genre))+
+  geom_point()+
+  geom_line(aes(y = pred), data = grid, colour = "blue", size = 1)+
+  geom_line()+ggtitle('Prediction of Relationship between Genre and Number of Votes')+theme_bw()
+
+```
+```{r,fig.width=10,echo=FALSE}
+grid <- movie_rvotes %>% filter(genre=='Documentary'|genre=='Animation') %>% 
+  data_grid(year) 
+#grid
+movie_mod <- lm(total_avgrate~ year, data = movie_rvotes %>% filter(genre=='Documentary'|genre=='Animation'))
+#coef(milkn_mod)
+grid <- grid %>% 
+  add_predictions(movie_mod) 
+ggplot(data=movie_rvotes %>% filter(genre=='Documentary'|genre=='Drama'),aes(x=year,y=total_avgrate,color=genre))+
+  geom_point()+
+  geom_line(aes(y = pred), data = grid, colour = "Blue", size = 1)+
+  geom_line()+ggtitle('Prediction of Relationship between Genre and Total Average Ratings')+theme_bw()
+
+```
+
 
 ### Subquestion 
 
+What is the relationship between the number of votes and the movie genre? Is quantity better than quality?
+
 ### Why Important/Interesting 
+
+Nowadays, when choosing a movie people usually go online and see the rating and through ratings, one can identify if the movie that he/she will see is worth the time or not. However, in other cases when looking for old films that people did like at that time have a low score. I would like to show if the rating is really important when choosing a genre or we can just choose it by the popularity of the genre. Several popular movies have bad ratings and the number of votes represents the number of people that saw the movies. I believe this would be a helpful tool for Netflix to see what people are watching regardless of quality. Quality is important, but sometimes people just want to binge-watch and most movies have a rating.
 
 ### New Tools Used
 
+In this lab, I mostly used a recently learned tool: predictions. I used lm and predictions to predict the relationship between the average number of rates, the total number of votes and genre. I used the modelr package.I used the piping methods we learnerd in the first months of classes.
+
 ### Conclusion/Answer
 
-### How Relate to Original Question
+From 1990 to 2020 there is a decrease in the rating scores and an increase in the number of votes. There is a negative prediction for total average ratings and a positive prediction for the total number of votes.
+The conclusion we were able to observe is that rating is not the ultimate factor. It would be good if Netflix decided to make more quality movies. The best way to decide what genre to choose is to be based on the number of votes rather than the rating number. However, the rating average for each genre is reducing as the number of years increases. It could mean that it is becoming less popular. On the other hand, the number of votes increases significantly. Consequently, from data, we can see that Netflix should invest more in the **Drama** genre if they want to keep popularity and in **Documentary** if their concerns are the average of the ratings. 
 
-### Ethnical Implications 
+### How to Relate to Original Question
+
+This question shows us the relationship between genre, number of votes and ratings. It helps us answer the original question because it will show us what type of movie genre Netflix should produce and buy according to popularity. It also explains if quantity is better than quality.
+
+### Ethical Implications 
+
+This information could affect how producers make movies. Most producers will focus only on the number of views so movies like this could be on Netflix. They will primarily focus on one type of genre. As a consequence, they would not evolve artistically. They would make lower quality movies as a consequence producer will produce lower quality movies in the genre that most people watch and distance themselves more from quality movies.
+
 
 # Reflection
 
@@ -367,6 +431,9 @@ For my six months after college goal, originally, I thought I wanted to go to la
 ## Thomas Neal
 
 ## Nisia Pinto
+
+My six-month plan changed in the past semester. I am more environmentally friendly and aware. I want to work in a field related to waste management and water treatment. Five years from now I would like to have in my portfolio work experience in South Korea due to their technological advances in the recycling and water treatment area. I would like to have a small school to help kids in Angola, nothing too formal, but just a mean to spread knowledge. I learned a lot this semester and one of the main aspects was how to work in large groups and how to communicate. I learned R programming which I did not even know what it was previous to this class. I learned how to ask data questions and what type of information someone should look for so they could give an educated answer. If I  could give myself a piece of advice, it  would be to go more to OH and practice more R with the professor and also with my team.
+
 
 # What Everyone Did 
 
@@ -385,3 +452,7 @@ For the individual part, I created a linear model to compare some of the current
 ## Thomas Neal
 
 ## Nisia Pinto
+
+Individual: I compared the relationship between genre and  total_avearge rating and a total number of votes and gave a  conclusion to my particular case.
+
+Team: I helped the team brainstorm ideas for the project and helped come up with some questions. I talked about the questions for the team part we all decided to implement in our report.
