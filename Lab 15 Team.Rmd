@@ -362,12 +362,11 @@ ggplot(data=movie_rvotes,aes(x=year,y=total_avgrate,color=genre))+
 ```
 
 
+
 ```{r,fig.width=10,echo=FALSE}
 grid <- movie_nvotes %>% filter(genre=='Comedy'|genre=='Drama') %>% 
   data_grid(year) 
-#grid
 movie_mod <- lm(total_nvotes~ year, data = movie_nvotes %>% filter(genre=='Comedy'|genre=='Drama'))
-#coef(milkn_mod)
 grid <- grid %>% 
   add_predictions(movie_mod) 
 ggplot(data=movie_nvotes%>% filter(genre=='Comedy'|genre=='Drama'),aes(x=year,y=total_nvotes,color=genre))+
@@ -379,9 +378,7 @@ ggplot(data=movie_nvotes%>% filter(genre=='Comedy'|genre=='Drama'),aes(x=year,y=
 ```{r,fig.width=10,echo=FALSE}
 grid <- movie_rvotes %>% filter(genre=='Documentary'|genre=='Animation') %>% 
   data_grid(year) 
-#grid
 movie_mod <- lm(total_avgrate~ year, data = movie_rvotes %>% filter(genre=='Documentary'|genre=='Animation'))
-#coef(milkn_mod)
 grid <- grid %>% 
   add_predictions(movie_mod) 
 ggplot(data=movie_rvotes %>% filter(genre=='Documentary'|genre=='Drama'),aes(x=year,y=total_avgrate,color=genre))+
