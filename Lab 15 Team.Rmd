@@ -151,19 +151,133 @@ This relates to the original question because it adds to the depth of knowledge 
 
 My conclusion could affect the duration of movie that is made and the type of movie that is made. Since it is shown that shorter movies have higher ratings, producers may decide to make longer movies so that their ratings will be higher. Additionally, my data shows that if a producer decides to make longer films, they should make a fantasy or war movie since those movies have a higher average rating and a high average duration. My conclusion could affect the types and durations of movies that are being produced. This is good for the producers who want to make more money but, not as good for the writers of short films or for the consumers who really love short films. 
 
+<p>
 ## Declan Franklin
 
 ### Subquestion 
 
+What living actors have simular trajectories to the late great Christopher Lee? 
+
+
 ### Why Important/Interesting 
+
+Christopher Lee is one of the most decorated actors of the 20th and 21th century. He has over 280 movie credits, the most in modern cinematic era. I want to point Netflix in the direction of actors on similar career trajectories as Christopher Lee. This would benefit Netflix by showing them the actors who have the will to keep producing movies, and who deserves the high paying lengthy contracts. 
+ 
 
 ### New Tools Used
 
+To reveal these trajectories, I'll be using the stringr library to pick out the actors from the movies; as well as the modelr package to create linear models.
+
+
 ### Conclusion/Answer
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+christLee <- movies %>% 
+  filter(str_detect(`actors`,"[C]hristopher Lee"), year>1951, year <2017) 
+
+tomHolland <- movies %>% 
+  filter(str_detect(`actors`, "[T]om Holland"), !str_detect(`actors`, "[T]om Hollander")) #Had to get rid of Tom Hollander 
+
+chrisE <- movies %>% 
+  filter(str_detect(`actors`, "[C]hris Evans"))
+
+chrisPratt <- movies %>% 
+  filter(str_detect(`actors`, "[C]hris Pratt"))
+
+ryanReynolds <- movies %>% 
+  filter(str_detect(`actors`, "[R]yan Reynolds"))
+
+robertJr <- movies %>% 
+  filter(str_detect(`actors`, "[R]obert Downey jr."))
+
+josephL<- movies %>% 
+  filter(str_detect(`actors`, "[J]oseph Gordon-Levitt"))
+
+
+
+```
+
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+modelchrisL <- lm(avg_vote~year*votes, data = christLee)
+
+modeltomH <- lm(avg_vote~year*votes, data = tomHolland)
+
+modelchrisE <- lm(avg_vote~year*votes, data = chrisE )
+
+modelchrisP <- lm(avg_vote~year*votes, data = chrisPratt)
+
+modelryanR <- lm(avg_vote~year*votes, data = ryanReynolds)
+
+modelrobertJr <- lm(avg_vote ~year*votes, data=robertJr)
+
+modeljoshephL <-lm(avg_vote ~year*votes, data=josephL)
+```
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+chrisLgrid <- movies %>% 
+  data_grid(avg_vote, .model=modelchrisL) %>% 
+  add_predictions(modelchrisL)
+
+tomHgrid <- movies %>% 
+  data_grid(avg_vote, .model=modeltomH) %>% 
+  add_predictions(modeltomH)
+
+
+chrisEgrid <- movies %>% 
+  data_grid(avg_vote, .model=modelchrisE) %>% 
+  add_predictions(modelchrisE)
+
+chrisPgrid <- movies %>% 
+  data_grid(avg_vote, .model=modelchrisP) %>% 
+  add_predictions(modelchrisP)
+
+ryanRgrid <- movies %>% 
+  data_grid(avg_vote, .model=ryanReynolds) %>% 
+  add_predictions(modelryanR)
+
+robertJgrid <- movies %>% 
+  data_grid(avg_vote, .model=robertJr) %>% 
+  add_predictions(modelrobertJr)
+
+joshephLgrid <- movies %>% 
+  data_grid(avg_vote, .model=josephL) %>% 
+  add_predictions(modeljoshephL)
+
+```
+
+
+
+
+```{r, message=FALSE, warning=FASLE}
+ggplot(data=movies) +
+  geom_smooth(data =christLee, mapping = aes(y= chrisLgrid$avg_vote[1:37], x= year, colour = "Christopher Lee"), se=F) +
+  geom_smooth(data=tomHolland, mapping=aes(x = year, y = tomHgrid$avg_vote[1:10], colour = "Tom Holland"), se=F) +
+  geom_smooth(data=chrisPratt, mapping = aes(x= year, y = chrisPgrid$avg_vote[1:15], colour="Chris Pratt"), se=F) +
+  geom_smooth(data = chrisE, mapping = aes(x = year, y= chrisEgrid$avg_vote[1:24], colour = "Chris Evans"), se=F) +
+  geom_smooth(data= ryanReynolds, mapping=aes(x=year, y= ryanRgrid$avg_vote[1:25], colour = "Ryan Reynolds"), se=F) +
+  geom_smooth(data= robertJr, mapping = aes(x=year, y = robertJgrid$avg_vote[1:41], colour = "Robert Downey Jr."), se=F) +
+  geom_smooth(data = josephL, mapping = aes(x = year, joshephLgrid$avg_vote[1:20], colour = "Joseph Gordon-Levitt"), se=F) +
+  
+labs(colour = "Actors", y = "Average Popularity Votes", x= "Year") 
+```
+
+
 
 ### How Relate to Original Question
 
+This shows netflix some of the hot actors in the game. They can use this linear model to see that actors like Robert Downey Jr or Ryan Reynolds are producing gold. They could also see that actors like Tom Holland or Chris Pratt are on the come up, and should be monitored.  
+
+
 ### Ethnical Implications 
+
+This data has key ethical implications because the employer at Netflix could be hiring based on his/her biased opinions. This data could help revel who the "next big thing" is, and pressure the employer to look past their biases and hire based on the numbers.
+
+
+<p>
 
 ## Thomas Neal
 
@@ -263,6 +377,10 @@ For my six months after college goal, originally, I thought I wanted to go to la
 For my individual, I grouped by genre and then, summarized the mean of average rating and duration. I then, left joined the dataset in order to be able to compare the two averages. Next, I created a linear model and added predictions. Next, I graphed the data points and the linear model on a graph. Lastly, I wrote a conclusion, analyzed how it related to my original question, and its ethical implications. For the team section, I made the outline. I then worked with the rest of my team to figure out what we were studying, what dataset we were using, and who are domain expert was. Then, I wrote the Why Important/Interesting section of the team part. 
 
 ## Declan Franklin
+
+For the team part, I helped create our question which the lab is based on. I wrote on the back ground of the question and explained our answer. I also wrote cleaned up and submitted the lab.
+
+For the individual part, I created a linear model to compare some of the current hot actors to the great Christopher Lee. I used the tidyverse, stringr, modler, and purrr libraries to do so.
 
 ## Thomas Neal
 
