@@ -421,6 +421,8 @@ This information could affect how producers make movies. Most producers will foc
 
 ## Andres Acevedo 
 
+I've enjoyed my experience in STAT 2600. As someone who has avoided computers and programming, I was intimidated by the prospect of using R-Studio while simultaneously learning how to code in Python. However, I found that I was better suited to programming than I thought initially. My six-month goals have not changed much throughout this class. I hope to continue to get better in everything I do. One thing that has changed is the way I feel about working in a group. As a relatively shy person, I was less than enthusiastic about being assigned a group for the duration of the course. All of that changed after getting to work with Declan, Nisia, Julia, and Thomas. We became a great team. I hope I will get the chance to work with them all again in the future. If I were to give my past self some advice, it would be to ask more questions. At first, it felt like everyone had everything figured out but, upon eavesdropping on other teams, I found that everyone was just about as clueless as me. It never feels good to be in the dark, but you always have the option of asking for help. Secondly, I would tell myself to chunk the readings to avoid doing it all on Sunday night. Finally, I would tell my past self to continue playing to your strengths as you improve on your weaknesses. Teams are the sum of their parts, and even if you didn't know it at the start, you have something to contribute.  
+
 ## Julia Foley
 
 For my six months after college goal, originally, I thought I wanted to go to law school but, now, I think I want to do data science. Additionally, my original five-year goal was that I wanted to work for the FBI and while, I do still want to work for the government, I do not think I want to work in the FBI anymore. I'm not really sure what I want to do with my life but, I know I'll figure it out and that data science will be in it. I have learned a lot in this course. I know know the basics of data science and how to work R. I learned a lot about creating and anaylzing graphs. I thought it was really cool that I had the chance to learn about data science. I am excited to continue as a data science major thanks to this course. If I were to give myself advice, I would say that it is okay if you don't know everything, you have a pretty great team that will help you succeed. Additionally, I would say that I should plan out more time to meet with my team in person to work on the lab. Additionally, I would tell myself to keep working through the problems and you'll eventually get it. Lastly, I would tell myself to keep working hard and keep finishing the labs early because it reduces the amount of stress you have on Friday afternoons after lecture. 
@@ -439,6 +441,8 @@ My six-month plan changed in the past semester. I am more environmentally friend
 # What Everyone Did 
 
 ## Andres Acevedo 
+
+For the team part, I found the dataset on Kaggle. I then created a team plot of the average rating of each genre of movie over time so that we could view the relative volitility of each genre of film since 1990 to help predict the most stable genres for Netflix to invest in producing. I came up with the idea of Netflix serving as the domain expert hiring the P-Hackers. I helped teammates think of fun questions to explore within the dataset and how they may relate to our overall question. For details on my individual work, see the individual sections.
 
 ## Julia Foley
 
