@@ -301,6 +301,8 @@ The total votes for each genre each year was then calculated. A linear model was
 ### Conclusion/Answer
 
 ```{r,echo = FALSE, warning = FALSE}
+filmTV <- read.csv("filmtv_movies - ENG.csv")
+
 topgenres <- filmTV %>% filter(filmTV$country=="United States", votes>=10) %>% select(genre, votes) %>% group_by(genre) %>% summarise(totalvotes= sum(votes)) %>% arrange(desc(totalvotes)) %>% head(12)
 
 
@@ -427,6 +429,8 @@ For my six months after college goal, originally, I thought I wanted to go to la
 
 ## Thomas Neal
 
+My six-month goal has now pivoted to making sure I do well in my spring semester classes. My five-year goal remains unchanged. From this class, I have learned I like all the questions that come with data science. I like having to interpret data and wonder why something is happenting. If I could give myself some advice it would be not to worry and to stick to the plan. I came in with a plan this semester and executed it well.
+
 ## Nisia Pinto
 
 My six-month plan changed in the past semester. I am more environmentally friendly and aware. I want to work in a field related to waste management and water treatment. Five years from now I would like to have in my portfolio work experience in South Korea due to their technological advances in the recycling and water treatment area. I would like to have a small school to help kids in Angola, nothing too formal, but just a mean to spread knowledge. I learned a lot this semester and one of the main aspects was how to work in large groups and how to communicate. I learned R programming which I did not even know what it was previous to this class. I learned how to ask data questions and what type of information someone should look for so they could give an educated answer. If I  could give myself a piece of advice, it  would be to go more to OH and practice more R with the professor and also with my team.
@@ -447,6 +451,8 @@ For the team part, I helped create our question which the lab is based on. I wro
 For the individual part, I created a linear model to compare some of the current hot actors to the great Christopher Lee. I used the tidyverse, stringr, modler, and purrr libraries to do so.
 
 ## Thomas Neal
+
+For the team part, I wrote about the data and some background. For my individual part, I  found the 12 most popular genres across time. I then grouped/ filtered to show these genres the data biased off this. I then graphed each genre's popularity with respect to time. Lastly, I created a linear model for each genre to find which ones are most popular.
 
 ## Nisia Pinto
 
